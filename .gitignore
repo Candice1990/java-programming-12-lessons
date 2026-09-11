@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.class
+out/
+# Superseded generated examples, now in lesson 2
+demos/lesson-01/ObjectDemo/
+demos/lesson-01/OverloadDemo/
+demos/lesson-01/InputDemo/input.txt

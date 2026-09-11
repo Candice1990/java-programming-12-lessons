@@ -1,0 +1,303 @@
+[
+  {
+    "directory": "demos/lesson-01/ValueAndReferenceDemo",
+    "classname": "ValueAndReferenceDemo",
+    "stdin": "",
+    "expected": "count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true",
+    "name": "ValueAndReferenceDemo"
+  },
+  {
+    "directory": "demos/lesson-01/StringScanner",
+    "classname": "StringScanner",
+    "stdin": "",
+    "expected": "String sum: 30\nFile sum: 30",
+    "name": "StringScanner"
+  },
+  {
+    "directory": "demos/lesson-01/KeyboardSum",
+    "classname": "KeyboardSum",
+    "stdin": "10 15\n",
+    "expected": "Enter two integers:\nSum: 25",
+    "name": "KeyboardSum"
+  },
+  {
+    "directory": "demos/lesson-01/ReadName",
+    "classname": "ReadName",
+    "stdin": "Ada Lovelace\n20 1.65 true\n",
+    "expected": "Enter a full name:\nEnter age, height, and enrolled (true/false):\nAda Lovelace | 20 | 1.65 | true",
+    "name": "ReadName"
+  },
+  {
+    "directory": "demos/lesson-01/ValidationDemo",
+    "classname": "ValidationDemo",
+    "stdin": "hello 3.5 -2 20\n",
+    "expected": "Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20",
+    "name": "ValidationDemo"
+  },
+  {
+    "directory": "demos/lesson-01/InputDemo",
+    "classname": "InputDemo",
+    "stdin": "",
+    "expected": "Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace",
+    "name": "InputDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ObjectDemo",
+    "classname": "ObjectDemo",
+    "stdin": "",
+    "expected": "3.0\n28.27",
+    "name": "ObjectDemo"
+  },
+  {
+    "directory": "demos/lesson-02/OverloadDemo",
+    "classname": "OverloadDemo",
+    "stdin": "",
+    "expected": "5\n9",
+    "name": "OverloadDemo"
+  },
+  {
+    "directory": "demos/lesson-02/EncapsulationDemo",
+    "classname": "EncapsulationDemo",
+    "stdin": "",
+    "expected": "7: 92",
+    "name": "EncapsulationDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ObjectArrayDemo",
+    "classname": "ObjectArrayDemo",
+    "stdin": "",
+    "expected": "true\nAda\nGrace",
+    "name": "ObjectArrayDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ConstructorDemo",
+    "classname": "ConstructorDemo",
+    "stdin": "",
+    "expected": "Person constructor\nStudent constructor\nAda #7",
+    "name": "ConstructorDemo"
+  },
+  {
+    "directory": "demos/lesson-03/DispatchDemo",
+    "classname": "DispatchDemo",
+    "stdin": "",
+    "expected": "woof\nsound",
+    "name": "DispatchDemo"
+  },
+  {
+    "directory": "demos/lesson-03/BindingDemo",
+    "classname": "BindingDemo",
+    "stdin": "",
+    "expected": "Animal overload\nDog overload",
+    "name": "BindingDemo"
+  },
+  {
+    "directory": "demos/lesson-03/ShapeDemo",
+    "classname": "ShapeDemo",
+    "stdin": "",
+    "expected": "Rectangle: 12.00\nCircle: 12.57",
+    "name": "ShapeDemo"
+  },
+  {
+    "directory": "demos/lesson-04/InterfaceDemo",
+    "classname": "InterfaceDemo",
+    "stdin": "",
+    "expected": "Results",
+    "name": "InterfaceDemo"
+  },
+  {
+    "directory": "demos/lesson-04/NestedDemo",
+    "classname": "NestedDemo",
+    "stdin": "",
+    "expected": "classroom\nno implicit outer",
+    "name": "NestedDemo"
+  },
+  {
+    "directory": "demos/lesson-04/CallbackDemo",
+    "classname": "CallbackDemo",
+    "stdin": "",
+    "expected": "Saved",
+    "name": "CallbackDemo"
+  },
+  {
+    "directory": "demos/lesson-05/PackageDemo",
+    "classname": "school.app.PackageDemo",
+    "stdin": "",
+    "expected": "Ada",
+    "name": "PackageDemo"
+  },
+  {
+    "directory": "demos/lesson-05/CatchDemo",
+    "classname": "CatchDemo",
+    "stdin": "",
+    "expected": "Accepted: 12\nRejected: oops\nAccepted: 4",
+    "name": "CatchDemo"
+  },
+  {
+    "directory": "demos/lesson-05/PropagationDemo",
+    "classname": "PropagationDemo",
+    "stdin": "",
+    "expected": "The input is not an integer\nFinished",
+    "name": "PropagationDemo"
+  },
+  {
+    "directory": "demos/lesson-06/DomainExceptionDemo",
+    "classname": "DomainExceptionDemo",
+    "stdin": "",
+    "expected": "Score outside 0..100: 120\nValidation finished",
+    "name": "DomainExceptionDemo"
+  },
+  {
+    "directory": "demos/lesson-06/FileScannerDemo",
+    "classname": "FileScannerDemo",
+    "stdin": "",
+    "expected": "Skipped: bad\nTotal: 170",
+    "name": "FileScannerDemo"
+  },
+  {
+    "directory": "demos/lesson-06/FirstThreadDemo",
+    "classname": "FirstThreadDemo",
+    "stdin": "",
+    "expected": "Running on main\nRunning on worker\nThread subclass ran",
+    "name": "FirstThreadDemo"
+  },
+  {
+    "directory": "demos/lesson-07/CounterDemo",
+    "classname": "CounterDemo",
+    "stdin": "",
+    "expected": "40000",
+    "name": "CounterDemo"
+  },
+  {
+    "directory": "demos/lesson-07/SlotDemo",
+    "classname": "SlotDemo",
+    "stdin": "",
+    "expected": "1\n2\n3",
+    "name": "SlotDemo"
+  },
+  {
+    "directory": "demos/lesson-07/InterruptDemo",
+    "classname": "InterruptDemo",
+    "stdin": "",
+    "expected": "Cancellation acknowledged\nTerminated: true",
+    "name": "InterruptDemo"
+  },
+  {
+    "directory": "demos/lesson-08/ReflectionDemo",
+    "classname": "ReflectionDemo",
+    "stdin": "",
+    "expected": "greeting\nHello",
+    "name": "ReflectionDemo"
+  },
+  {
+    "directory": "demos/lesson-08/LambdaDemo",
+    "classname": "LambdaDemo",
+    "stdin": "",
+    "expected": "21\n4",
+    "name": "LambdaDemo"
+  },
+  {
+    "directory": "demos/lesson-08/MethodReferenceDemo",
+    "classname": "MethodReferenceDemo",
+    "stdin": "",
+    "expected": "Length: 4\nReady",
+    "name": "MethodReferenceDemo"
+  },
+  {
+    "directory": "demos/lesson-09/GenericDemo",
+    "classname": "GenericDemo",
+    "stdin": "",
+    "expected": "JAVA\n42\n6.0\ntrue",
+    "name": "GenericDemo"
+  },
+  {
+    "directory": "demos/lesson-09/WildcardDemo",
+    "classname": "WildcardDemo",
+    "stdin": "",
+    "expected": "30.0\n[0, 1]",
+    "name": "WildcardDemo"
+  },
+  {
+    "directory": "demos/lesson-09/GenericInheritanceDemo",
+    "classname": "GenericInheritanceDemo",
+    "stdin": "",
+    "expected": "Typed storage",
+    "name": "GenericInheritanceDemo"
+  },
+  {
+    "directory": "demos/lesson-10/ListDemo",
+    "classname": "ListDemo",
+    "stdin": "",
+    "expected": "[1, 1]\n[1]\n9",
+    "name": "ListDemo"
+  },
+  {
+    "directory": "demos/lesson-10/IteratorDemo",
+    "classname": "IteratorDemo",
+    "stdin": "",
+    "expected": "[80, 55]",
+    "name": "IteratorDemo"
+  },
+  {
+    "directory": "demos/lesson-10/IterableDemo",
+    "classname": "IterableDemo",
+    "stdin": "",
+    "expected": "0\n1\n2",
+    "name": "IterableDemo"
+  },
+  {
+    "directory": "demos/lesson-10/QueueDemo",
+    "classname": "QueueDemo",
+    "stdin": "",
+    "expected": "first\nurgent\n10\n20\n30",
+    "name": "QueueDemo"
+  },
+  {
+    "directory": "demos/lesson-11/SetDemo",
+    "classname": "SetDemo",
+    "stdin": "",
+    "expected": "true\nfalse\n1",
+    "name": "SetDemo"
+  },
+  {
+    "directory": "demos/lesson-11/NaturalOrderDemo",
+    "classname": "NaturalOrderDemo",
+    "stdin": "",
+    "expected": "[T1, T3]",
+    "name": "NaturalOrderDemo"
+  },
+  {
+    "directory": "demos/lesson-11/MapDemo",
+    "classname": "MapDemo",
+    "stdin": "",
+    "expected": "{3=Grace Hopper, 1=Ada}\n1 -> Ada\n3 -> Grace Hopper",
+    "name": "MapDemo"
+  },
+  {
+    "directory": "demos/lesson-12/SortingDemo",
+    "classname": "SortingDemo",
+    "stdin": "",
+    "expected": "[1, 2, 3]\n[Ada, Grace]\n[Ada:90, Grace:90, Linus:80]",
+    "name": "SortingDemo"
+  },
+  {
+    "directory": "demos/lesson-12/FunctionsDemo",
+    "classname": "FunctionsDemo",
+    "stdin": "",
+    "expected": "ADA\nUNKNOWN",
+    "name": "FunctionsDemo"
+  },
+  {
+    "directory": "demos/lesson-12/StreamDemo",
+    "classname": "StreamDemo",
+    "stdin": "",
+    "expected": "Pipeline created\nTesting 85\nTesting 42\nTesting 90\nTesting 68\n[68, 85, 90]\nTotal: 285\n[Pass: 68, Pass: 85, Pass: 90, Report complete]",
+    "name": "StreamDemo"
+  },
+  {
+    "directory": "demos/lesson-12/ReportDemo",
+    "classname": "ReportDemo",
+    "stdin": "",
+    "expected": "Ada = 92\nGrace = 85\nTop: Ada = 92\nTotal: 222",
+    "name": "ReportDemo"
+  }
+]

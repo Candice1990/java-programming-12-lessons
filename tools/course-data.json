@@ -1,0 +1,2655 @@
+[
+  {
+    "number": 1,
+    "title": "Java Foundations, Data Types & Scanner",
+    "subtitle": "Understand how Java runs, where values live, and how to read input clearly.",
+    "goals": [
+      "Explain source → bytecode → JVM",
+      "Read the structure of a Java program",
+      "Distinguish primitive values from reference values",
+      "Relate local variables and objects to stack and heap",
+      "Read, validate and consume input with Scanner"
+    ],
+    "sections": [
+      {
+        "title": "JDK, JRE and JVM",
+        "paragraphs": [
+          "The Java Development Kit, or JDK, is the toolkit used to develop Java software. It includes javac for compilation, java for launching programs, debugging and documentation tools, and the runtime components required by those tools.",
+          "The Java Virtual Machine, or JVM, is the abstract execution environment for class files. The standard library is the collection of reusable APIs—such as String, Scanner, List, Files, and Thread—that applications call instead of rebuilding common facilities."
+        ],
+        "note": "Select a JDK for the project, not merely an editor. Without a configured JDK, the IDE has no compiler or Java platform against which to check the program."
+      },
+      {
+        "title": "Skeleton of a Java Program",
+        "diagram": "java-skeleton",
+        "paragraphs": [
+          "A Java source file contains a class, the class contains methods, and a method contains statements. This small program uses the conventional main method as its entry point. Follow the matching numbers to connect each piece of code with its meaning."
+        ],
+        "note": "Java is case-sensitive: First and first are different names. Save this public class as First.java. String and System need no import because java.lang is imported automatically.",
+        "html": "\n    <figure class=\"skeleton-figure\">\n      <figcaption><span class=\"visual-type\">01 / Source code</span><strong>Write this in your editor</strong><span class=\"skeleton-file\">First.java</span></figcaption>\n      <div class=\"skeleton-source\"><pre><code><span class=\"sk-mark\">①</span> <span class=\"sk-key\">public class</span> <span class=\"sk-name\">First</span> {\n<span class=\"sk-mark\">②</span>     <span class=\"sk-key\">public static void</span> <span class=\"sk-name\">main</span>(String[] args) {\n<span class=\"sk-mark\">③</span>         System.out.println(<span class=\"sk-string\">\"Hello World\"</span>);\n          }\n      }</code></pre></div>\n      <div class=\"skeleton-explanations\">\n        <div><b>① Class · the outer container</b><p><code>public class First</code> declares a public class named <code>First</code>. Its name matches <code>First.java</code>.</p></div>\n        <div><b>② Method · inside the class</b><p><code>main</code> is the entry point used here. Its braces contain the instructions to execute.</p></div>\n        <div><b>③ Statement · inside the method</b><p><code>System</code> is a class; <code>out</code> is its standard-output stream; <code>println</code> prints the string and a newline. The semicolon ends the statement.</p></div>\n      </div>\n      <div class=\"skeleton-nesting\"><span>Class <code>{ }</code></span><span aria-hidden=\"true\">⊃</span><span>Method <code>{ }</code></span><span aria-hidden=\"true\">⊃</span><span>Statement <code>;</code></span></div>\n    </figure>\n    <div class=\"skeleton-signature\">\n      <h4>Read the main method, one piece at a time</h4>\n      <dl>\n        <div><dt>public</dt><dd>Access modifier: the method is accessible from outside the class.</dd></div>\n        <div><dt>static</dt><dd>No First object is needed to invoke this method.</dd></div>\n        <div><dt>void</dt><dd>Return type: this method returns no value.</dd></div>\n        <div><dt>main</dt><dd>The method name recognized by the launcher for this entry-point form.</dd></div>\n        <div><dt>String[] args</dt><dd>Parameter: an array of command-line strings. args is the chosen variable name.</dd></div>\n      </dl>\n    </div>\n    <figure class=\"skeleton-figure skeleton-terminal\">\n      <figcaption><span class=\"visual-type\">02 / Command line</span><strong>Run these in a terminal</strong></figcaption>\n      <p class=\"skeleton-context\">Save First.java, then open a terminal in that folder with a JDK configured. Enter each command separately.</p>\n      <ol class=\"skeleton-run\">\n        <li><div><span class=\"skeleton-action\">COMPILE</span><code>javac First.java</code></div><p>The JDK compiler reads the source and creates <strong>First.class</strong> (bytecode). Successful compilation normally prints nothing.</p></li>\n        <li><div><span class=\"skeleton-action\">RUN</span><code>java First</code></div><p>The launcher starts a JVM and invokes <strong>First.main</strong>. <code>First</code> is the class name, without an extension.</p></li>\n      </ol>\n      <div class=\"skeleton-output\"><span>PROGRAM OUTPUT</span><samp>Hello World</samp></div>\n      <div class=\"skeleton-path\"><span>First.java<small>Source code</small></span><b aria-hidden=\"true\">→</b><span>First.class<small>Compiled bytecode</small></span><b aria-hidden=\"true\">→</b><span>JVM → main<small>Program execution</small></span></div>\n      <p class=\"skeleton-context\">Run these commands from the folder containing First.java and First.class. These are terminal commands; they do not go inside the Java file.</p>\n    </figure>\n    <aside class=\"skeleton-args\"><strong>Where do args come from?</strong><p><code>java First Candice 2026</code></p><p><code>args[0] = \"Candice\"</code> · <code>args[1] = \"2026\"</code></p><p>Both values are strings. This example does not read args, so its output remains <code>Hello World</code>.</p></aside>"
+      },
+      {
+        "title": "Java data types: Primitive and Reference",
+        "paragraphs": [
+          "Primitive variables hold simple values. Reference variables hold references to objects, or null. The diagram below shows the two groups."
+        ]
+      },
+      {
+        "title": "Java memory: Method Area, Stack and Heap",
+        "paragraphs": [
+          "For a local declaration such as Student s = new Student(), s holds a reference in the current method’s stack frame; the new Student object belongs to the heap. The method area holds class information and method code."
+        ]
+      },
+      {
+        "title": "Scanner: sources, keyboard input, validation and consumption",
+        "paragraphs": [],
+        "subsections": [
+          {
+            "title": "A reference type and its input sources",
+            "paragraphs": [
+              "Scanner is a class, so Scanner is a reference type. In Scanner input = new Scanner(System.in), input holds a reference to a Scanner object; it does not hold the text or an integer. The object reads text from a source and its methods return values such as int, double, boolean or String.",
+              "Choose the source when constructing the Scanner. Choose what to read when calling a method. A token is one piece of text separated by a delimiter; Scanner uses whitespace by default. For example, \"10 20\" contains two tokens. The same nextInt() method can read an integer from keyboard input, a file or an existing string."
+            ],
+            "html": "<figure class=\"visual-card\"><header><h3>One reader, different sources</h3></header><div class=\"visual-table-wrap\"><table class=\"visual-table\"><thead><tr><th>Input / result</th><th>Java expression</th><th>Meaning</th></tr></thead><tbody><tr><td>Keyboard / standard input</td><td>new Scanner(System.in)</td><td>Usually receives text typed in the terminal; standard input can also be redirected.</td></tr><tr><td>Text file</td><td>new Scanner(new File(&quot;numbers.txt&quot;))</td><td>Reads text stored in a file.</td></tr><tr><td>Existing text</td><td>new Scanner(&quot;10 20&quot;)</td><td>Reads a String already in the program.</td></tr><tr><td>Other text sources</td><td>new Scanner(inputStream)</td><td>Can read a supplied stream, such as one obtained from a network connection.</td></tr></tbody></table></div></figure>",
+            "note": "The source provides text. nextInt() converts a token to int; next() returns token text; nextLine() returns line text. The Scanner itself remains an object."
+          },
+          {
+            "title": "Read keyboard input",
+            "paragraphs": [
+              "Import java.util.Scanner, create one Scanner connected to System.in, and call a reading method for each value you expect. A keyboard read can wait until input is available. These first examples assume that the user enters the requested types.",
+              "Spaces separate tokens and Enter ends a line; neither signals the end of input, so a keyboard loop using hasNext() may wait for more input.",
+              "Token methods skip leading whitespace, so numbers may be separated by spaces or line breaks. next() reads one token; nextLine() reads the rest of a line, including spaces within it. Decimal examples below use Locale.ROOT so a decimal point is interpreted consistently."
+            ],
+            "html": "<figure class=\"visual-card\"><header><h3>Choose the result you need</h3></header><div class=\"visual-table-wrap\"><table class=\"visual-table\"><thead><tr><th>Input / result</th><th>Java expression</th><th>Meaning</th></tr></thead><tbody><tr><td>byte / short / int / long</td><td>nextByte() / nextShort() / nextInt() / nextLong()</td><td>An integer within the chosen type’s range.</td></tr><tr><td>float / double</td><td>nextFloat() / nextDouble()</td><td>A floating-point number, such as 3.5.</td></tr><tr><td>boolean</td><td>nextBoolean()</td><td>true or false, ignoring case; not yes/no or 1/0.</td></tr><tr><td>String: one token</td><td>next()</td><td>Ada Lovelace → Ada; the next token is Lovelace.</td></tr><tr><td>String: line remainder</td><td>nextLine()</td><td>Reads through the end of the current line; the returned String excludes the line separator.</td></tr><tr><td>char</td><td>next().charAt(0)</td><td>No nextChar() method: read a token, then take its first character.</td></tr><tr><td>BigInteger / BigDecimal</td><td>nextBigInteger() / nextBigDecimal()</td><td>Additional numeric reference types; not needed for these introductory examples.</td></tr></tbody></table></div></figure>",
+            "note": "Use one shared keyboard Scanner. Closing it also closes System.in. A file Scanner owns a separate resource and should be closed."
+          },
+          {
+            "title": "Validate before reading",
+            "paragraphs": [
+              "Calling nextInt() directly on hello throws InputMismatchException and leaves that token unread; checking first lets the program handle it deliberately.",
+              "Validation asks whether input meets a requirement. First check whether a token can be read as the desired type: hasNextInt() before nextInt(), hasNextDouble() before nextDouble(), or hasNextBoolean() before nextBoolean(). hasNext() checks for any token; hasNextLine() checks for another line. These checks do not read past the input.",
+              "After reading a correctly typed value, check the rule for your program. For example, -2 is a valid int but an invalid age under an age >= 0 rule. Type validation and value validation answer different questions.",
+              "In the loop below, hasNext() guards against the end of input. If a token is not an int, next() reads and skips it as text. This advances the input so the next iteration can inspect a different token. The next part explains this movement in detail."
+            ],
+            "visuals": [
+              {
+                "kind": "scanner-validation",
+                "title": "A validation loop must always move forward",
+                "items": [
+                  {
+                    "label": "Inspect",
+                    "detail": "hasNextInt()?"
+                  },
+                  {
+                    "label": "Valid branch",
+                    "detail": "Consume with nextInt()"
+                  },
+                  {
+                    "label": "Invalid branch",
+                    "detail": "Consume the bad token with next()"
+                  },
+                  {
+                    "label": "Repeat or finish",
+                    "detail": "Never inspect the same bad token forever"
+                  }
+                ],
+                "after": 6
+              }
+            ]
+          },
+          {
+            "title": "Consume input and understand the nextLine() trap",
+            "paragraphs": [
+              "Consume means read input and advance the Scanner’s position past it. It does not necessarily mean discard: int age = input.nextInt() consumes a token and keeps its converted value. input.next() without storing the result consumes a token and discards its text.",
+              "hasNextInt() only looks ahead. nextInt() consumes a token if it can convert it to int. next() consumes any available token as a String, which makes it useful for skipping invalid numeric input. nextDouble() also consumes, but cannot skip arbitrary text such as hello because it requires a floating-point token.",
+              "Token reads and line reads stop in different places. After nextInt() reads 20 from a line containing only 20, the following line separator remains. nextLine() then reads the remainder of that current line: an empty String, and moves past the separator. It has not read the name on the next line.",
+              "When your input format puts the name on the next line, call nextLine() once to finish the number’s line, then again to read the name. That first call discards the entire line remainder, not just a newline; if the name is on the same line as the number, it would be discarded too."
+            ],
+            "html": "<figure class=\"visual-card\"><header><h3>Trace the read position: 20 followed by a name on the next line</h3></header><div class=\"visual-table-wrap\"><table class=\"visual-table\"><thead><tr><th>Input / result</th><th>Java expression</th><th>Meaning</th></tr></thead><tbody><tr><td>Input</td><td>20\\nAda Lovelace\\n</td><td>Here \\n represents a line break.</td></tr><tr><td>Read the integer</td><td>nextInt() → 20</td><td>The position is just after 20, before its line break.</td></tr><tr><td>Finish the current line</td><td>nextLine() → &quot;&quot;</td><td>Reads the empty remainder and passes the line break.</td></tr><tr><td>Read the name</td><td>nextLine() → &quot;Ada Lovelace&quot;</td><td>Reads the next line and passes its line break.</td></tr></tbody></table></div></figure>",
+            "note": "Calling nextLine() twice is not a general rule. It is needed here because we switch from a token read to a separate next-line field. A program that only reads lines does not need this extra call."
+          }
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "flow",
+        "title": "From source file to running program",
+        "placement": "java-platform-flow",
+        "description": "Compilation and execution are separate stages. The compiler produces bytecode; the JVM executes it.",
+        "items": [
+          {
+            "label": "First.java",
+            "detail": "Human-readable source"
+          },
+          {
+            "label": "javac",
+            "detail": "Checks types and syntax"
+          },
+          {
+            "label": "First.class",
+            "detail": "Portable JVM bytecode"
+          },
+          {
+            "label": "java",
+            "detail": "Starts a JVM"
+          },
+          {
+            "label": "Running program",
+            "detail": "Uses the local OS and hardware"
+          }
+        ],
+        "after": 2
+      }
+    ],
+    "demos": [
+      {
+        "name": "ValueAndReferenceDemo",
+        "title": "Copy a value; share an array object",
+        "code": "public class ValueAndReferenceDemo {\n    public static void main(String[] args) {\n        int count = 2;\n        int copy = count;\n        copy = 9;\n        int[] values = {10, 20};\n        int[] alias = values;\n        alias[0] = 99;\n        System.out.println(\"count = \" + count);\n        System.out.println(\"copy = \" + copy);\n        System.out.println(\"values[0] = \" + values[0]);\n        System.out.println(\"same array = \" + (values == alias));\n    }\n}\n",
+        "output": "count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true",
+        "explain": [
+          "copy receives its own primitive value. Changing it leaves count unchanged.",
+          "alias receives a copy of the array reference. Both references reach the same array, so updating alias[0] is visible through values[0].",
+          "The memory diagram shows these locals in the main frame and the single array object on the heap."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 4
+      },
+      {
+        "name": "StringScanner",
+        "title": "Read the same values from a String and a file",
+        "code": "import java.io.File;\nimport java.io.FileNotFoundException;\nimport java.util.Scanner;\n\npublic class StringScanner {\n    public static void main(String[] args) throws FileNotFoundException {\n        try (Scanner text = new Scanner(\"10 20\")) {\n            System.out.println(\"String sum: \" + (text.nextInt() + text.nextInt()));\n        }\n        try (Scanner file = new Scanner(new File(\"numbers.txt\"))) {\n            System.out.println(\"File sum: \" + (file.nextInt() + file.nextInt()));\n        }\n    }\n}\n",
+        "output": "String sum: 30\nFile sum: 30",
+        "explain": [
+          "text and file are reference variables pointing to separate Scanner objects. Both objects return int values through nextInt().",
+          "Place numbers.txt beside the program and run from that folder. The only change to the reading operation is the source.",
+          "try (...) closes each owned Scanner; throws declares the possible missing-file error. These resource and exception details are developed in lesson 6."
+        ],
+        "stdin": "",
+        "files": {
+          "numbers.txt": "10 20\n"
+        },
+        "variable": false,
+        "after": 5,
+        "subpart": 1
+      },
+      {
+        "name": "KeyboardSum",
+        "title": "Keyboard input: read two integers",
+        "code": "import java.util.Scanner;\npublic class KeyboardSum {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        System.out.println(\"Enter two integers:\");\n        int first = input.nextInt();\n        int second = input.nextInt();\n        System.out.println(\"Sum: \" + (first + second));\n    }\n}\n",
+        "output": "Enter two integers:\nSum: 25",
+        "explain": [
+          "Scanner input declares a reference; new Scanner(System.in) constructs the reader.",
+          "Each nextInt() returns one int. Enter 10 and 15 separated by a space or a line break."
+        ],
+        "stdin": "10 15\n",
+        "files": {},
+        "variable": false,
+        "after": 5,
+        "subpart": 2
+      },
+      {
+        "name": "ReadName",
+        "title": "Keyboard input: choose a method for each value",
+        "code": "import java.util.Locale;\nimport java.util.Scanner;\npublic class ReadName {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in).useLocale(Locale.ROOT);\n        System.out.println(\"Enter a full name:\");\n        String name = input.nextLine();\n        System.out.println(\"Enter age, height, and enrolled (true/false):\");\n        int age = input.nextInt();\n        double height = input.nextDouble();\n        boolean enrolled = input.nextBoolean();\n        System.out.println(name + \" | \" + age + \" | \" + height + \" | \" + enrolled);\n    }\n}\n",
+        "output": "Enter a full name:\nEnter age, height, and enrolled (true/false):\nAda Lovelace | 20 | 1.65 | true",
+        "explain": [
+          "nextLine() reads the name including its space. It is the first read, so there is no leftover number line to finish.",
+          "The following token methods return int, double and boolean. This example assumes valid input; validation comes next."
+        ],
+        "stdin": "Ada Lovelace\n20 1.65 true\n",
+        "files": {},
+        "variable": false,
+        "after": 5,
+        "subpart": 2
+      },
+      {
+        "name": "ValidationDemo",
+        "title": "Validate the type, then the value",
+        "code": "import java.util.Scanner;\npublic class ValidationDemo {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        System.out.println(\"Enter an age (0 or greater):\");\n        while (input.hasNext()) {\n            if (!input.hasNextInt()) {\n                String skipped = input.next();\n                System.out.println(\"Not an int: \" + skipped);\n                continue;\n            }\n            int age = input.nextInt();\n            if (age < 0) {\n                System.out.println(\"Age cannot be negative: \" + age);\n                continue;\n            }\n            System.out.println(\"Accepted age: \" + age);\n            return;\n        }\n        System.out.println(\"No valid age supplied\");\n    }\n}\n",
+        "output": "Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20",
+        "explain": [
+          "hasNextInt() does not advance. next() skips hello and 3.5 as text so the loop can move forward.",
+          "-2 passes the type check and is consumed by nextInt(), but fails the non-negative age rule.",
+          "continue starts another loop iteration; return ends main after the first acceptable age. A keyboard check may wait for more input."
+        ],
+        "stdin": "hello 3.5 -2 20\n",
+        "files": {},
+        "variable": false,
+        "after": 5,
+        "subpart": 3
+      },
+      {
+        "name": "InputDemo",
+        "title": "Consume a token, then finish its line",
+        "code": "import java.util.Scanner;\npublic class InputDemo {\n    public static void main(String[] args) {\n        try (Scanner input = new Scanner(\"20\\nAda Lovelace\\n\")) {\n            System.out.println(\"Check 1: \" + input.hasNextInt());\n            System.out.println(\"Check 2: \" + input.hasNextInt());\n            int age = input.nextInt();\n            String remainder = input.nextLine();\n            String name = input.nextLine();\n            System.out.println(\"Age: \" + age);\n            System.out.println(\"Line remainder: [\" + remainder + \"]\");\n            System.out.println(\"Name: \" + name);\n        }\n    }\n}\n",
+        "output": "Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace",
+        "explain": [
+          "Both checks see the same 20 because look-ahead does not consume input.",
+          "nextInt() reads 20; the first nextLine() returns an empty String shown as []. The second reads Ada Lovelace.",
+          "Using a fixed String makes the position changes repeatable. With new Scanner(System.in), the same reading sequence works when the user enters the age and name on separate lines."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 5,
+        "subpart": 4
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Objects, Methods, Encapsulation & Inheritance",
+    "subtitle": "Protect valid state, construct complete objects, and specialize a parent type.",
+    "goals": [
+      "Distinguish classes, objects and references",
+      "Choose an overloaded method by its parameters",
+      "Design private state and controlled properties",
+      "Trace this() and super() constructor calls",
+      "Understand arrays of object references",
+      "Use inheritance for an is-a relationship"
+    ],
+    "sections": [
+      {
+        "title": "Class, object and reference",
+        "paragraphs": [
+          "A class declares a type with fields for state and methods for behavior. An object is an instance created at runtime with new. A reference is a value that identifies an object; it is not the object itself. Two reference variables can point to the same object, so a mutation through either reference is visible through the other.",
+          "An instance method uses a particular object. In circle.area(), circle supplies that object. Creating two Circle instances gives each its own radius field. Calling a method through null fails because null identifies no object. Public fields below make the first example easy to trace; the following sections protect state with encapsulation."
+        ]
+      },
+      {
+        "title": "Classes establish valid objects",
+        "paragraphs": [
+          "A class defines the structure and behavior shared by a category of objects; an object is one runtime instance created from that definition. Fields record state, methods provide behavior, and constructors establish the initial state. A constructor has the class name, has no return type, and runs when new creates the object.",
+          "Overloaded constructors provide several valid ways to create an object. They should delegate where practical so that validation and initialization are not duplicated."
+        ]
+      },
+      {
+        "title": "Data hiding, properties, and arrays of objects",
+        "paragraphs": [
+          "Data hiding places representation behind the class interface. A getter without a public setter creates read-only access for callers; a setter without a getter creates write-only access; providing both creates read-write access. These are API patterns rather than a separate Java property syntax. Validation belongs in constructors and mutating methods so that every public path preserves the object's rules.",
+          "An array of a class type stores references, not embedded objects. Creating new Student[3] produces three null elements. Each Student must still be constructed and assigned before a method can be called through that array element."
+        ]
+      },
+      {
+        "title": "A property is an access policy",
+        "paragraphs": [
+          "A property is a useful way to describe what clients may read or change. A read-only ID has a getter but no setter. A write-only input may be accepted without exposing its stored representation. A computed property such as area can be calculated from other fields instead of being stored.",
+          "Encapsulation protects invariants: statements that must remain true for every valid object. A setter that blindly assigns any value is not automatically a good design. For a non-negative balance or a bounded score, validate before committing the change. Constructor validation prevents an invalid object from being created in the first place."
+        ]
+      },
+      {
+        "title": "Method overloading: same name, different parameters",
+        "paragraphs": [
+          "Overloading means defining methods in the same class with the same name but different parameter lists. Start with one simple change: the number of parameters."
+        ],
+        "note": "A parameter list can differ in number, types, or the order of types. Changing only parameter names or only the return type is not overloading.",
+        "html": "<figure class=\"code-example\"><figcaption>Same name: add · Different parameters: two integers or three</figcaption><pre><code>static int add(<mark>int a, int b</mark>) {\n    return a + b;\n}\n\nstatic int add(<mark>int a, int b, int c</mark>) {\n    return a + b + c;\n}</code></pre></figure><div class=\"trace-grid\"><div class=\"expected\"><b>Two arguments → first method</b><pre>add(2, 3) → 5</pre></div><div class=\"expected\"><b>Three arguments → second method</b><pre>add(2, 3, 4) → 9</pre></div></div><p>Both methods are named <code>add</code>. The highlighted parameter lists tell them apart. In this example, <code>static int</code> stays the same so you can focus on that difference.</p>"
+      },
+      {
+        "title": "Constructors establish the first valid state",
+        "paragraphs": [
+          "A constructor has the class name and no return type. It runs during object creation and is not an ordinary method. If a class declares no constructor, the compiler supplies a default constructor; once you declare a constructor, an automatic no-argument constructor is no longer supplied.",
+          "Overloaded constructors offer several ways to establish an object. this(...) delegates to another constructor in the same class. Under the Java 21 syntax used in these examples, this(...) or super(...) must be the first constructor statement. Delegation avoids duplicating initialization rules."
+        ]
+      },
+      {
+        "title": "Object arrays contain references",
+        "paragraphs": [
+          "new Student[3] creates an array with three null references, not three Student objects. Assign a separately created Student to each occupied element before using its methods. An enhanced for loop can read each reference, but assigning a different object to the loop variable does not replace the array element.",
+          "The array length is fixed. Track which elements are occupied or initialize all elements before traversal. Arrays are useful for understanding reference storage before collection classes introduce variable-size containers."
+        ]
+      },
+      {
+        "title": "Inheritance represents specialization",
+        "paragraphs": [
+          "Generalization identifies behavior shared by several types and places it in a common contract. Specialization defines a more specific subtype. In Java, extends expresses class specialization and implements connects a class to an interface contract. A subtype should be usable wherever its parent type is expected.",
+          "The super keyword selects superclass construction or behavior; this refers to the current object. Superclass construction happens before subclass construction. If the parent has no no-argument constructor, the child constructor must explicitly call an available super(...) constructor as its first statement."
+        ],
+        "note": "Use composition when one object merely uses or contains another. Use inheritance when the relationship expresses a stable is-a contract."
+      },
+      {
+        "title": "Superclass construction and this versus super",
+        "paragraphs": [
+          "An extends relationship places inherited behavior in a parent and specialized behavior in a child. A Student is a Person; a Student is not an arbitrary container that happens to reuse Person code. The child object contains its inherited state as well as its own fields.",
+          "this refers to the current object. super selects the parent implementation or constructor rather than creating another parent object. Constructors are not inherited. If the parent has no accessible no-argument constructor, the child must explicitly call a suitable parent constructor. A private parent field remains accessible through the parent’s methods, not by direct child field access."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Property access is designed through methods",
+        "columns": [
+          "Public operations",
+          "Caller sees",
+          "Typical purpose"
+        ],
+        "rows": [
+          [
+            "Getter only",
+            "Read-only property",
+            "Identity or derived state that callers must not assign"
+          ],
+          [
+            "Setter only",
+            "Write-only property",
+            "Sensitive input or command-like assignment; use sparingly"
+          ],
+          [
+            "Getter and setter",
+            "Read-write property",
+            "Mutable state whose setter enforces validation"
+          ],
+          [
+            "Neither",
+            "Internal field",
+            "Representation used only by the class"
+          ]
+        ],
+        "note": "Java fields do not become properties automatically; the class defines the permitted operations explicitly.",
+        "after": 4
+      },
+      {
+        "kind": "flow",
+        "title": "Construction follows a chain",
+        "items": [
+          {
+            "label": "new Student(...)",
+            "detail": "Allocate one object"
+          },
+          {
+            "label": "super(name)",
+            "detail": "Initialize the Person part"
+          },
+          {
+            "label": "Student body",
+            "detail": "Initialize child fields"
+          },
+          {
+            "label": "Ready to use",
+            "detail": "All invariants established"
+          }
+        ],
+        "after": 8
+      },
+      {
+        "kind": "compare",
+        "title": "Class, object, and reference",
+        "items": [
+          {
+            "kicker": "Blueprint",
+            "title": "Class",
+            "body": "Declares the fields, constructors, and methods shared by its instances.",
+            "points": [
+              "Defines a type",
+              "Written once",
+              "Does not represent one student's data"
+            ]
+          },
+          {
+            "kicker": "Runtime value",
+            "title": "Object",
+            "body": "A concrete instance with its own field values and identity.",
+            "points": [
+              "Created with new",
+              "May change state",
+              "Many objects can share one class"
+            ]
+          },
+          {
+            "kicker": "Access path",
+            "title": "Reference",
+            "body": "A typed variable that may point to an object; it is not the object itself.",
+            "points": [
+              "Controls accessible members",
+              "May be null",
+              "Can point to a subtype object"
+            ]
+          }
+        ],
+        "after": 1
+      }
+    ],
+    "demos": [
+      {
+        "name": "ObjectDemo",
+        "title": "Two references, one object",
+        "code": "class Circle {\n    double radius;\n    double area() { return Math.PI * radius * radius; }\n}\n\npublic class ObjectDemo {\n    public static void main(String[] args) {\n        Circle first = new Circle();\n        first.radius = 2;\n        Circle alias = first;\n        alias.radius = 3;\n        System.out.println(first.radius);\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", first.area());\n    }\n}\n",
+        "output": "3.0\n28.27",
+        "explain": [
+          "new creates one Circle; assigning first to alias does not create a copy.",
+          "Updating alias.radius changes the same object later read through first."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 1
+      },
+      {
+        "name": "OverloadDemo",
+        "title": "Run it: add two numbers or three",
+        "code": "public class OverloadDemo {\n    static int add(int a, int b) { return a + b; }\n    static int add(int a, int b, int c) { return a + b + c; }\n    public static void main(String[] args) {\n        System.out.println(add(2, 3));\n        System.out.println(add(2, 3, 4));\n    }\n}\n",
+        "output": "5\n9",
+        "explain": [
+          "add(2, 3) calls the method with two parameters and returns 5.",
+          "add(2, 3, 4) calls the method with three parameters and returns 9.",
+          "Same method name; different parameter lists."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 5
+      },
+      {
+        "name": "EncapsulationDemo",
+        "title": "Validate state at the boundary",
+        "code": "class Student {\n    private final int id;\n    private int score;\n    Student(int id) { this(id, 0); }\n    Student(int id, int score) {\n        this.id = id;\n        setScore(score);\n    }\n    int getId() { return id; }\n    int getScore() { return score; }\n    void setScore(int score) {\n        if (score < 0 || score > 100) {\n            throw new IllegalArgumentException(\"score must be 0..100\");\n        }\n        this.score = score;\n    }\n}\n\npublic class EncapsulationDemo {\n    public static void main(String[] args) {\n        Student student = new Student(7, 80);\n        student.setScore(92);\n        System.out.println(student.getId() + \": \" + student.getScore());\n    }\n}\n",
+        "output": "7: 92",
+        "explain": [
+          "The ID is assigned once and exposed without a setter.",
+          "this(id, 0) delegates to the full constructor. The guard rejects an invalid score; exception handling is studied later."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "ObjectArrayDemo",
+        "title": "Initialize each array position",
+        "code": "class Student {\n    private final String name;\n    Student(String name) { this.name = name; }\n    String name() { return name; }\n}\n\npublic class ObjectArrayDemo {\n    public static void main(String[] args) {\n        Student[] students = new Student[2];\n        System.out.println(students[0] == null);\n        students[0] = new Student(\"Ada\");\n        students[1] = new Student(\"Grace\");\n        for (Student student : students) System.out.println(student.name());\n    }\n}\n",
+        "output": "true\nAda\nGrace",
+        "explain": [
+          "The first print proves that allocating the array did not construct its elements.",
+          "The loop is safe after both positions have been assigned objects."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 7
+      },
+      {
+        "name": "ConstructorDemo",
+        "title": "Observe parent-before-child initialization",
+        "code": "class Person {\n    private final String name;\n    Person(String name) {\n        this.name = name;\n        System.out.println(\"Person constructor\");\n    }\n    String name() { return name; }\n}\n\nclass Student extends Person {\n    private final int id;\n    Student(String name, int id) {\n        super(name);\n        this.id = id;\n        System.out.println(\"Student constructor\");\n    }\n    String describe() { return name() + \" #\" + id; }\n}\n\npublic class ConstructorDemo {\n    public static void main(String[] args) {\n        System.out.println(new Student(\"Ada\", 7).describe());\n    }\n}\n",
+        "output": "Person constructor\nStudent constructor\nAda #7",
+        "explain": [
+          "super(name) supplies the parent constructor’s required argument.",
+          "The inherited name() method reads private parent state without exposing its field."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 9
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Overriding, Polymorphism & Abstract Classes",
+    "subtitle": "Separate the reference contract from the implementation chosen at runtime.",
+    "goals": [
+      "Distinguish overload selection from method dispatch",
+      "Write valid overrides",
+      "Use parent references to call child behavior",
+      "Design an abstract class with shared state"
+    ],
+    "sections": [
+      {
+        "title": "Overriding preserves a method contract",
+        "paragraphs": [
+          "A subclass overrides an inherited instance method by supplying the same name and parameter types with a compatible return type. The override must not reduce accessibility or broaden checked exceptions. A covariant reference return type may be more specific. Use @Override so that the compiler checks your intention.",
+          "Overloading is resolved at compile time from method signatures and argument types. Overriding selects the implementation at runtime from the actual object. Calling both mechanisms “polymorphism” must not hide this timing difference."
+        ]
+      },
+      {
+        "title": "Dynamic method dispatch",
+        "paragraphs": [
+          "In Animal pet = new Dog(), Animal is the declared reference type and Dog is the runtime object type. The compiler permits operations available through Animal. When an overridden instance method is invoked, the Dog implementation runs. A method that exists only on Dog cannot be called through pet without a suitable cast.",
+          "The object does not change when assigned to a parent reference. Upcasting merely changes the view available to the compiler. Downcasting is a runtime assertion about the object’s type; an incorrect cast fails. Prefer polymorphic operations to long chains of casts."
+        ]
+      },
+      {
+        "title": "What is not ordinary overriding",
+        "paragraphs": [
+          "A static method belongs to its class and can be hidden rather than dynamically overridden. Fields are also selected according to the reference expression’s type. A private parent method is not inherited as an overridable method, and a final method cannot be overridden. Constructors participate in construction, not overriding.",
+          "super.method() deliberately invokes inherited parent behavior. It is useful when the child extends an operation rather than replacing it completely. Use it to preserve a meaningful parent contract, not merely to silence an error."
+        ]
+      },
+      {
+        "title": "Abstract classes combine contracts and implementation",
+        "paragraphs": [
+          "An abstract class cannot be instantiated directly. It may contain fields, constructors, concrete methods and abstract methods. An abstract method states a required operation without providing its body. A concrete subclass must implement every remaining abstract method.",
+          "Shared state belongs in the abstract base when it is genuinely common to all specializations. For shapes, the base might store a label and require area(). A method in the base can call area(); that call still dispatches to the child implementation."
+        ]
+      },
+      {
+        "title": "Design around substitutability",
+        "paragraphs": [
+          "Code that accepts Shape should remain meaningful for every valid Shape implementation. An overridden method should preserve the meaning promised by the parent: if area() returns a non-negative measurement, a subclass should not reinterpret it as a formatted message or an unrelated identifier.",
+          "Keep the public contract small. The benefit of polymorphism is that a caller can work with the abstraction while new implementations are added independently. The loop in the demonstration does not need to know whether the next object is a rectangle or a circle."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "compare",
+        "title": "Overloading and overriding solve different problems",
+        "items": [
+          {
+            "kicker": "Compile time",
+            "title": "Overloading",
+            "body": "The same method name has different parameter lists. The compiler chooses a signature from the declared argument types.",
+            "points": [
+              "Usually in one class",
+              "Parameters must differ",
+              "Return type alone is insufficient"
+            ]
+          },
+          {
+            "kicker": "Run time",
+            "title": "Overriding",
+            "body": "A subtype replaces an inherited instance-method implementation while preserving its contract.",
+            "points": [
+              "Same signature",
+              "Requires inheritance",
+              "Runtime object chooses the body"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Read Animal pet = new Dog() from both sides",
+        "columns": [
+          "Part",
+          "Meaning",
+          "What it controls"
+        ],
+        "rows": [
+          [
+            "Animal",
+            "Declared reference type",
+            "Which members the compiler allows through pet"
+          ],
+          [
+            "pet",
+            "Reference variable",
+            "The access path to an object; it may later point elsewhere"
+          ],
+          [
+            "new Dog()",
+            "Runtime object type",
+            "Which overridden instance-method body executes"
+          ],
+          [
+            "pet.speak()",
+            "Polymorphic call",
+            "Must exist on Animal; Dog's override runs at runtime"
+          ]
+        ],
+        "note": "The reference type answers “what may I call?”; the runtime object answers “which override runs?”"
+      },
+      {
+        "kind": "flow",
+        "title": "An overridden call has two checks",
+        "items": [
+          {
+            "label": "Compile time",
+            "detail": "Is speak() available on Animal?"
+          },
+          {
+            "label": "Runtime object",
+            "detail": "pet refers to a Dog"
+          },
+          {
+            "label": "Dispatch",
+            "detail": "Choose Dog.speak()"
+          },
+          {
+            "label": "Result",
+            "detail": "Execute the child body"
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "DispatchDemo",
+        "title": "Reference type permits; object type dispatches",
+        "code": "class Animal { String speak() { return \"sound\"; } }\n\nclass Dog extends Animal {\n    @Override String speak() { return \"woof\"; }\n}\n\npublic class DispatchDemo {\n    static void show(Animal animal) { System.out.println(animal.speak()); }\n    public static void main(String[] args) {\n        Animal pet = new Dog();\n        show(pet);\n        show(new Animal());\n    }\n}\n",
+        "output": "woof\nsound",
+        "explain": [
+          "show receives an Animal reference in both calls.",
+          "Only the runtime object changes, so dispatch selects a different speak() body."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2
+      },
+      {
+        "name": "BindingDemo",
+        "title": "Overload selection happens before dispatch",
+        "code": "class Animal { }\n\nclass Dog extends Animal { }\n\npublic class BindingDemo {\n    static String identify(Animal a) { return \"Animal overload\"; }\n    static String identify(Dog d) { return \"Dog overload\"; }\n    public static void main(String[] args) {\n        Animal pet = new Dog();\n        System.out.println(identify(pet));\n        System.out.println(identify(new Dog()));\n    }\n}\n",
+        "output": "Animal overload\nDog overload",
+        "explain": [
+          "The declared type of pet is Animal, so the Animal overload is selected.",
+          "These static overloads do not dynamically switch based on the object stored in pet."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "ShapeDemo",
+        "title": "One abstract contract, two implementations",
+        "code": "abstract class Shape {\n    private final String label;\n    Shape(String label) { this.label = label; }\n    abstract double area();\n    void describe() {\n        System.out.printf(java.util.Locale.ROOT, \"%s: %.2f%n\", label, area());\n    }\n}\n\nclass Rectangle extends Shape {\n    private final double width, height;\n    Rectangle(double width, double height) {\n        super(\"Rectangle\"); this.width = width; this.height = height;\n    }\n    @Override double area() { return width * height; }\n}\n\nclass Circle extends Shape {\n    private final double radius;\n    Circle(double radius) { super(\"Circle\"); this.radius = radius; }\n    @Override double area() { return Math.PI * radius * radius; }\n}\n\npublic class ShapeDemo {\n    public static void main(String[] args) {\n        Shape[] shapes = {new Rectangle(3, 4), new Circle(2)};\n        for (Shape shape : shapes) shape.describe();\n    }\n}\n",
+        "output": "Rectangle: 12.00\nCircle: 12.57",
+        "explain": [
+          "The base constructor initializes common state, even though Shape itself cannot be instantiated.",
+          "describe() is inherited, but its area() call dispatches to the concrete shape. Dimensions are positive constants in this focused demo."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 5
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Interfaces & Nested Classes",
+    "subtitle": "Express capabilities independently of inheritance and place helper types in the right scope.",
+    "goals": [
+      "Implement interface contracts",
+      "Explain callback control flow",
+      "Distinguish four nested-class forms",
+      "Understand outer-instance access and local capture"
+    ],
+    "sections": [
+      {
+        "title": "An interface describes a capability",
+        "paragraphs": [
+          "An interface declares a contract that different classes can implement. A class extends at most one class but may implement several interfaces. A variable of an interface type can refer to any object implementing it, allowing the caller to depend on the capability rather than the implementation.",
+          "Ordinary interface abstract methods are public, so their class implementations must be public. Interface fields are public static final constants, not per-object state. Interfaces may also have default and static methods; private helper methods support interface implementations. A default method provides behavior, but does not give the interface ordinary instance fields."
+        ]
+      },
+      {
+        "title": "Abstract class or interface?",
+        "paragraphs": [
+          "Use an abstract class when related types share state, construction rules and partial implementation. Use an interface to express a role that otherwise unrelated classes can adopt. A class can combine both: extend a shared base and implement several capabilities.",
+          "If unrelated interfaces provide conflicting defaults with the same signature, the implementing class must resolve the conflict explicitly. Java’s multiple interface inheritance does not mean that it inherits multiple independent parent-class object states."
+        ]
+      },
+      {
+        "title": "Callbacks reverse who chooses the behavior",
+        "paragraphs": [
+          "A callback is an operation supplied to another component so that the component can invoke it at the appropriate time. A Button can know how to signal a click without knowing whether the application will save, print or navigate. The caller provides the action through an interface.",
+          "The callback is still an ordinary method invocation. The useful distinction is responsibility: the component decides when to call; the supplied object decides what happens. Anonymous classes provide a compact implementation before Lambda syntax is introduced."
+        ]
+      },
+      {
+        "title": "Member inner classes carry an outer object",
+        "paragraphs": [
+          "A non-static member inner class is associated with one enclosing instance. It can directly access private instance fields of that outer object. Construction therefore requires an outer instance first."
+        ]
+      },
+      {
+        "title": "Static nested classes do not capture an instance",
+        "paragraphs": [
+          "A static nested class is namespaced inside its enclosing class but has no implicit outer object. It can directly use only static members unless a reference to an outer object is passed explicitly. Choose this form when nesting improves organization but instance capture is unnecessary."
+        ]
+      },
+      {
+        "title": "Local and anonymous classes",
+        "paragraphs": [
+          "A local class is declared inside a block, usually a method, and is visible only there. An anonymous class defines and instantiates a one-off subclass or interface implementation in one expression. Both may capture local variables only when those variables are final or effectively final.",
+          "Anonymous classes remain useful when a one-off implementation needs fields, several methods, or special initialization. When a functional interface needs only a short behavior, a lambda is usually clearer."
+        ]
+      },
+      {
+        "title": "Choosing the smallest honest scope",
+        "paragraphs": [
+          "Nesting is useful when a type serves only its enclosing abstraction. It reduces namespace clutter and can hide implementation details. Excessive nesting, however, makes construction and testing harder. Promote a nested type to a top-level class when it develops an independent responsibility or is reused elsewhere."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Four nested-class forms",
+        "columns": [
+          "Form",
+          "Declared",
+          "Relationship to outer object",
+          "Can capture local variables?",
+          "Best fit"
+        ],
+        "rows": [
+          [
+            "Member inner",
+            "Inside a class, without static",
+            "Yes",
+            "No",
+            "Helper tied to one outer object"
+          ],
+          [
+            "Static nested",
+            "Inside a class, with static",
+            "No",
+            "No",
+            "Namespaced helper without outer state"
+          ],
+          [
+            "Local class",
+            "Inside a method or block",
+            "May use Outer.this when declared in instance context",
+            "Effectively final values",
+            "Method-only named helper"
+          ],
+          [
+            "Anonymous class",
+            "At an object-creation expression",
+            "May use Outer.this when created in instance context",
+            "Effectively final values",
+            "One-off implementation with class behavior"
+          ]
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "A callback separates timing from behavior",
+        "items": [
+          {
+            "label": "Application",
+            "detail": "Supplies a ClickListener"
+          },
+          {
+            "label": "Button",
+            "detail": "Stores the interface reference"
+          },
+          {
+            "label": "click()",
+            "detail": "Invokes listener.onClick()"
+          },
+          {
+            "label": "Listener",
+            "detail": "Runs application-specific behavior"
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "InterfaceDemo",
+        "title": "Program to a capability",
+        "code": "public class InterfaceDemo {\n    interface Printable { void print(); }\n    interface Named { String name(); }\n    static class Report implements Printable, Named {\n        @Override public String name() { return \"Results\"; }\n        @Override public void print() { System.out.println(name()); }\n    }\n    public static void main(String[] args) {\n        Printable document = new Report();\n        document.print();\n    }\n}\n",
+        "output": "Results",
+        "explain": [
+          "Report satisfies two interfaces while still extending only Object implicitly.",
+          "The Printable reference exposes print(), not every method declared by Report."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2
+      },
+      {
+        "name": "NestedDemo",
+        "title": "Member inner versus static nested",
+        "code": "public class NestedDemo {\n    private final String name;\n    NestedDemo(String name) { this.name = name; }\n    class Member { String read() { return name; } }\n    static class Helper { String read() { return \"no implicit outer\"; } }\n    public static void main(String[] args) {\n        NestedDemo outer = new NestedDemo(\"classroom\");\n        Member member = outer.new Member();\n        Helper helper = new Helper();\n        System.out.println(member.read());\n        System.out.println(helper.read());\n    }\n}\n",
+        "output": "classroom\nno implicit outer",
+        "explain": [
+          "outer.new Member() binds the inner instance to a specific enclosing object.",
+          "Helper has no implicit outer object; it could access one only through an explicit reference."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "CallbackDemo",
+        "title": "Local capture in an anonymous callback",
+        "code": "public class CallbackDemo {\n    interface ClickListener { void onClick(); }\n    static class Button {\n        private final ClickListener listener;\n        Button(ClickListener listener) { this.listener = listener; }\n        void click() { listener.onClick(); }\n    }\n    public static void main(String[] args) {\n        String message = \"Saved\"; // effectively final\n        Button button = new Button(new ClickListener() {\n            @Override public void onClick() { System.out.println(message); }\n        });\n        button.click();\n    }\n}\n",
+        "output": "Saved",
+        "explain": [
+          "The anonymous class implements ClickListener without a separate class name.",
+          "message is captured and must remain final or effectively final; the callback runs only when click() calls it."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 7
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "title": "Packages, Access & Exception Foundations",
+    "subtitle": "Organize types into boundaries and distinguish a failure from its handling policy.",
+    "goals": [
+      "Match package names to project layout",
+      "Apply access modifiers across files",
+      "Classify Java failures and exception types",
+      "Trace try/catch and exception propagation"
+    ],
+    "sections": [
+      {
+        "title": "Project structure and packages",
+        "paragraphs": [
+          "A package name is a qualified type namespace, while a source root is the directory above the package hierarchy. A class declared in package ca.school.app conventionally lives at ca/school/app beneath the source root. Compilation output mirrors that hierarchy beneath the output directory.",
+          "Keeping generated .class files outside src prevents source and build artifacts from being mixed. Share source files and project configuration when needed; do not treat out or bin directories as the authoritative program."
+        ]
+      },
+      {
+        "title": "Packages and access boundaries",
+        "paragraphs": [
+          "Packages create namespaces and establish an access boundary. public is visible everywhere; protected is visible in the package and to subclasses under Java's inheritance rules; package-private is visible only within the package; private is visible only within the declaring top-level class and its nested types.",
+          "Package names conventionally use a reversed domain, such as ca.school.registration. The package declaration, directory structure, imports, compiler output, and classpath must agree. Packages are therefore part of a program's architecture, not merely labels at the top of files."
+        ]
+      },
+      {
+        "title": "A package is tested across files",
+        "paragraphs": [
+          "Package access cannot be understood from a single isolated class. A useful exercise places a public model class and a package-private factory in ca.school.model, then places Main in ca.school.app. Main may import and use the public model class, but it cannot import the package-private factory.",
+          "Compile the complete source tree into a separate output directory. If the package statement and directory hierarchy disagree, the compiler or launcher will report that the expected type cannot be found."
+        ]
+      },
+      {
+        "title": "Access is checked at the declaration boundary",
+        "paragraphs": [
+          "public members are accessible wherever their enclosing type is accessible. A member with no modifier is package-private and is available within its package. private members are restricted to their enclosing top-level class’s nest of nested types. protected permits package access and controlled access from subclasses outside the package.",
+          "Across packages, protected instance access from a subclass is not a general permission to inspect any arbitrary parent object. The qualifying reference must satisfy the subclass access rule. Importing a type only shortens its name; it never bypasses access checks. Top-level classes can be public or package-private, not private or protected."
+        ]
+      },
+      {
+        "title": "Compile-time, logical, and runtime failures",
+        "paragraphs": [
+          "A compile-time error prevents class files from being produced; examples include malformed syntax, an unknown name, or an incompatible type. A logical error compiles and runs but produces the wrong result because the algorithm or formula is incorrect. A runtime failure occurs while the program is executing; many, but not all, runtime failures are represented by exceptions.",
+          "Exception handling addresses exceptional runtime control flow. It cannot repair invalid syntax, and it does not automatically detect an incorrect algorithm. Those problems require compiler feedback, tests, tracing, and debugging."
+        ],
+        "note": "Classify the failure before choosing a remedy: compiler diagnostics, tests and debugging, or exception handling."
+      },
+      {
+        "title": "The exception hierarchy",
+        "paragraphs": [
+          "Throwable has two major branches. Error represents serious JVM or environment failures that applications normally do not recover from. Exception represents conditions application code may handle. Checked exceptions must be caught or declared; RuntimeException and its subclasses are unchecked.",
+          "Checked versus unchecked is a compiler rule, not a measure of severity. A checked exception is appropriate when callers can reasonably anticipate and recover from the condition. An unchecked exception commonly reports a violated precondition, invalid state, or programming mistake."
+        ],
+        "note": "Choose an exception type according to the API contract and the caller's recovery options, not simply according to how alarming the failure feels."
+      },
+      {
+        "title": "try, catch, and propagation",
+        "paragraphs": [
+          "A try block contains operations that share a recovery policy. Several catch blocks may follow one try block and are tested from most specific to most general. A nested try statement is legal when an inner operation has a genuinely different recovery boundary, although excessive nesting usually obscures the control flow. If no compatible catch exists, the exception propagates to the caller and the current method ends.",
+          "A catch block should add useful context, recover, or translate the exception. Catching Exception and doing nothing destroys evidence and allows the program to continue in an unknown state."
+        ]
+      },
+      {
+        "title": "Read a stack trace from the failure outward",
+        "paragraphs": [
+          "An exception stack trace identifies the exception type and message, followed by call frames. Find the first frame in your own code and inspect the operation at that line. The caller frames show how execution arrived there. A cause chain may explain an underlying file or parsing failure.",
+          "A catch block runs only for a compatible exception. Once a throw occurs, the remaining statements in that try path are skipped. If the method cannot handle the failure, propagation unwinds the call stack until a handler is found; otherwise the thread ends with an uncaught exception."
+        ]
+      },
+      {
+        "title": "Specific recovery belongs before general recovery",
+        "paragraphs": [
+          "Order catch blocks from more specific types to broader types. A broad catch placed first may make a later specific catch unreachable. Multi-catch combines unrelated exception alternatives when the recovery policy is identical. A nested try is useful only when an inner operation has a distinct recovery policy.",
+          "Do not confuse guarding expected user input with catching every failure. hasNextInt() can avoid an ordinary invalid-token exception; catching a domain exception can report a rule violation. Neither technique justifies hiding all exceptions or continuing with incomplete state."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Access modifier visibility",
+        "columns": [
+          "Caller location",
+          "private",
+          "package-private",
+          "protected",
+          "public"
+        ],
+        "rows": [
+          [
+            "Same class",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Yes"
+          ],
+          [
+            "Same package, another class",
+            "No",
+            "Yes",
+            "Yes",
+            "Yes"
+          ],
+          [
+            "Different package, subclass",
+            "No",
+            "No",
+            "Yes*",
+            "Yes"
+          ],
+          [
+            "Different package, unrelated class",
+            "No",
+            "No",
+            "No",
+            "Yes"
+          ]
+        ],
+        "note": "* In a different package, protected access is through inheritance and is subject to the protected-reference rule; it is not general package-style access to any parent object."
+      },
+      {
+        "kind": "table",
+        "title": "Classify the failure before choosing the tool",
+        "columns": [
+          "Category",
+          "When detected",
+          "Example",
+          "Primary response"
+        ],
+        "rows": [
+          [
+            "Compile-time error",
+            "Before class files are produced",
+            "Unknown variable or incompatible type",
+            "Read the first compiler diagnostic and correct the source"
+          ],
+          [
+            "Logical error",
+            "A test or user observes a wrong result",
+            "Incorrect formula or boundary condition",
+            "Trace, test, and correct the algorithm"
+          ],
+          [
+            "Runtime exception",
+            "While the program executes",
+            "Invalid index, malformed input, unavailable file",
+            "Prevent, catch, translate, or propagate according to the contract"
+          ]
+        ]
+      },
+      {
+        "kind": "tree",
+        "title": "The part of the Throwable hierarchy you need first",
+        "root": "Throwable",
+        "branches": [
+          {
+            "label": "Error",
+            "detail": "Serious JVM or environment failure; applications rarely recover here."
+          },
+          {
+            "label": "Exception",
+            "detail": "Conditions a program may handle.",
+            "children": [
+              "Checked exception: catch or declare",
+              "RuntimeException: usually a programming or validation defect"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Where exception responsibility belongs",
+        "items": [
+          {
+            "label": "Detect",
+            "detail": "Recognize an invalid state close to its cause"
+          },
+          {
+            "label": "Describe",
+            "detail": "Throw a specific exception with context"
+          },
+          {
+            "label": "Propagate",
+            "detail": "Let callers decide when they can recover"
+          },
+          {
+            "label": "Recover",
+            "detail": "Catch at a meaningful boundary"
+          },
+          {
+            "label": "Clean up",
+            "detail": "Use try-with-resources or finally"
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "PackageDemo",
+        "title": "A package is a real compilation boundary",
+        "code": "package school.app;\nimport school.model.Student;\npublic class PackageDemo {\n    public static void main(String[] args) {\n        Student student = new Student(\"Ada\");\n        System.out.println(student.name());\n        // student.name = \"Grace\"; // private: does not compile\n        // student.internalLabel(); // package-private: does not compile here\n    }\n}\n",
+        "output": "Ada",
+        "explain": [
+          "The public type and its public method cross the package boundary.",
+          "The commented lines illustrate illegal accesses; imports do not change their visibility."
+        ],
+        "stdin": "",
+        "files": {
+          "school/model/Student.java": "package school.model;\npublic class Student {\n    private final String name;\n    public Student(String name) { this.name = name; }\n    public String name() { return name; }\n    String internalLabel() { return \"internal\"; }\n}\n"
+        },
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "CatchDemo",
+        "title": "A failed conversion transfers control",
+        "code": "public class CatchDemo {\n    public static void main(String[] args) {\n        String[] inputs = {\"12\", \"oops\", \"4\"};\n        for (String text : inputs) {\n            try {\n                int value = Integer.parseInt(text);\n                System.out.println(\"Accepted: \" + value);\n            } catch (NumberFormatException e) {\n                System.out.println(\"Rejected: \" + text);\n            }\n        }\n    }\n}\n",
+        "output": "Accepted: 12\nRejected: oops\nAccepted: 4",
+        "explain": [
+          "Only the invalid record takes the catch path.",
+          "The loop can continue because each iteration has an independent result and a clear rejection policy."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "PropagationDemo",
+        "title": "The caller chooses a recovery boundary",
+        "code": "public class PropagationDemo {\n    static int parse(String text) { return Integer.parseInt(text); }\n    static int doubled(String text) { return 2 * parse(text); }\n    public static void main(String[] args) {\n        try {\n            System.out.println(doubled(\"bad\"));\n            System.out.println(\"not reached\");\n        } catch (NumberFormatException e) {\n            System.out.println(\"The input is not an integer\");\n        }\n        System.out.println(\"Finished\");\n    }\n}\n",
+        "output": "The input is not an integer\nFinished",
+        "explain": [
+          "The exception passes through parse() and doubled(), neither of which handles it.",
+          "The println inside the try is never completed; the compatible catch in main handles the failure."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 8
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "title": "Exceptions, Resources & First Threads",
+    "subtitle": "Make failure contracts explicit, close owned resources, and start concurrent work.",
+    "goals": [
+      "Distinguish throw from throws",
+      "Create and handle a checked domain exception",
+      "Read files with Scanner and automatic cleanup",
+      "Compare Thread.start() with an ordinary run() call"
+    ],
+    "sections": [
+      {
+        "title": "throw and throws",
+        "paragraphs": [
+          "throw is an executable statement that transfers control by raising one exception object. throws is part of a method declaration and announces checked exceptions that may escape. A custom exception gives a domain failure a precise name and can carry a cause or additional context."
+        ]
+      },
+      {
+        "title": "Cleanup and try-with-resources",
+        "paragraphs": [
+          "finally executes after try and catch whether the operation succeeds or fails, apart from abnormal process termination. It is suitable for cleanup but should not return or throw a new unrelated exception that hides the original failure.",
+          "For AutoCloseable objects, try-with-resources is safer. Resources declared in the header close automatically in reverse order. If both the body and close operation fail, the close failure is retained as a suppressed exception rather than replacing the primary one."
+        ]
+      },
+      {
+        "title": "Custom exceptions give a failure a domain name",
+        "paragraphs": [
+          "A custom checked exception extends Exception. Its constructor normally passes a meaningful message to super; a second constructor can preserve an underlying cause. A method declaring throws InvalidScoreException requires its caller to catch or declare that checked failure.",
+          "An exception object carries evidence, not a repair strategy. The method that detects the invalid value may be unable to ask a user for another value. The caller at the interaction boundary can decide whether to reject the record, retry or stop."
+        ]
+      },
+      {
+        "title": "finally observes both success and failure",
+        "paragraphs": [
+          "A finally block executes as control leaves its try/catch, including an ordinary return. It is not an absolute guarantee against JVM termination or a process crash. Returning or throwing an unrelated exception from finally can replace an earlier result or failure and should be avoided.",
+          "Use finally when a cleanup action is not represented by an AutoCloseable resource. For files and streams, prefer try-with-resources: it closes resources in reverse declaration order and preserves close failures as suppressed exceptions when the body has already failed."
+        ]
+      },
+      {
+        "title": "Files and resource ownership",
+        "paragraphs": [
+          "Scanner applies the same token model to files. A file-backed scanner owns an operating-system resource and belongs in try-with-resources.",
+          "Standard input is shared by the process. Closing a scanner wrapping System.in also closes System.in, so the application should decide which component owns that scanner."
+        ]
+      },
+      {
+        "title": "File input combines token rules with ownership",
+        "paragraphs": [
+          "A file-backed Scanner uses the same token and line operations as keyboard input. Choose whether each record is a token, a full line or several fields. hasNextInt() alone stops at the first non-integer token, so a robust importer must deliberately reject or skip malformed content rather than silently treating it as end of file.",
+          "The file path is resolved from the process working directory unless an absolute path is supplied. try-with-resources owns and closes the file scanner. That ownership differs from a shared Scanner around System.in. Error messages should identify the input record or path without discarding the original cause."
+        ]
+      },
+      {
+        "title": "Multiprogramming, multitasking, and multithreading",
+        "paragraphs": [
+          "Multiprogramming keeps several programs available so that the processor can switch when one cannot continue. Multitasking describes the broader experience of multiple tasks making progress through scheduling. Multithreading applies concurrent execution paths within one process.",
+          "A process has its own resource boundary. Threads in that process share objects and class state but have separate call stacks. This distinction explains both the efficiency of communication through shared objects and the need to coordinate access to mutable state."
+        ]
+      },
+      {
+        "title": "A task describes work; a thread executes it",
+        "paragraphs": [
+          "A Runnable supplies a run() method describing work. A Thread manages an execution path. Extending Thread also works, but implementing Runnable keeps the task reusable and avoids consuming the class’s single superclass slot. The next lesson will coordinate several threads safely.",
+          "Calling start() schedules a new thread that will invoke run(). Calling run() directly is an ordinary method call on the current thread. A Thread instance can be started only once. Output order between independent threads is not a dependable indication of program correctness."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "flow",
+        "title": "Failure and cleanup travel together",
+        "items": [
+          {
+            "label": "Read a record",
+            "detail": "Scanner supplies text"
+          },
+          {
+            "label": "Validate",
+            "detail": "Accept or throw a domain exception"
+          },
+          {
+            "label": "Handle",
+            "detail": "Caller chooses recovery"
+          },
+          {
+            "label": "Close",
+            "detail": "Owned file resource is released"
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Sequential call versus thread start",
+        "columns": [
+          "Expression",
+          "Where run() executes",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "task.run()",
+            "Current thread",
+            "Ordinary method call"
+          ],
+          [
+            "worker.run()",
+            "Current thread",
+            "Does not start a new thread"
+          ],
+          [
+            "worker.start()",
+            "New thread",
+            "Schedules one execution"
+          ],
+          [
+            "worker.join()",
+            "Calling thread waits",
+            "Wait for worker completion"
+          ]
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "DomainExceptionDemo",
+        "title": "Declare a checked failure and handle it",
+        "code": "public class DomainExceptionDemo {\n    static class InvalidScoreException extends Exception {\n        private static final long serialVersionUID = 1L;\n        InvalidScoreException(String message) { super(message); }\n    }\n    static int validate(int score) throws InvalidScoreException {\n        if (score < 0 || score > 100) {\n            throw new InvalidScoreException(\"Score outside 0..100: \" + score);\n        }\n        return score;\n    }\n    public static void main(String[] args) {\n        try {\n            System.out.println(validate(120));\n        } catch (InvalidScoreException e) {\n            System.out.println(e.getMessage());\n        } finally {\n            System.out.println(\"Validation finished\");\n        }\n    }\n}\n",
+        "output": "Score outside 0..100: 120\nValidation finished",
+        "explain": [
+          "throw raises one exception; throws advertises the method’s checked failure.",
+          "finally runs after the handled failure, but does not replace it with a return value."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "FileScannerDemo",
+        "title": "Read all tokens without hiding malformed data",
+        "code": "import java.io.IOException;\nimport java.nio.file.Path;\nimport java.util.Scanner;\npublic class FileScannerDemo {\n    public static void main(String[] args) {\n        int total = 0;\n        try (Scanner input = new Scanner(Path.of(\"scores.txt\"))) {\n            while (input.hasNext()) {\n                if (input.hasNextInt()) total += input.nextInt();\n                else System.out.println(\"Skipped: \" + input.next());\n            }\n            System.out.println(\"Total: \" + total);\n        } catch (IOException e) {\n            System.err.println(\"Cannot read scores.txt: \" + e.getMessage());\n        }\n    }\n}\n",
+        "output": "Skipped: bad\nTotal: 170",
+        "explain": [
+          "The loop checks for any remaining token, then chooses integer conversion or explicit rejection.",
+          "The scanner closes automatically when the try exits, including exceptional exits."
+        ],
+        "stdin": "",
+        "files": {
+          "scores.txt": "80 bad 90\n"
+        },
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "FirstThreadDemo",
+        "title": "The same task can run on different threads",
+        "code": "public class FirstThreadDemo {\n    static class Task implements Runnable {\n        @Override public void run() {\n            System.out.println(\"Running on \" + Thread.currentThread().getName());\n        }\n    }\n    static class NamedThread extends Thread {\n        NamedThread() { super(\"subclass-worker\"); }\n        @Override public void run() { System.out.println(\"Thread subclass ran\"); }\n    }\n    public static void main(String[] args) throws InterruptedException {\n        Task task = new Task();\n        task.run();\n        Thread worker = new Thread(task, \"worker\");\n        worker.start();\n        worker.join();\n        Thread second = new NamedThread();\n        second.start();\n        second.join();\n    }\n}\n",
+        "output": "Running on main\nRunning on worker\nThread subclass ran",
+        "explain": [
+          "The first call is sequential; start() creates the separate execution path.",
+          "join() makes this demonstration’s output order repeatable; lifecycle and coordination come next."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 8
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "title": "Thread Lifecycle, Synchronization & Coordination",
+    "subtitle": "Make shared-state rules explicit and use one monitor to enforce them.",
+    "goals": [
+      "Explain thread states and completion",
+      "Handle interruption cooperatively",
+      "Protect an entire shared invariant",
+      "Use condition loops for wait/notifyAll"
+    ],
+    "sections": [
+      {
+        "title": "Lifecycle and scheduling",
+        "paragraphs": [
+          "A Thread begins in NEW, becomes RUNNABLE after start(), may enter BLOCKED, WAITING, or TIMED_WAITING, and ends in TERMINATED. RUNNABLE includes both ready-to-run and currently-running states from the JVM's perspective.",
+          "Scheduling order is not guaranteed. Priority and yield are hints, not correctness mechanisms. sleep pauses the current thread until the requested duration elapses unless it is interrupted; scheduling may delay the actual resumption. The method does not release intrinsic locks already held."
+        ],
+        "note": "If a program is correct only when one thread happens to run first, the program is not correctly synchronized."
+      },
+      {
+        "title": "Completion, interruption, and daemon threads",
+        "paragraphs": [
+          "join() waits for another thread to terminate and establishes visibility of its completed work. Interruption is a cooperative cancellation request. Blocking methods often respond by throwing InterruptedException; code should stop, propagate the exception, or restore the interrupted status rather than silently swallowing it.",
+          "A daemon thread does not keep the JVM alive after all user threads finish. Set daemon status before start(). Daemons are suitable for background assistance, not for work whose final write or cleanup must be guaranteed."
+        ]
+      },
+      {
+        "title": "Start workers together; wait for all results",
+        "paragraphs": [
+          "A group of workers can be stored in a Thread array before collections have been introduced. Start every worker in one loop, then join every worker in a second loop. Joining immediately after each start would serialize those tasks and prevent the intended overlap.",
+          "A ThreadGroup can associate named platform threads for organizational purposes, but it does not make shared data safe or replace explicit completion. Priority and yield are scheduling hints, not ordering rules. Never use a guessed sleep duration as proof that another task has completed."
+        ]
+      },
+      {
+        "title": "Race conditions and critical sections",
+        "paragraphs": [
+          "An operation such as value++ is a read-modify-write sequence rather than one indivisible action. Two threads can read the same old value and lose one update.",
+          "The critical section is the complete region that reads or changes a shared invariant. Protecting only one statement is insufficient when the rule spans a check followed by an update."
+        ]
+      },
+      {
+        "title": "One monitor must protect one protocol",
+        "paragraphs": [
+          "synchronized acquires an object's intrinsic monitor. Only code using the same monitor participates in the same mutual-exclusion rule. Locking different objects does not protect shared state.",
+          "An ATM check-and-withdraw sequence is one transaction. If checking and withdrawal are synchronized separately, another customer may enter between them. The monitor must cover the complete transaction."
+        ],
+        "note": "State the invariant in one sentence, then verify that every read and write participating in it uses the same lock."
+      },
+      {
+        "title": "wait, notify, and condition loops",
+        "paragraphs": [
+          "wait() releases the current object's monitor and suspends the thread. notify() wakes one waiter; notifyAll() wakes all waiters competing for that monitor. These methods must be called while owning the same monitor.",
+          "A waiter tests its condition in a while loop because it may wake spuriously or another thread may consume the condition before the waiter reacquires the monitor."
+        ]
+      },
+      {
+        "title": "Producer-consumer communication",
+        "paragraphs": [
+          "A producer waits while the shared slot is full, publishes one value, changes the condition, and signals waiters. A consumer waits while the slot is empty, reads the value, changes the condition, and signals again.",
+          "Both methods synchronize on the same shared object. Finite production counts and joins make the demonstration repeatable and prevent worker threads from running forever."
+        ],
+        "note": "Despite the older name inter-process communication in some examples, shared-object wait/notify here coordinates threads inside one process."
+      },
+      {
+        "title": "One-to-many coordination",
+        "paragraphs": [
+          "A teacher-and-students example has one writer and several readers. The writer cannot replace the current note until every registered reader has consumed it. Each reader decrements the remaining-reader count and the final reader signals the writer.",
+          "The number of readers must be established safely before publication begins. A condition loop protects both early arrival and later wake-up."
+        ],
+        "note": "notifyAll is appropriate when several distinct waiters may need to re-check their own conditions."
+      },
+      {
+        "title": "Keep critical sections deliberate",
+        "paragraphs": [
+          "Holding a monitor during sleep or slow input/output prevents other threads using that monitor from progressing. A short delay may make classroom serialization visible, but production critical sections should contain only the work needed to preserve the invariant.",
+          "Higher-level tools such as BlockingQueue, locks, latches, and executors often express common protocols more safely. Understanding monitors remains essential because those tools solve the same coordination problems at a stronger abstraction level."
+        ]
+      },
+      {
+        "title": "Interrupt is a request, not a forced kill",
+        "paragraphs": [
+          "A thread blocked in sleep(), join() or wait() may receive InterruptedException. It should stop, propagate the exception, or restore the interrupted status if it cannot complete the cancellation decision itself. An empty catch loses the cancellation request.",
+          "When a loop does CPU work rather than calling interruptible blocking methods, it can periodically inspect the interrupted status. Do not rely on daemon threads to finish important writes: the JVM may terminate once no non-daemon threads remain."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Coordination methods are not interchangeable",
+        "columns": [
+          "Operation",
+          "What it means",
+          "Monitor effect",
+          "Common purpose"
+        ],
+        "rows": [
+          [
+            "sleep(duration)",
+            "Pause the current thread until time elapses or interruption occurs",
+            "Does not release locks already held",
+            "Delay or backoff"
+          ],
+          [
+            "join()",
+            "Wait for another thread to terminate",
+            "No intrinsic monitor protocol required",
+            "Defined completion"
+          ],
+          [
+            "interrupt()",
+            "Request cooperative interruption",
+            "Does not force termination",
+            "Cancellation or wake-up"
+          ],
+          [
+            "yield()",
+            "Hint that the scheduler may run another thread",
+            "Does not release locks",
+            "Rarely useful for correctness"
+          ]
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Protect a shared invariant from start to finish",
+        "items": [
+          {
+            "label": "Identify shared state",
+            "detail": "Which object can several threads reach?"
+          },
+          {
+            "label": "State the invariant",
+            "detail": "What must never become inconsistent?"
+          },
+          {
+            "label": "Choose one monitor",
+            "detail": "Every participant uses the same lock"
+          },
+          {
+            "label": "Protect the transaction",
+            "detail": "Check and update remain together"
+          },
+          {
+            "label": "Signal and complete",
+            "detail": "Wake waiters and join workers"
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Monitor coordination operations",
+        "columns": [
+          "Operation",
+          "Precondition",
+          "Monitor effect",
+          "Purpose"
+        ],
+        "rows": [
+          [
+            "synchronized",
+            "Enter through the selected object or method",
+            "Acquires and later releases the monitor",
+            "Mutual exclusion and visibility"
+          ],
+          [
+            "wait()",
+            "Current thread owns that object's monitor",
+            "Releases it while waiting",
+            "Pause until a condition may have changed"
+          ],
+          [
+            "notify()",
+            "Current thread owns that object's monitor",
+            "One waiter becomes eligible",
+            "Signal one compatible waiter"
+          ],
+          [
+            "notifyAll()",
+            "Current thread owns that object's monitor",
+            "All waiters become eligible",
+            "Let different waiters re-check conditions"
+          ]
+        ],
+        "note": "A waiter always re-tests its condition in a while loop after waking."
+      },
+      {
+        "kind": "tree",
+        "title": "Thread states are branches, not a fixed checklist",
+        "root": "NEW → start() → RUNNABLE",
+        "branches": [
+          {
+            "label": "BLOCKED",
+            "detail": "Waiting to acquire an intrinsic monitor",
+            "children": [
+              "Lock acquired → RUNNABLE"
+            ]
+          },
+          {
+            "label": "WAITING / TIMED_WAITING",
+            "detail": "wait, join, sleep or another waiting operation",
+            "children": [
+              "Signal, completion, timeout or interruption → resume when eligible"
+            ]
+          },
+          {
+            "label": "TERMINATED",
+            "detail": "run() returns or ends with an uncaught failure",
+            "children": [
+              "The same Thread cannot be started again"
+            ]
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "CounterDemo",
+        "title": "One monitor protects every update",
+        "code": "public class CounterDemo {\n    static class Counter {\n        private int value;\n        synchronized void increment() { value++; }\n        synchronized int value() { return value; }\n    }\n    static class Task implements Runnable {\n        private final Counter counter;\n        Task(Counter counter) { this.counter = counter; }\n        @Override public void run() {\n            for (int i = 0; i < 10000; i++) counter.increment();\n        }\n    }\n    public static void main(String[] args) throws InterruptedException {\n        Counter counter = new Counter();\n        ThreadGroup group = new ThreadGroup(\"counters\");\n        Thread[] workers = new Thread[4];\n        for (int i = 0; i < workers.length; i++) {\n            workers[i] = new Thread(group, new Task(counter), \"worker-\" + i);\n        }\n        for (Thread worker : workers) worker.start();\n        for (Thread worker : workers) worker.join();\n        System.out.println(counter.value());\n    }\n}\n",
+        "output": "40000",
+        "explain": [
+          "All tasks share one Counter, so every synchronized method locks the same object.",
+          "ThreadGroup names an organizational group; synchronization supplies safety and join supplies completion.",
+          "Without synchronization, lost updates are possible but not guaranteed on every run."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 5
+      },
+      {
+        "name": "SlotDemo",
+        "title": "A finite producer-consumer protocol",
+        "code": "public class SlotDemo {\n    static class Slot {\n        private int value;\n        private boolean full;\n        synchronized void put(int next) throws InterruptedException {\n            while (full) wait();\n            value = next;\n            full = true;\n            notifyAll();\n        }\n        synchronized int take() throws InterruptedException {\n            while (!full) wait();\n            int result = value;\n            full = false;\n            notifyAll();\n            return result;\n        }\n    }\n    public static void main(String[] args) throws InterruptedException {\n        Slot slot = new Slot();\n        Thread producer = new Thread(new Runnable() {\n            public void run() {\n                try { for (int i = 1; i <= 3; i++) slot.put(i); }\n                catch (InterruptedException e) { Thread.currentThread().interrupt(); }\n            }\n        });\n        Thread consumer = new Thread(new Runnable() {\n            public void run() {\n                try { for (int i = 1; i <= 3; i++) System.out.println(slot.take()); }\n                catch (InterruptedException e) { Thread.currentThread().interrupt(); }\n            }\n        });\n        producer.start(); consumer.start();\n        producer.join(); consumer.join();\n    }\n}\n",
+        "output": "1\n2\n3",
+        "explain": [
+          "wait() releases the Slot monitor; returning from wait requires reacquiring it.",
+          "The while loops recheck the condition after every wake-up. notifyAll() signals a change but does not hand over the lock immediately.",
+          "This finite demonstration assumes both tasks complete normally. Coordinated cancellation requires a shared close/cancel protocol so that a partner cannot remain waiting."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 7
+      },
+      {
+        "name": "InterruptDemo",
+        "title": "Cancellation remains visible",
+        "code": "public class InterruptDemo {\n    static class Sleeper implements Runnable {\n        @Override public void run() {\n            try {\n                Thread.sleep(10000);\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n                System.out.println(\"Cancellation acknowledged\");\n            }\n        }\n    }\n    public static void main(String[] args) throws InterruptedException {\n        Thread worker = new Thread(new Sleeper());\n        worker.start();\n        worker.interrupt();\n        worker.join();\n        System.out.println(\"Terminated: \" + !worker.isAlive());\n    }\n}\n",
+        "output": "Cancellation acknowledged\nTerminated: true",
+        "explain": [
+          "An interrupt requested before sleep is reached is still noticed by the interruptible operation.",
+          "The catch restores status and the task finishes; the main thread waits for that completion."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 10
+      }
+    ]
+  },
+  {
+    "number": 8,
+    "title": "Reflection, Annotations & Lambda Expressions",
+    "subtitle": "Inspect runtime type information, attach metadata, and pass behavior through an interface.",
+    "goals": [
+      "Inspect and invoke a known public method",
+      "Read runtime annotations",
+      "Give a lambda a functional-interface target",
+      "Use capture and method-reference forms"
+    ],
+    "sections": [
+      {
+        "title": "Class objects are runtime type descriptions",
+        "paragraphs": [
+          "Every loaded type has a Class object. It can be obtained with MyType.class, object.getClass(), or Class.forName(). Class<?> means a class object for some unknown type; Class<T> preserves the relationship to a known T.",
+          "getDeclaredFields() and getDeclaredMethods() return members declared directly by the class, regardless of visibility. getMethods() returns public methods including inherited methods. Code must not depend on the order of these returned arrays."
+        ]
+      },
+      {
+        "title": "Built-in annotations communicate intent",
+        "paragraphs": [
+          "@Override asks the compiler to verify that a method actually overrides or implements an inherited declaration. @Deprecated marks an API that callers should avoid and may provide migration guidance. @SuppressWarnings narrows a deliberate compiler-warning suppression to a selected declaration.",
+          "@FunctionalInterface verifies that an interface remains a valid lambda target. @SafeVarargs may suppress specific heap-pollution warnings only on eligible final, static, private, or constructor declarations whose variable-argument handling is genuinely safe. These annotations are checked or interpreted by tools; they do not replace the language rules they describe."
+        ],
+        "note": "Use the narrowest annotation scope and do not suppress a warning until its cause is understood."
+      },
+      {
+        "title": "Annotations are metadata, not behavior",
+        "paragraphs": [
+          "An annotation type is declared with @interface. Its elements look like parameterless methods and may have default values. Applying an annotation records metadata; nothing happens unless the compiler, a tool, or runtime code reads and acts on it.",
+          "@Target limits where the annotation may appear. @Retention chooses whether it exists only in source, in the class file, or at runtime. Reflection can read only annotations retained at runtime."
+        ]
+      },
+      {
+        "title": "Discovering and invoking marked methods",
+        "paragraphs": [
+          "A framework-like program can scan methods, request a particular annotation, validate its values, and invoke the method. Reflective invocation wraps a failure thrown by the target method, so production code must unwrap and report the underlying cause carefully."
+        ]
+      },
+      {
+        "title": "Trade-offs and boundaries",
+        "paragraphs": [
+          "Reflection reduces direct coupling and supports extensible tools, but names and signatures may fail only at runtime. Private-access overrides weaken encapsulation and may be restricted by Java modules. Reflective code is also harder to navigate and test.",
+          "Prefer normal interfaces, constructors, and method calls for application logic. Use reflection at infrastructure boundaries where dynamic discovery provides clear value, then validate early and convert failures into meaningful domain errors."
+        ]
+      },
+      {
+        "title": "Reflection shifts some checks to runtime",
+        "paragraphs": [
+          "A direct call such as service.greet() is checked by the compiler against a known type. Looking up getMethod(\"greet\") depends on a string and can fail at runtime if the name or parameter signature is wrong. Method.invoke may also wrap an exception thrown by the invoked method.",
+          "The cost and optimizations of reflection depend on the operation and runtime. Do not assume one fixed slowdown factor. Prefer a normal interface for routine application behavior; use reflection where runtime discovery is the purpose. Access checks and module boundaries still apply."
+        ]
+      },
+      {
+        "title": "A functional interface gives behavior a type",
+        "paragraphs": [
+          "A functional interface has one abstract operation after inherited method rules are taken into account. Default and static methods do not add abstract operations; public methods matching Object methods do not create an extra functional obligation. @FunctionalInterface asks the compiler to verify the contract.",
+          "A lambda supplies the implementation of that operation. Its target interface determines parameter types and result type. It is not a free-standing unnamed method that can be assigned to any arbitrary type. The first demonstrations use custom interfaces so the syntax can be understood before generic library interfaces."
+        ]
+      },
+      {
+        "title": "Parameters, capture, and method references",
+        "paragraphs": [
+          "Parameter types may be inferred, parentheses may be omitted for one inferred parameter, and braces may be omitted for one expression. A lambda may capture instance fields and local variables that are final or effectively final. This restriction gives the captured local value stable meaning even after the method returns.",
+          "A method reference is a concise lambda when an existing method already has the required shape. Common forms are Class::staticMethod, object::instanceMethod, Class::instanceMethod, and Class::new."
+        ],
+        "note": "Conciseness is useful only while intent remains obvious. Keep a named lambda when its domain meaning matters."
+      },
+      {
+        "title": "Expression body or block body",
+        "paragraphs": [
+          "An expression lambda returns the expression value when its target requires a result: x -> x * 2. A block lambda uses braces; a value-returning block must explicitly return along every normal result path. A void-compatible callback can perform an action without returning a value.",
+          "The lambda uses the enclosing this rather than introducing the anonymous class’s separate this. Captured local variables cannot be reassigned after initialization if that would make them no longer effectively final. An object referenced by such a variable may still be mutable; capture does not make the object immutable or thread-safe."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Common built-in annotations",
+        "columns": [
+          "Annotation",
+          "What it communicates",
+          "Who checks or uses it"
+        ],
+        "rows": [
+          [
+            "@Override",
+            "This method must override or implement an inherited declaration",
+            "Compiler"
+          ],
+          [
+            "@Deprecated",
+            "Callers should migrate away from this API",
+            "Compiler, IDE, documentation tools"
+          ],
+          [
+            "@SuppressWarnings",
+            "A named warning is deliberately suppressed in this scope",
+            "Compiler"
+          ],
+          [
+            "@FunctionalInterface",
+            "The interface must remain a valid lambda target",
+            "Compiler"
+          ],
+          [
+            "@SafeVarargs",
+            "Eligible varargs code does not perform unsafe operations on its parameter",
+            "Compiler and readers"
+          ]
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Annotation retention determines when metadata is available",
+        "columns": [
+          "Retention",
+          "In source",
+          "In .class file",
+          "Available to reflection",
+          "Typical use"
+        ],
+        "rows": [
+          [
+            "SOURCE",
+            "Yes",
+            "No",
+            "No",
+            "Compiler or source-analysis hints"
+          ],
+          [
+            "CLASS",
+            "Yes",
+            "Yes",
+            "No",
+            "Bytecode tooling"
+          ],
+          [
+            "RUNTIME",
+            "Yes",
+            "Yes",
+            "Yes",
+            "Framework discovery and runtime validation"
+          ]
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Reflection should follow an explicit decision path",
+        "items": [
+          {
+            "label": "Obtain Class<?> object",
+            "detail": "Type literal, object, or class name"
+          },
+          {
+            "label": "Inspect narrowly",
+            "detail": "Select only needed members"
+          },
+          {
+            "label": "Read metadata",
+            "detail": "Check annotation and retention"
+          },
+          {
+            "label": "Validate",
+            "detail": "Types, accessibility, and arguments"
+          },
+          {
+            "label": "Act deliberately",
+            "detail": "Invoke or construct only when justified"
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Read method references by their shape",
+        "columns": [
+          "Form",
+          "Example",
+          "Equivalent intent"
+        ],
+        "rows": [
+          [
+            "Static method",
+            "Integer::parseInt",
+            "text -> Integer.parseInt(text)"
+          ],
+          [
+            "Bound instance",
+            "printer::print",
+            "text -> printer.print(text)"
+          ],
+          [
+            "Unbound instance",
+            "String::length",
+            "text -> text.length()"
+          ],
+          [
+            "Constructor",
+            "StringBuilder::new",
+            "() -> new StringBuilder()"
+          ]
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "ReflectionDemo",
+        "title": "Read metadata and invoke a named method",
+        "code": "import java.lang.annotation.*;\nimport java.lang.reflect.Method;\npublic class ReflectionDemo {\n    @Retention(RetentionPolicy.RUNTIME)\n    @Target(ElementType.METHOD)\n    @interface Topic { String value(); }\n    public static class Service {\n        @Topic(\"greeting\")\n        public String greet() { return \"Hello\"; }\n    }\n    public static void main(String[] args) throws ReflectiveOperationException {\n        Class<Service> type = Service.class;\n        Method method = type.getMethod(\"greet\");\n        Topic topic = method.getAnnotation(Topic.class);\n        System.out.println(topic.value());\n        System.out.println(method.invoke(new Service()));\n    }\n}\n",
+        "output": "greeting\nHello",
+        "explain": [
+          "RUNTIME retention keeps the annotation available to getAnnotation().",
+          "The annotation contributes data; the reflection code explicitly chooses to invoke the method.",
+          "Class<Service> preserves type information; a full treatment of generic type parameters follows in lesson 9."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "LambdaDemo",
+        "title": "Replace boilerplate with a target-typed lambda",
+        "code": "public class LambdaDemo {\n    @FunctionalInterface interface IntOperation { int apply(int value); }\n    static int evaluate(int value, IntOperation operation) {\n        return operation.apply(value);\n    }\n    public static void main(String[] args) {\n        int factor = 3;\n        IntOperation multiply = value -> value * factor;\n        IntOperation absolute = Math::abs;\n        System.out.println(evaluate(7, multiply));\n        System.out.println(evaluate(-4, absolute));\n    }\n}\n",
+        "output": "21\n4",
+        "explain": [
+          "factor is effectively final and is captured by multiply.",
+          "Math::abs matches int -> int here because IntOperation supplies the target signature."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 8
+      },
+      {
+        "name": "MethodReferenceDemo",
+        "title": "Bound, unbound and constructor references",
+        "code": "public class MethodReferenceDemo {\n    interface TextLength { int apply(String text); }\n    interface Message { void send(String text); }\n    interface BuilderFactory { StringBuilder create(); }\n    public static void main(String[] args) {\n        TextLength length = String::length;\n        Message print = System.out::println;\n        BuilderFactory factory = StringBuilder::new;\n        print.send(\"Length: \" + length.apply(\"Java\"));\n        System.out.println(factory.create().append(\"Ready\"));\n    }\n}\n",
+        "output": "Length: 4\nReady",
+        "explain": [
+          "String::length receives the String instance as its lambda argument.",
+          "System.out::println binds one existing output object; StringBuilder::new creates a new object on each call."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 9
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "title": "Generics & the Collection Landscape",
+    "subtitle": "Carry type information through reusable code before choosing a container.",
+    "goals": [
+      "Declare generic classes and methods",
+      "Explain bounds, invariance and wildcards",
+      "Recognize erasure and its restrictions",
+      "Distinguish Collection interfaces from implementations"
+    ],
+    "sections": [
+      {
+        "title": "Generic classes and methods",
+        "paragraphs": [
+          "A type parameter is a placeholder chosen when the generic type is used. Box<String> and Box<Integer> share one implementation but expose different compile-time APIs. The diamond operator asks the compiler to infer constructor type arguments.",
+          "A generic method declares its own type parameter before its return type. Its type parameter is independent of any type parameter declared by the surrounding class."
+        ]
+      },
+      {
+        "title": "Invariance and bounded type parameters",
+        "paragraphs": [
+          "Even though Integer extends Number, List<Integer> is not a subtype of List<Number>. If it were, a caller could add a Double to a list that promises to contain only Integer values. Generic types are therefore invariant by default.",
+          "A bounded parameter such as <T extends Number> restricts acceptable types and makes Number operations available inside the implementation. Multiple bounds are written with one class bound first, followed by interface bounds."
+        ]
+      },
+      {
+        "title": "Type parameters belong to declarations",
+        "paragraphs": [
+          "A class-level T is available throughout the instance API of Box<T>. A static method cannot refer to that instance type parameter unless it declares an independent parameter of its own. A generic method places <T> before its return type, for example static <T> T echo(T value).",
+          "Use descriptive type names when they improve clarity, such as Key and Value. Generic type arguments must be reference types; use Integer rather than int. Autoboxing can convert primitive values at API boundaries, but unboxing a null wrapper throws NullPointerException."
+        ]
+      },
+      {
+        "title": "Wildcards and PECS",
+        "paragraphs": [
+          "A wildcard describes a family of parameterized types. List<? extends Number> may refer to a list of Integer, Double, or another Number subtype. It is safe to read values as Number, but unsafe to add a specific number. List<? super Integer> accepts Integer values, but values read from it are known only as Object.",
+          "The mnemonic PECS means producer extends, consumer super. Use extends when an argument produces T values for the method; use super when the method consumes or inserts T values."
+        ]
+      },
+      {
+        "title": "Type erasure and restrictions",
+        "paragraphs": [
+          "Java implements most generics through type erasure. Type arguments guide compilation but are usually not reified as distinct runtime classes. Consequently, code cannot directly create new T(), new T[], test instanceof List<String>, or use primitives such as List<int>.",
+          "Raw types such as List bypass generic checking for compatibility with older Java code. They should not be used in new code because they move errors from compilation to runtime."
+        ]
+      },
+      {
+        "title": "Generic inheritance preserves its declared type",
+        "paragraphs": [
+          "A generic class or interface can be extended or implemented just like a non-generic type. ArrayList<E> implements List<E>, and List<E> extends Collection<E>; the same E is carried through the relationship. A specialized subclass may either keep a parameter open or fix it to one concrete type.",
+          "This does not make Box<Integer> a subtype of Box<Number>. Those are two parameterizations of the same generic class and remain invariant. When an API needs a family of related parameterizations, bounded wildcards express that relationship."
+        ]
+      },
+      {
+        "title": "Erasure does not mean all type information disappears",
+        "paragraphs": [
+          "A type parameter generally erases to Object or its leftmost bound. The compiler inserts casts where necessary and may generate bridge methods so overriding continues to work after erasure. Different parameterizations such as Box<String> and Box<Integer> ordinarily share one runtime class.",
+          "Generic signatures may still be recorded as metadata and inspected through reflection. Erasure means that an individual object does not generally carry a reified list element type that can enforce instanceof List<String>. Two overloads whose signatures become identical after erasure are illegal. A static field belongs to the erased class, not separately to each type argument."
+        ]
+      },
+      {
+        "title": "Collections organize groups of values",
+        "paragraphs": [
+          "A collection framework separates contracts from storage strategies. List promises sequence and positional access; Set promises no duplicates under its equality rule; Queue describes processing order. Map associates keys with values and is part of the framework, but does not extend Collection.",
+          "Declare a variable using the smallest interface that expresses the operations needed. List<String> names the contract while new ArrayList<>() selects storage. Generics preserve the element type through add, get and iteration, reducing casts and catching mismatched values at compilation."
+        ]
+      },
+      {
+        "title": "Choose by required behavior before performance",
+        "paragraphs": [
+          "Ask whether duplicates are allowed, whether positions matter, whether keys identify values, and whether processing order is required. Then choose an implementation. A linked structure is not automatically faster merely because insertion is mentioned: locating an insertion point also costs time.",
+          "The next lessons study operations and implementation trade-offs in detail. For now, read List<E> extends Collection<E> extends Iterable<E> as a type relationship that carries the same element parameter forward. This is interface inheritance, separate from invariance between List<Integer> and List<Number>."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "compare",
+        "title": "Subtype relationships do not automatically transfer to generic types",
+        "items": [
+          {
+            "kicker": "Valid subtype",
+            "title": "Integer → Number",
+            "body": "An Integer is a Number, so a Number variable may refer to an Integer object.",
+            "points": [
+              "Number n = Integer.valueOf(3);",
+              "Ordinary subtype substitution"
+            ]
+          },
+          {
+            "kicker": "Invariant generic",
+            "title": "List<Integer> ↛ List<Number>",
+            "body": "If this assignment were allowed, code could insert a Double into a list that promises to contain only Integer values.",
+            "points": [
+              "Use List<? extends Number> to read numbers",
+              "Use List<? super Integer> to add integers"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "PECS: select a wildcard by data direction",
+        "columns": [
+          "Parameter type",
+          "Role",
+          "Safe operation",
+          "Main limitation"
+        ],
+        "rows": [
+          [
+            "List<? extends Number>",
+            "Producer",
+            "Read values as Number",
+            "Cannot safely add a Number"
+          ],
+          [
+            "List<? super Integer>",
+            "Consumer",
+            "Add Integer values",
+            "Reads only as Object"
+          ],
+          [
+            "List<T>",
+            "Exact type relationship",
+            "Read and write T",
+            "Caller and method must agree on T"
+          ]
+        ]
+      },
+      {
+        "kind": "tree",
+        "title": "Choose the contract before the implementation",
+        "root": "Data requirement",
+        "branches": [
+          {
+            "label": "List",
+            "detail": "Ordered positions; duplicates allowed",
+            "children": [
+              "ArrayList",
+              "LinkedList"
+            ]
+          },
+          {
+            "label": "Set",
+            "detail": "Unique elements",
+            "children": [
+              "HashSet"
+            ]
+          },
+          {
+            "label": "Queue / Deque",
+            "detail": "Staged removal or both ends",
+            "children": [
+              "ArrayDeque",
+              "PriorityQueue"
+            ]
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "GenericDemo",
+        "title": "A generic class and an independent generic method",
+        "code": "public class GenericDemo {\n    static class Box<T> {\n        private final T value;\n        Box(T value) { this.value = value; }\n        T get() { return value; }\n    }\n    static <T> T echo(T value) { return value; }\n    static <T extends Number> double twice(T value) {\n        return value.doubleValue() * 2;\n    }\n    public static void main(String[] args) {\n        Box<String> text = new Box<>(\"Java\");\n        System.out.println(text.get().toUpperCase());\n        System.out.println(echo(42));\n        System.out.println(twice(3));\n        System.out.println(text.getClass() == new Box<Integer>(1).getClass());\n    }\n}\n",
+        "output": "JAVA\n42\n6.0\ntrue",
+        "explain": [
+          "The diamond lets the compiler infer the constructor’s type argument.",
+          "The bound makes doubleValue() available without a cast.",
+          "The final comparison illustrates one runtime class for both parameterizations."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "WildcardDemo",
+        "title": "Read from a producer and write to a consumer",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\npublic class WildcardDemo {\n    static double sum(List<? extends Number> values) {\n        double total = 0;\n        for (Number value : values) total += value.doubleValue();\n        return total;\n    }\n    static void addDefaults(List<? super Integer> values) {\n        values.add(0); values.add(1);\n    }\n    public static void main(String[] args) {\n        List<Integer> ints = new ArrayList<>();\n        ints.add(10); ints.add(20);\n        List<Number> numbers = new ArrayList<>();\n        addDefaults(numbers);\n        System.out.println(sum(ints));\n        System.out.println(numbers);\n    }\n}\n",
+        "output": "30.0\n[0, 1]",
+        "explain": [
+          "The sum method accepts both integer and other numeric lists without adding to them.",
+          "A consumer of Integer may be a List<Integer>, List<Number> or List<Object>.",
+          "The unknown exact producer type prevents adding a specific non-null number safely; null is the limited exception."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 4
+      },
+      {
+        "name": "GenericInheritanceDemo",
+        "title": "Carry a parameter through an interface",
+        "code": "public class GenericInheritanceDemo {\n    interface Repository<T> { void save(T value); T load(); }\n    static class MemoryRepository<T> implements Repository<T> {\n        private T value;\n        public void save(T value) { this.value = value; }\n        public T load() { return value; }\n    }\n    static class TextRepository extends MemoryRepository<String> { }\n    public static void main(String[] args) {\n        Repository<String> repository = new TextRepository();\n        repository.save(\"Typed storage\");\n        System.out.println(repository.load());\n    }\n}\n",
+        "output": "Typed storage",
+        "explain": [
+          "MemoryRepository forwards T; TextRepository fixes it to String.",
+          "The interface still controls the public contract. This one-value example does not yet implement a multi-record database."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "title": "Lists, Iterators & Queues",
+    "subtitle": "Manipulate ordered data and make traversal rules explicit.",
+    "goals": [
+      "Use Collection and List operations",
+      "Choose ArrayList or LinkedList deliberately",
+      "Traverse and remove through an Iterator",
+      "Distinguish FIFO queues, deques and priority queues"
+    ],
+    "sections": [
+      {
+        "title": "Collection defines common operations",
+        "paragraphs": [
+          "Collection<E> defines operations such as add, remove, contains, size, isEmpty and clear. Bulk operations include addAll, removeAll and retainAll. These are contracts: some implementations do not support every mutation, and optional operations may throw UnsupportedOperationException.",
+          "contains and remove(Object) use equality rather than reference identity. List adds positional access, permits duplicate values and defines equality in terms of the same elements in the same order. Set is a different contract and does not gain indexed get simply because it is a collection."
+        ]
+      },
+      {
+        "title": "ArrayList is a resizable array",
+        "paragraphs": [
+          "ArrayList stores references in an internal array and resizes that storage as needed. get(index) gives constant-time indexed access. Appending is amortized constant time, while inserting or removing near the beginning requires shifting later elements. Size is the number of stored elements; capacity is an internal storage allocation.",
+          "remove(1) on a List<Integer> removes the element at index 1. remove(Integer.valueOf(1)) removes the first equal value. This is an important overload distinction. Index bounds run from zero through size - 1 for reading existing elements."
+        ]
+      },
+      {
+        "title": "LinkedList trades indexing for links",
+        "paragraphs": [
+          "LinkedList stores elements in linked nodes and also implements Deque. Indexed get must traverse nodes, so repeated get(i) inside a large loop can perform much more work than expected. Use an iterator or enhanced for loop for sequential traversal.",
+          "Insertion through a positioned list iterator and operations at the ends can update links efficiently. Finding a value or index still takes time. The choice between ArrayList and LinkedList must include access patterns and memory overhead, not just the word “insertion”."
+        ]
+      },
+      {
+        "title": "Iteration and safe modification",
+        "paragraphs": [
+          "The enhanced for statement is built on Iterable and Iterator. An iterator supplies hasNext(), next(), and sometimes remove(). It separates traversal from the internal representation of the collection.",
+          "Structurally modifying most collections while an enhanced-for loop or another iterator is active causes ConcurrentModificationException. Use Iterator.remove(), removeIf(), or collect the desired result into another collection."
+        ]
+      },
+      {
+        "title": "Implementing Iterable and Iterator",
+        "paragraphs": [
+          "Iterable<T> belongs to the container. Its iterator() method creates an Iterator<T> that owns one traversal cursor. The iterator answers whether an element remains and returns the next element. Returning a fresh iterator allows two loops to traverse the same container independently.",
+          "A custom iterator should throw NoSuchElementException when next() is called after exhaustion. The enhanced for statement obtains an iterator automatically, which is why implementing Iterable makes a custom type usable in for-each."
+        ]
+      },
+      {
+        "title": "Iterable produces iterators; an iterator tracks progress",
+        "paragraphs": [
+          "Iterable<E> supplies iterator(), which returns a cursor over elements. Iterator<E> supplies hasNext() and next(), and may support remove(). An enhanced for loop over an Iterable is syntactic convenience for obtaining and using such an iterator. Arrays are also supported by enhanced for through a separate language translation.",
+          "A fresh iterator should represent an independent traversal. next() must throw NoSuchElementException when exhausted, not return an arbitrary null sentinel. Iterator.remove(), when supported, removes the last element returned by next(); it cannot be called twice without another next()."
+        ]
+      },
+      {
+        "title": "Queue and Deque describe processing order",
+        "paragraphs": [
+          "Queue offers add/remove/element methods that can throw on failure and offer/poll/peek alternatives that signal ordinary failure with a special return value. poll and peek return null for an empty queue, which is one reason implementations such as ArrayDeque forbid null elements.",
+          "Deque supports both ends. addLast and removeFirst implement a FIFO queue; push and pop use the front for a LIFO stack. ArrayDeque is a useful general starting point for stack or queue behavior when null elements and concurrent access are not required."
+        ]
+      },
+      {
+        "title": "A PriorityQueue is not a sorted list",
+        "paragraphs": [
+          "PriorityQueue chooses its head by priority, using natural order or an explicit comparator. poll repeatedly removes the smallest remaining element under that ordering. Ties need not preserve insertion order. Iterating or printing the queue does not promise sorted order.",
+          "Queue priority does not mean operating-system thread priority. One is an ordering rule for stored elements, the other is a scheduling hint. Keep the concepts separate. For sorted output from a priority queue, deliberately poll until it is empty or copy its elements and sort the copy."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "A practical collection decision table",
+        "columns": [
+          "Requirement",
+          "Good starting choice",
+          "Reason"
+        ],
+        "rows": [
+          [
+            "Indexed sequence",
+            "ArrayList",
+            "Fast random access and compact storage"
+          ],
+          [
+            "Unique membership",
+            "HashSet",
+            "Fast average contains/add/remove"
+          ],
+          [
+            "First-in, first-out work",
+            "ArrayDeque",
+            "Efficient queue operations at both ends"
+          ],
+          [
+            "Always remove the highest-priority item",
+            "PriorityQueue",
+            "Heap ordering at the head"
+          ]
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Iterator traversal is a protocol",
+        "items": [
+          {
+            "label": "iterator()",
+            "detail": "Create a cursor"
+          },
+          {
+            "label": "hasNext()",
+            "detail": "Check whether an element remains"
+          },
+          {
+            "label": "next()",
+            "detail": "Read and advance"
+          },
+          {
+            "label": "remove()",
+            "detail": "Optionally remove the returned element"
+          }
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "Queue method pairs",
+        "columns": [
+          "Operation",
+          "Exception-based",
+          "Special-value form"
+        ],
+        "rows": [
+          [
+            "Insert",
+            "add(e)",
+            "offer(e): false on capacity failure"
+          ],
+          [
+            "Read head",
+            "element()",
+            "peek(): null if empty"
+          ],
+          [
+            "Remove head",
+            "remove()",
+            "poll(): null if empty"
+          ]
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "ListDemo",
+        "title": "Distinguish index removal from value removal",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\npublic class ListDemo {\n    public static void main(String[] args) {\n        List<Integer> values = new ArrayList<>();\n        values.add(1); values.add(2); values.add(1);\n        values.remove(1);\n        System.out.println(values);\n        values.remove(Integer.valueOf(1));\n        System.out.println(values);\n        values.set(0, 9);\n        System.out.println(values.get(0));\n    }\n}\n",
+        "output": "[1, 1]\n[1]\n9",
+        "explain": [
+          "The first removal selects remove(int index), deleting 2.",
+          "Wrapping the argument as Integer selects remove(Object), deleting one matching value."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2
+      },
+      {
+        "name": "IteratorDemo",
+        "title": "Remove through the active iterator",
+        "code": "import java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.List;\npublic class IteratorDemo {\n    public static void main(String[] args) {\n        List<Integer> scores = new ArrayList<>();\n        scores.add(40); scores.add(80); scores.add(55);\n        Iterator<Integer> iterator = scores.iterator();\n        while (iterator.hasNext()) {\n            int score = iterator.next();\n            if (score < 50) iterator.remove();\n        }\n        System.out.println(scores);\n    }\n}\n",
+        "output": "[80, 55]",
+        "explain": [
+          "Removal is performed by the cursor currently traversing the collection.",
+          "Calling scores.remove(...) during this traversal could invalidate the iterator. Fail-fast detection is best effort, not a concurrency safety mechanism."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 4
+      },
+      {
+        "name": "IterableDemo",
+        "title": "Build a small independent cursor",
+        "code": "import java.util.Iterator;\nimport java.util.NoSuchElementException;\npublic class IterableDemo {\n    static class Range implements Iterable<Integer> {\n        private final int end;\n        Range(int end) { this.end = end; }\n        public Iterator<Integer> iterator() {\n            return new Iterator<Integer>() {\n                private int next = 0;\n                public boolean hasNext() { return next < end; }\n                public Integer next() {\n                    if (!hasNext()) throw new NoSuchElementException();\n                    return next++;\n                }\n            };\n        }\n    }\n    public static void main(String[] args) {\n        for (int value : new Range(3)) System.out.println(value);\n    }\n}\n",
+        "output": "0\n1\n2",
+        "explain": [
+          "iterator() constructs a new cursor each time, so traversals do not share a position.",
+          "The enhanced for loop uses the Iterable contract; it does not require a List."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 6
+      },
+      {
+        "name": "QueueDemo",
+        "title": "FIFO, LIFO and priority order",
+        "code": "import java.util.ArrayDeque;\nimport java.util.Deque;\nimport java.util.PriorityQueue;\nimport java.util.Queue;\npublic class QueueDemo {\n    public static void main(String[] args) {\n        Deque<String> tasks = new ArrayDeque<>();\n        tasks.addLast(\"first\"); tasks.addLast(\"second\");\n        System.out.println(tasks.removeFirst());\n        tasks.push(\"urgent\");\n        System.out.println(tasks.pop());\n        Queue<Integer> priority = new PriorityQueue<>();\n        priority.offer(30); priority.offer(10); priority.offer(20);\n        while (!priority.isEmpty()) System.out.println(priority.poll());\n    }\n}\n",
+        "output": "first\nurgent\n10\n20\n30",
+        "explain": [
+          "addLast/removeFirst uses opposite ends for FIFO; push/pop uses the same end for LIFO.",
+          "Repeated poll follows priority order; the queue iterator makes no such promise."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 8
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Sets, Maps & Natural Ordering",
+    "subtitle": "Define identity, choose an order, and index data by a stable key.",
+    "goals": [
+      "Keep equals and hashCode consistent",
+      "Compare HashSet, LinkedHashSet and TreeSet",
+      "Implement Comparable correctly",
+      "Choose a Map contract and traverse its entries"
+    ],
+    "sections": [
+      {
+        "title": "Hashing narrows the search; equality confirms it",
+        "paragraphs": [
+          "A hash-based collection uses hashCode() to choose a candidate region, then equals() to determine whether the key or element matches. A collision occurs when different objects share a hash value; collisions are legal. Equal objects must have equal hash codes, but equal hash codes do not prove equality.",
+          "For a custom Student, decide what defines identity. If ID defines equality, both equals() and hashCode() must use that rule. Do not mutate equality-relevant fields while an object is stored in a hash set or used as a map key. The bucket selected during insertion may no longer match the new hash."
+        ]
+      },
+      {
+        "title": "Three Set implementations, three ordering promises",
+        "paragraphs": [
+          "HashSet rejects duplicates using equality and offers no iteration-order guarantee. LinkedHashSet also uses equality but preserves insertion order. TreeSet uses comparison to maintain order, and regards elements that compare as zero as equivalent for set membership.",
+          "A TreeSet of students ordered only by score may retain just one of two different students sharing that score. Add a tie-breaker when those students must both be stored. Keep natural ordering consistent with equals where possible so the sorted set also satisfies ordinary Set expectations."
+        ]
+      },
+      {
+        "title": "Comparable defines the type’s natural order",
+        "paragraphs": [
+          "Comparable<T> declares compareTo(T other). Return a negative value when this comes before other, zero when they are equivalent in ordering, and a positive value when this comes after other. The magnitude is unimportant. The ordering must be transitive and its sign must reverse when arguments are swapped.",
+          "Use Integer.compare or an appropriate comparison method instead of subtracting integers, because subtraction can overflow. A natural order belongs to the type. Alternate caller-selected orders will be expressed with Comparator in the next lesson."
+        ]
+      },
+      {
+        "title": "Map contracts and traversal",
+        "paragraphs": [
+          "Map associates unique keys with values but does not extend Collection. HashMap provides no iteration-order guarantee. TreeMap sorts keys. LinkedHashMap preserves insertion order by default.",
+          "When both key and value are required, traverse entrySet() so each association is represented directly."
+        ]
+      },
+      {
+        "title": "Insertion order, access order, and bounded caches",
+        "paragraphs": [
+          "LinkedHashMap's three-argument constructor can enable access order, where successful access moves an entry toward the end. Combining access order with removeEldestEntry supports a bounded least-recently-used policy.",
+          "Without accessOrder=true, the same removal hook evicts according to insertion order instead. The constructor choice is therefore part of the data structure's behavior."
+        ],
+        "note": "Do not infer an ordering contract from one printed HashMap result; only documented contracts are portable."
+      },
+      {
+        "title": "Map keys are unique; values need not be",
+        "paragraphs": [
+          "put(key, value) inserts an association or replaces the value for an equal key. get(key) returns the associated value or null if none is mapped; in maps permitting null values, containsKey distinguishes absence from a present null mapping. remove(key) deletes the association.",
+          "keySet(), values() and entrySet() are backed views, not independent snapshots. Removing through a supported view removes the corresponding mapping. Traverse entrySet when both key and value are needed. A Map is not directly Iterable, but its views are collections that can be traversed."
+        ]
+      },
+      {
+        "title": "Choose lookup and order independently",
+        "paragraphs": [
+          "HashMap provides no iteration-order guarantee. LinkedHashMap preserves insertion order by default and can optionally maintain access order. TreeMap stores keys in comparison order and supports sorted-range operations. Null handling differs between implementations; do not assume that all Map implementations accept a null key.",
+          "Expected constant-time hash lookup assumes a suitable hash distribution. TreeMap operations such as get and put are logarithmic in entry count. These performance models help choose a starting point; actual workload and memory behavior still matter."
+        ]
+      },
+      {
+        "title": "An access-ordered map can express a bounded cache",
+        "paragraphs": [
+          "In access-order mode, successful access operations update encounter order. Overriding removeEldestEntry can evict the eldest entry when insertion grows the map beyond a limit. With insertion order instead, the policy evicts the oldest insertion rather than the least recently accessed entry.",
+          "This is a small local cache demonstration, not a complete concurrent cache design. Ordinary LinkedHashMap operations are not automatically thread-safe. Keep the cache’s ordering policy separate from the equality rule used to find keys."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Choose an ordering or map contract explicitly",
+        "columns": [
+          "Requirement",
+          "Good starting choice",
+          "Contract"
+        ],
+        "rows": [
+          [
+            "Unique values in sorted order",
+            "TreeSet",
+            "Maintains comparison order"
+          ],
+          [
+            "Fast key lookup without order",
+            "HashMap",
+            "No iteration-order guarantee"
+          ],
+          [
+            "Keys remain sorted",
+            "TreeMap",
+            "Maintains key comparison order"
+          ],
+          [
+            "Insertion order is preserved",
+            "LinkedHashMap / LinkedHashSet",
+            "Predictable encounter order"
+          ],
+          [
+            "Recent access affects order",
+            "LinkedHashMap in access-order mode",
+            "Supports LRU-like policies"
+          ]
+        ]
+      },
+      {
+        "kind": "compare",
+        "title": "Natural order and alternate order",
+        "items": [
+          {
+            "kicker": "Inside the type",
+            "title": "Comparable<T>",
+            "body": "Defines one natural order through compareTo.",
+            "points": [
+              "Used by default sorting",
+              "One primary order per type",
+              "Must be transitive"
+            ]
+          },
+          {
+            "kicker": "Outside the type",
+            "title": "Comparator<T>",
+            "body": "Defines an alternate or composed order for a particular use.",
+            "points": [
+              "Many orders are possible",
+              "Can chain tie-breakers",
+              "Passed to sort or ordered structures"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Hash lookup uses two different tests",
+        "items": [
+          {
+            "label": "Key object",
+            "detail": "A stable identity rule"
+          },
+          {
+            "label": "hashCode()",
+            "detail": "Find candidate bucket"
+          },
+          {
+            "label": "equals()",
+            "detail": "Confirm the matching key"
+          },
+          {
+            "label": "Result",
+            "detail": "Read or replace its value"
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "SetDemo",
+        "title": "Make logical equality agree with hashing",
+        "code": "import java.util.HashSet;\nimport java.util.Set;\npublic class SetDemo {\n    static class Student {\n        private final int id;\n        private final String name;\n        Student(int id, String name) { this.id = id; this.name = name; }\n        @Override public boolean equals(Object other) {\n            if (this == other) return true;\n            if (!(other instanceof Student)) return false;\n            Student student = (Student) other;\n            return id == student.id;\n        }\n        @Override public int hashCode() { return Integer.hashCode(id); }\n    }\n    public static void main(String[] args) {\n        Set<Student> students = new HashSet<>();\n        System.out.println(students.add(new Student(7, \"Ada\")));\n        System.out.println(students.add(new Student(7, \"Ada updated\")));\n        System.out.println(students.size());\n    }\n}\n",
+        "output": "true\nfalse\n1",
+        "explain": [
+          "This model defines identity only by ID, so a different name does not create a new set element.",
+          "The final ID cannot change after insertion. For extensible equality models, also consider inheritance and symmetry."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 1
+      },
+      {
+        "name": "NaturalOrderDemo",
+        "title": "Keep TreeSet ordering and equality aligned",
+        "code": "import java.util.Set;\nimport java.util.TreeSet;\npublic class NaturalOrderDemo {\n    static final class Ticket implements Comparable<Ticket> {\n        private final int number;\n        Ticket(int number) { this.number = number; }\n        public int compareTo(Ticket other) { return Integer.compare(number, other.number); }\n        @Override public boolean equals(Object other) {\n            return other instanceof Ticket && number == ((Ticket) other).number;\n        }\n        @Override public int hashCode() { return Integer.hashCode(number); }\n        @Override public String toString() { return \"T\" + number; }\n    }\n    public static void main(String[] args) {\n        Set<Ticket> tickets = new TreeSet<>();\n        tickets.add(new Ticket(3)); tickets.add(new Ticket(1));\n        tickets.add(new Ticket(3));\n        System.out.println(tickets);\n    }\n}\n",
+        "output": "[T1, T3]",
+        "explain": [
+          "compareTo returns zero for the same ticket number, matching equals.",
+          "TreeSet orders on insertion, so a separate sort call is unnecessary."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "MapDemo",
+        "title": "Insertion order and key order answer different questions",
+        "code": "import java.util.LinkedHashMap;\nimport java.util.Map;\nimport java.util.TreeMap;\npublic class MapDemo {\n    public static void main(String[] args) {\n        Map<Integer, String> insertion = new LinkedHashMap<>();\n        insertion.put(3, \"Grace\"); insertion.put(1, \"Ada\");\n        insertion.put(3, \"Grace Hopper\");\n        System.out.println(insertion);\n        Map<Integer, String> sorted = new TreeMap<>(insertion);\n        for (Map.Entry<Integer, String> entry : sorted.entrySet()) {\n            System.out.println(entry.getKey() + \" -> \" + entry.getValue());\n        }\n    }\n}\n",
+        "output": "{3=Grace Hopper, 1=Ada}\n1 -> Ada\n3 -> Grace Hopper",
+        "explain": [
+          "Replacing key 3 updates its value without adding a second key.",
+          "TreeMap gives the same associations a different iteration order by sorting keys."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 7
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Sorting, Functional Interfaces & Streams",
+    "subtitle": "Express a data transformation as a clear sequence with an explicit result.",
+    "goals": [
+      "Compose natural and alternate sorting rules",
+      "Use four standard functional interfaces",
+      "Build and explain a lazy stream pipeline",
+      "Choose terminal operations and avoid shared side effects"
+    ],
+    "sections": [
+      {
+        "title": "Specialized and legacy utilities",
+        "paragraphs": [
+          "Properties stores String keys and values and supports configuration load/store formats. BitSet represents non-negative indexes as compact bits and supplies logical set operations.",
+          "Hashtable and Enumeration are legacy APIs. StringTokenizer is also a legacy tokenizer. Existing programs may require them, but new designs normally choose HashMap or ConcurrentHashMap, collection views or Iterator, and split, Scanner, or a deliberate parser according to the problem."
+        ],
+        "note": "Recognizing a legacy API does not make it invalid; it means compatibility rather than modern design is usually the reason to retain it."
+      },
+      {
+        "title": "Arrays and Collections are utility classes",
+        "paragraphs": [
+          "Arrays contains static helpers for arrays, including sorting, searching, copying and comparison. Collections contains static algorithms and wrappers for collection objects. Collection is the element-container interface; Collections is a different plural-named utility class.",
+          "Arrays.sort changes an array in place. Collections.sort(list) and list.sort(comparator) change a mutable list in place. Binary search requires data sorted under the same ordering used by the search. Arrays.asList returns a fixed-size list backed by its array; new ArrayList<>(...) creates a resizable copy."
+        ]
+      },
+      {
+        "title": "Comparator supplies an external ordering strategy",
+        "paragraphs": [
+          "Comparator<T> declares compare(left, right), allowing a caller to choose an order without changing the element class. Comparator.comparingInt and comparing extract a sort key; reversed reverses an order and thenComparing resolves ties. Comparable defines one natural order; Comparator can express many alternatives.",
+          "Apply reversed at the intended level. comparingInt(score).reversed().thenComparing(name) sorts by descending score and ascending name. Reversing the entire composed comparator would reverse both rules. A tie-breaker makes output deterministic when primary values match."
+        ]
+      },
+      {
+        "title": "Functional interfaces give lambdas a type",
+        "paragraphs": [
+          "A lambda is not an untyped block of code. Its target type must be a functional interface with exactly one abstract method. The interface determines the parameter types, return type, and allowed checked exceptions. Default and static interface methods do not count against the single-abstract-method rule."
+        ]
+      },
+      {
+        "title": "Four interfaces represent four common shapes",
+        "paragraphs": [
+          "Predicate<T> takes T and returns boolean through test. Consumer<T> accepts T and performs an action through accept, returning no value. Function<T,R> transforms T to R through apply. Supplier<T> takes no argument and produces T through get. These shapes describe the contract independently of a lambda’s variable names.",
+          "Predicates combine with and, or and negate. Functions compose with andThen or compose, whose execution orders differ. A Supplier can delay an expensive fallback until it is required. Creating a lambda usually does not perform the action; calling its interface method does."
+        ]
+      },
+      {
+        "title": "A stream is a pipeline, not a container",
+        "paragraphs": [
+          "A stream does not store elements. It connects a source to zero or more intermediate operations and one terminal operation. filter, map, distinct, and sorted are intermediate; collect, reduce, count, forEach, and findFirst are terminal.",
+          "Intermediate operations are lazy. They perform no traversal until a terminal operation requests a result. This allows the implementation to combine operations and stop early for short-circuiting terminals."
+        ]
+      },
+      {
+        "title": "Intermediate operations describe a new stream",
+        "paragraphs": [
+          "filter keeps elements matching a predicate. map transforms each element. flatMap flattens a stream of streams. distinct removes duplicates according to equality; sorted orders elements; limit bounds the result. These operations return streams rather than immediately producing a final container.",
+          "A pipeline usually pulls each element through the necessary operations instead of completing a full separate traversal for every stage. Stateful operations such as sorted may need to buffer data. A terminal operation can short-circuit: anyMatch may stop at the first match, but sorting before it can still require consuming all input."
+        ]
+      },
+      {
+        "title": "Choose the terminal result deliberately",
+        "paragraphs": [
+          "count produces a number; anyMatch and allMatch produce booleans; findFirst produces an Optional because no result may exist. collect accumulates results, and reduce combines values with an operation such as addition. For numeric data, mapToInt followed by sum or average avoids repeatedly boxing primitive values.",
+          "Stream.toList() produces an unmodifiable list in the Java 21 examples. If later mutation is required, collect with Collectors.toCollection(ArrayList::new). Do not assume Collectors.toList() guarantees a specific mutable implementation. Optional.orElseGet uses a Supplier only when the result is absent."
+        ]
+      },
+      {
+        "title": "Purity, reuse, and parallelism",
+        "paragraphs": [
+          "A stream is single-use; after a terminal operation, create a new stream for another traversal. Intermediate operations should avoid shared side effects because they make reasoning difficult and may break under parallel execution.",
+          "parallelStream() is not an automatic speed switch. Parallel work has coordination costs and requires associative operations, sufficient data, suitable tasks, and measurement. Begin with a correct sequential pipeline and optimize only from evidence."
+        ]
+      },
+      {
+        "title": "Performance follows the work, not the syntax",
+        "paragraphs": [
+          "A sequential stream can be clear without being faster than a loop. Parallel pipelines need enough independent work to outweigh splitting and coordination. Reduction operations must be associative and have suitable identity values. Side effects on an ordinary shared ArrayList are unsafe in a parallel forEach.",
+          "Prefer a collector that manages the reduction rather than external mutation. Encounter order and execution order are different: parallel forEach does not promise encounter-order output, while forEachOrdered preserves it where defined. Measure a representative workload before choosing parallel execution."
+        ]
+      },
+      {
+        "title": "Build a report from explicit stages",
+        "paragraphs": [
+          "Start with typed records in a list, filter the records that belong in the report, sort with a visible comparator, map each record to the requested representation, and collect the result. Each stage should answer one question that can be stated in a sentence.",
+          "Keep storage, validation and presentation separate. A stream reads from the collection; it does not automatically validate domain rules or persist records. The final demonstration uses ordinary classes, a Map index and Stream reporting to connect the concepts from previous lessons without adding a new framework."
+        ]
+      }
+    ],
+    "visuals": [
+      {
+        "kind": "table",
+        "title": "Special-purpose APIs in the code examples",
+        "columns": [
+          "API",
+          "Purpose",
+          "Modern design note"
+        ],
+        "rows": [
+          [
+            "Properties",
+            "String-based configuration keys and values",
+            "Useful when its load/store formats match the requirement"
+          ],
+          [
+            "BitSet",
+            "Compact indexed boolean flags and bitwise set operations",
+            "Not a general replacement for Set<Integer>"
+          ],
+          [
+            "LinkedHashMap",
+            "Predictable insertion order or optional access order",
+            "Access-order mode is required for LRU-like eviction"
+          ],
+          [
+            "Hashtable",
+            "Legacy synchronized key-value structure",
+            "Prefer HashMap or ConcurrentHashMap for new designs"
+          ],
+          [
+            "StringTokenizer",
+            "Legacy delimiter-based tokenization",
+            "Prefer split, Scanner, or a deliberate parser in most new code"
+          ]
+        ]
+      },
+      {
+        "kind": "table",
+        "title": "The four built-in functional interfaces to recognize immediately",
+        "columns": [
+          "Interface",
+          "Input",
+          "Output",
+          "Abstract method",
+          "Question it answers"
+        ],
+        "rows": [
+          [
+            "Predicate<T>",
+            "T",
+            "boolean",
+            "test",
+            "Does this value qualify?"
+          ],
+          [
+            "Function<T,R>",
+            "T",
+            "R",
+            "apply",
+            "What does this value become?"
+          ],
+          [
+            "Consumer<T>",
+            "T",
+            "void",
+            "accept",
+            "What action should use this value?"
+          ],
+          [
+            "Supplier<T>",
+            "none",
+            "T",
+            "get",
+            "How can a value be produced?"
+          ]
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Read a stream pipeline from left to right",
+        "items": [
+          {
+            "label": "Source",
+            "detail": "students.stream()"
+          },
+          {
+            "label": "Filter",
+            "detail": "Keep matching elements"
+          },
+          {
+            "label": "Map",
+            "detail": "Transform each element"
+          },
+          {
+            "label": "Sort or limit",
+            "detail": "Refine the encounter sequence"
+          },
+          {
+            "label": "Terminal operation",
+            "detail": "Collect, reduce, count, or find"
+          }
+        ]
+      },
+      {
+        "kind": "flow",
+        "title": "Trace one reporting pipeline",
+        "items": [
+          {
+            "label": "Source",
+            "detail": "85, 42, 90, 68"
+          },
+          {
+            "label": "filter ≥ 60",
+            "detail": "85, 90, 68"
+          },
+          {
+            "label": "sorted",
+            "detail": "68, 85, 90"
+          },
+          {
+            "label": "map to label",
+            "detail": "Pass: 68, Pass: 85, Pass: 90"
+          },
+          {
+            "label": "toList",
+            "detail": "An unmodifiable result list"
+          }
+        ]
+      }
+    ],
+    "demos": [
+      {
+        "name": "SortingDemo",
+        "title": "Compose an order without changing the class",
+        "code": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport java.util.List;\npublic class SortingDemo {\n    static class Student {\n        private final String name;\n        private final int score;\n        Student(String name, int score) { this.name = name; this.score = score; }\n        String name() { return name; }\n        int score() { return score; }\n        @Override public String toString() { return name + \":\" + score; }\n    }\n    public static void main(String[] args) {\n        int[] numbers = {3, 1, 2};\n        Arrays.sort(numbers);\n        System.out.println(Arrays.toString(numbers));\n        List<String> names = new ArrayList<>(Arrays.asList(\"Grace\", \"Ada\"));\n        Collections.sort(names);\n        System.out.println(names);\n        List<Student> students = new ArrayList<>();\n        students.add(new Student(\"Grace\", 90));\n        students.add(new Student(\"Ada\", 90));\n        students.add(new Student(\"Linus\", 80));\n        students.sort(Comparator.comparingInt(Student::score).reversed()\n                                .thenComparing(Student::name));\n        System.out.println(students);\n    }\n}\n",
+        "output": "[1, 2, 3]\n[Ada, Grace]\n[Ada:90, Grace:90, Linus:80]",
+        "explain": [
+          "Arrays.sort handles the array; Collections.sort uses String natural ordering for the list.",
+          "Student has no Comparable requirement here because the caller provides an explicit Comparator."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3
+      },
+      {
+        "name": "FunctionsDemo",
+        "title": "Test, transform, act and supply",
+        "code": "import java.util.function.Consumer;\nimport java.util.function.Function;\nimport java.util.function.Predicate;\nimport java.util.function.Supplier;\npublic class FunctionsDemo {\n    public static void main(String[] args) {\n        Predicate<String> nonBlank = text -> !text.isBlank();\n        Function<String, String> normalize = text -> text.trim().toUpperCase(java.util.Locale.ROOT);\n        Consumer<String> display = System.out::println;\n        Supplier<String> fallback = () -> \"UNKNOWN\";\n        String value = \" Ada \";\n        display.accept(nonBlank.test(value) ? normalize.apply(value) : fallback.get());\n        display.accept(fallback.get());\n    }\n}\n",
+        "output": "ADA\nUNKNOWN",
+        "explain": [
+          "Each variable names behavior with one of the four standard input/output shapes.",
+          "The first fallback is not evaluated because the predicate accepts the supplied value."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 5
+      },
+      {
+        "name": "StreamDemo",
+        "title": "A lazy pipeline becomes a result",
+        "code": "import java.util.ArrayList;\nimport java.util.List;\nimport java.util.stream.Collectors;\nimport java.util.stream.Stream;\npublic class StreamDemo {\n    public static void main(String[] args) {\n        List<Integer> scores = List.of(85, 42, 90, 68);\n        Stream<Integer> passing = scores.stream().filter(score -> {\n            System.out.println(\"Testing \" + score);\n            return score >= 60;\n        });\n        System.out.println(\"Pipeline created\");\n        List<Integer> result = passing.sorted().toList();\n        System.out.println(result);\n        int total = scores.stream().mapToInt(Integer::intValue).sum();\n        System.out.println(\"Total: \" + total);\n        List<String> labels = scores.stream().filter(score -> score >= 60)\n            .sorted().map(score -> \"Pass: \" + score)\n            .collect(Collectors.toCollection(ArrayList::new));\n        labels.add(\"Report complete\");\n        System.out.println(labels);\n    }\n}\n",
+        "output": "Pipeline created\nTesting 85\nTesting 42\nTesting 90\nTesting 68\n[68, 85, 90]\nTotal: 285\n[Pass: 68, Pass: 85, Pass: 90, Report complete]",
+        "explain": [
+          "The diagnostic prints occur only after the terminal toList() starts traversal. Logging inside filter is for this trace only, not a reliable production side-effect protocol.",
+          "passing is consumed once; each later calculation starts a fresh stream.",
+          "The first result is unmodifiable; the labels collector explicitly requests a mutable ArrayList."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 10
+      },
+      {
+        "name": "ReportDemo",
+        "title": "Connect a Map index with a Stream report",
+        "code": "import java.util.Comparator;\nimport java.util.LinkedHashMap;\nimport java.util.List;\nimport java.util.Map;\npublic class ReportDemo {\n    static class Student {\n        private final String name;\n        private final int score;\n        Student(String name, int score) { this.name = name; this.score = score; }\n        String name() { return name; }\n        int score() { return score; }\n    }\n    public static void main(String[] args) {\n        Map<Integer, Student> byId = new LinkedHashMap<>();\n        byId.put(1, new Student(\"Ada\", 92));\n        byId.put(2, new Student(\"Grace\", 85));\n        byId.put(3, new Student(\"Linus\", 45));\n        List<String> report = byId.values().stream()\n            .filter(student -> student.score() >= 60)\n            .sorted(Comparator.comparingInt(Student::score).reversed())\n            .map(student -> student.name() + \" = \" + student.score())\n            .toList();\n        report.forEach(System.out::println);\n        String first = report.stream().findFirst().orElseGet(() -> \"No passing students\");\n        System.out.println(\"Top: \" + first);\n        int sum = byId.values().stream().map(Student::score).reduce(0, Integer::sum);\n        System.out.println(\"Total: \" + sum);\n    }\n}\n",
+        "output": "Ada = 92\nGrace = 85\nTop: Ada = 92\nTotal: 222",
+        "explain": [
+          "The Map stores the records; the pipeline builds a separate report without changing stored scores.",
+          "A comparator sorts the objects before map transforms them into display strings.",
+          "findFirst handles an empty report with a Supplier fallback, while reduce combines scores using an associative addition operation."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 11
+      }
+    ]
+  }
+]

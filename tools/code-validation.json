@@ -1,0 +1,303 @@
+[
+  {
+    "name": "ValueAndReferenceDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true\n",
+    "error": ""
+  },
+  {
+    "name": "StringScanner",
+    "ok": true,
+    "warnings": "",
+    "output": "String sum: 30\nFile sum: 30\n",
+    "error": ""
+  },
+  {
+    "name": "KeyboardSum",
+    "ok": true,
+    "warnings": "",
+    "output": "Enter two integers:\nSum: 25\n",
+    "error": ""
+  },
+  {
+    "name": "ReadName",
+    "ok": true,
+    "warnings": "",
+    "output": "Enter a full name:\nEnter age, height, and enrolled (true/false):\nAda Lovelace | 20 | 1.65 | true\n",
+    "error": ""
+  },
+  {
+    "name": "ValidationDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20\n",
+    "error": ""
+  },
+  {
+    "name": "InputDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace\n",
+    "error": ""
+  },
+  {
+    "name": "ObjectDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "3.0\n28.27\n",
+    "error": ""
+  },
+  {
+    "name": "OverloadDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "5\n9\n",
+    "error": ""
+  },
+  {
+    "name": "EncapsulationDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "7: 92\n",
+    "error": ""
+  },
+  {
+    "name": "ObjectArrayDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "true\nAda\nGrace\n",
+    "error": ""
+  },
+  {
+    "name": "ConstructorDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Person constructor\nStudent constructor\nAda #7\n",
+    "error": ""
+  },
+  {
+    "name": "DispatchDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "woof\nsound\n",
+    "error": ""
+  },
+  {
+    "name": "BindingDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Animal overload\nDog overload\n",
+    "error": ""
+  },
+  {
+    "name": "ShapeDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Rectangle: 12.00\nCircle: 12.57\n",
+    "error": ""
+  },
+  {
+    "name": "InterfaceDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Results\n",
+    "error": ""
+  },
+  {
+    "name": "NestedDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "classroom\nno implicit outer\n",
+    "error": ""
+  },
+  {
+    "name": "CallbackDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Saved\n",
+    "error": ""
+  },
+  {
+    "name": "PackageDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Ada\n",
+    "error": ""
+  },
+  {
+    "name": "CatchDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Accepted: 12\nRejected: oops\nAccepted: 4\n",
+    "error": ""
+  },
+  {
+    "name": "PropagationDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "The input is not an integer\nFinished\n",
+    "error": ""
+  },
+  {
+    "name": "DomainExceptionDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Score outside 0..100: 120\nValidation finished\n",
+    "error": ""
+  },
+  {
+    "name": "FileScannerDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Skipped: bad\nTotal: 170\n",
+    "error": ""
+  },
+  {
+    "name": "FirstThreadDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Running on main\nRunning on worker\nThread subclass ran\n",
+    "error": ""
+  },
+  {
+    "name": "CounterDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "40000\n",
+    "error": ""
+  },
+  {
+    "name": "SlotDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "1\n2\n3\n",
+    "error": ""
+  },
+  {
+    "name": "InterruptDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Cancellation acknowledged\nTerminated: true\n",
+    "error": ""
+  },
+  {
+    "name": "ReflectionDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "greeting\nHello\n",
+    "error": ""
+  },
+  {
+    "name": "LambdaDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "21\n4\n",
+    "error": ""
+  },
+  {
+    "name": "MethodReferenceDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Length: 4\nReady\n",
+    "error": ""
+  },
+  {
+    "name": "GenericDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "JAVA\n42\n6.0\ntrue\n",
+    "error": ""
+  },
+  {
+    "name": "WildcardDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "30.0\n[0, 1]\n",
+    "error": ""
+  },
+  {
+    "name": "GenericInheritanceDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Typed storage\n",
+    "error": ""
+  },
+  {
+    "name": "ListDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "[1, 1]\n[1]\n9\n",
+    "error": ""
+  },
+  {
+    "name": "IteratorDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "[80, 55]\n",
+    "error": ""
+  },
+  {
+    "name": "IterableDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "0\n1\n2\n",
+    "error": ""
+  },
+  {
+    "name": "QueueDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "first\nurgent\n10\n20\n30\n",
+    "error": ""
+  },
+  {
+    "name": "SetDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "true\nfalse\n1\n",
+    "error": ""
+  },
+  {
+    "name": "NaturalOrderDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "[T1, T3]\n",
+    "error": ""
+  },
+  {
+    "name": "MapDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "{3=Grace Hopper, 1=Ada}\n1 -> Ada\n3 -> Grace Hopper\n",
+    "error": ""
+  },
+  {
+    "name": "SortingDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "[1, 2, 3]\n[Ada, Grace]\n[Ada:90, Grace:90, Linus:80]\n",
+    "error": ""
+  },
+  {
+    "name": "FunctionsDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "ADA\nUNKNOWN\n",
+    "error": ""
+  },
+  {
+    "name": "StreamDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Pipeline created\nTesting 85\nTesting 42\nTesting 90\nTesting 68\n[68, 85, 90]\nTotal: 285\n[Pass: 68, Pass: 85, Pass: 90, Report complete]\n",
+    "error": ""
+  },
+  {
+    "name": "ReportDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Ada = 92\nGrace = 85\nTop: Ada = 92\nTotal: 222\n",
+    "error": ""
+  }
+]

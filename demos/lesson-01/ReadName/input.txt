@@ -1,0 +1,2 @@
+Ada Lovelace
+20 1.65 true
