@@ -61,11 +61,10 @@ add(1,10,table('The eight primitive data types',['Type','Value width','Range / v
  ['short','16 bits','−32,768 to 32,767','0','short s = 300;'],
  ['int','32 bits','−2,147,483,648 to 2,147,483,647','0','int age = 20;'],
  ['long','64 bits','−9,223,372,036,854,775,808 to 9,223,372,036,854,775,807','0L','long n = 3_000_000_000L;'],
+ ['char','16 bits','0 to 65,535; one unsigned UTF-16 code unit',r"'\u0000'","char grade = 'A';"],
  ['float','32 bits','Finite values ≈ −3.4028235 × 10^38 to +3.4028235 × 10^38; smallest positive nonzero ≈ 1.4 × 10^-45','0.0F','float f = 3.5F;'],
  ['double','64 bits','Finite values ≈ −1.7976931348623157 × 10^308 to +1.7976931348623157 × 10^308; smallest positive nonzero ≈ 4.9 × 10^-324','0.0D','double d = 3.5;'],
- ['char','16 bits','0 to 65,535; one unsigned UTF-16 code unit',r"'\u0000'","char grade = 'A';"],
  ['boolean','No language-specified storage size','true or false','false','boolean ready = true;']]))
-add(1,10,'<aside class="teaching-note"><strong>Read the table correctly</strong>Widths describe primitive value representations, not the complete memory cost of a variable or object. Floating-point values also include positive and negative zero, infinities and NaN; not every value between the bounds is representable. Reference fields and reference-array elements default to null. Local variables must be assigned before use.</aside>')
 key='type-families'
 body=box(315,15,270,80,'Java data types',[],True)+box(30,180,400,150,'Primitive types',['Integer: byte, short, int, long, char','Floating point: float, double','Logical: boolean'])+box(470,180,400,150,'Reference types',['Class: String, Scanner, Student','Interface: Runnable, List','Array: int[], String[]'])
 body+=arrow(key,420,95,230,170)+arrow(key,480,95,670,170)

@@ -62,6 +62,12 @@ def render_visual(v):
  if v.get('note'):s+='<p class="visual-note"><strong>Remember</strong>'+E(v['note'])+'</p>'
  return s+'</figure>'
 
+def paragraph_html(text, section):
+ rendered=E(text)
+ for phrase in section.get('emphasis',[]):
+  rendered=rendered.replace(E(phrase), '<strong>'+E(phrase)+'</strong>')
+ return '<p>'+rendered+'</p>'
+
 checks=[]
 def render_demo(l,d,index):
  n=l['number'];stem=f'lesson-{n:02d}/{d["name"]}';directory=ROOT/'demos'/stem;directory.mkdir(parents=True,exist_ok=True)
@@ -103,7 +109,7 @@ for l in LESSONS:
  vi=di=0
  for i,s in enumerate(l['sections']):
   sid=f'{lid}-s{i+1}'
-  parts.append(f'<article class="lesson-block" id="{sid}"><div class="lesson-number">{i+1:02d}</div><div class="lesson-copy"><h3>{E(s["title"])}</h3>'+(f'<p><strong>{E(s["lead"])}</strong></p>' if s.get('lead') else '')+''.join(f'<p>{E(p)}</p>' for p in s['paragraphs']))
+  parts.append(f'<article class="lesson-block" id="{sid}"><div class="lesson-number">{i+1:02d}</div><div class="lesson-copy"><h3>{E(s["title"])}</h3>'+(f'<p><strong>{E(s["lead"])}</strong></p>' if s.get('lead') else '')+''.join(paragraph_html(p,s) for p in s['paragraphs']))
   if s.get('html'):parts.append(s['html'])
   if s.get('note'):parts.append('<aside class="teaching-note"><strong>Remember</strong>'+E(s['note'])+'</aside>')
   parts.append('</div></article>')

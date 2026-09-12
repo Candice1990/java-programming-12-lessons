@@ -1113,3 +1113,7 @@ first['sections'][2]['paragraphs']=[
     'Java variables come in two kinds. A primitive variable holds the value itself: after int x = 10;, x stores 10. A reference variable holds a reference to an object: after String s = new String("hi");, s holds a reference to that String object — or it could hold null, meaning "no object." Think of a reference as a way to locate an object on the heap, rather than an address you can inspect or manipulate in Java.',
     'Assigning a primitive copies the value, while assigning a reference copies the reference. Two references to the same mutable object see changes made to that object through either reference. String objects are immutable, so use the array example in the next part to see shared changes.'
 ]
+
+first["sections"][2]["emphasis"] = ["A primitive variable holds the value itself", "A reference variable holds a reference to an object"]
+
+first["sections"][2]["emphasis"].append("String objects are immutable, so use the array example in the next part to see shared changes.")
