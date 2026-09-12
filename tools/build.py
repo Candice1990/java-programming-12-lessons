@@ -103,7 +103,7 @@ for l in LESSONS:
  vi=di=0
  for i,s in enumerate(l['sections']):
   sid=f'{lid}-s{i+1}'
-  parts.append(f'<article class="lesson-block" id="{sid}"><div class="lesson-number">{i+1:02d}</div><div class="lesson-copy"><h3>{E(s["title"])}</h3>'+''.join(f'<p>{E(p)}</p>' for p in s['paragraphs']))
+  parts.append(f'<article class="lesson-block" id="{sid}"><div class="lesson-number">{i+1:02d}</div><div class="lesson-copy"><h3>{E(s["title"])}</h3>'+(f'<p><strong>{E(s["lead"])}</strong></p>' if s.get('lead') else '')+''.join(f'<p>{E(p)}</p>' for p in s['paragraphs']))
   if s.get('html'):parts.append(s['html'])
   if s.get('note'):parts.append('<aside class="teaching-note"><strong>Remember</strong>'+E(s['note'])+'</aside>')
   parts.append('</div></article>')

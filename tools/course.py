@@ -1098,3 +1098,18 @@ first['demos'].sort(key=lambda d:(d['after'],d.get('subpart',0)))
 second['demos'].sort(key=lambda d:d['after'])
 
 second["sections"][0]["paragraphs"] = [p.replace("the next lesson will protect state with encapsulation", "the following sections protect state with encapsulation") for p in second["sections"][0]["paragraphs"]]
+
+# Clarify the opening explanations without expanding the five-part structure.
+first['sections'][0]['paragraphs'].insert(1,
+    'The Java Runtime Environment, or JRE, provides what a Java program needs to run: the JVM, standard libraries and supporting runtime components. The JDK includes these runtime components as well as development tools such as javac; a runtime alone does not provide that compiler.')
+for v in first['visuals']:
+    if v['title']=='From source file to running program':v['after']=1
+skeleton=first['sections'][1]
+skeleton['lead']='In the Java 21 programs in this course, methods and executable statements belong inside a class; statements such as printing or reading input go inside a method.'
+skeleton['paragraphs']=['A .java source file can contain more than one class, as well as package and import declarations outside the classes. For this first program, use one public class named First and save it as First.java. Java also has other type declarations, such as interfaces; not every source file must declare a class.']
+skeleton['html']=re.sub(r'<aside class="skeleton-args">[\s\S]*?</aside>', '''<aside class="skeleton-args"><strong>What does String[] args mean?</strong><p><code>args</code> is a list (an array) of text values supplied when you launch the program. In the terminal command below, <code>First</code> is the class to run; the words after it become the arguments.</p><p><code>java First Candice 2026</code></p><p><code>args[0]</code> is <code>"Candice"</code> and <code>args[1]</code> is <code>"2026"</code>. Array positions start at 0, and even <code>2026</code> arrives as text.</p><p>The Hello World program above never uses <code>args</code>, so those extra words do not change its output. A statement such as <code>System.out.println(args[0]);</code> would print <code>Candice</code> for this command.</p></aside>''',skeleton['html'])
+skeleton['note']='Names must match exactly: First and first are different names. Because the declaration is public class First, save the file as First.java. String and System are standard Java types in java.lang, which is available automatically; Scanner belongs to java.util, so it needs import java.util.Scanner.'
+first['sections'][2]['paragraphs']=[
+    'Java variables come in two kinds. A primitive variable holds the value itself: after int x = 10;, x stores 10. A reference variable holds a reference to an object: after String s = new String("hi");, s holds a reference to that String object — or it could hold null, meaning "no object." Think of a reference as a way to locate an object on the heap, rather than an address you can inspect or manipulate in Java.',
+    'Assigning a primitive copies the value, while assigning a reference copies the reference. Two references to the same mutable object see changes made to that object through either reference. String objects are immutable, so use the array example in the next part to see shared changes.'
+]

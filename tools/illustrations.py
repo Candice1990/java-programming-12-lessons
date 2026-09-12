@@ -17,7 +17,6 @@ def table(title,columns,rows):
 
 platform=json.loads((Path(__file__).parent/'program-templates.json').read_text())['platform']
 add(1,1,platform)
-add(1,1,table('Know which part does what',['Part','Main responsibility','Typical example'],[['JDK','Develops and runs Java programs','Development tools (javac, javadoc, jdb) + runtime components'],['JRE','Provides the environment to run Java programs','JVM + standard libraries and supporting runtime components'],['JVM','Loads and executes Java bytecode','Class loading, interpreter / JIT, memory management and GC']]))
 
 key='class-objects'
 body=box(35,95,245,165,'Class: Circle',['radius: double','area(): double'])
@@ -79,13 +78,15 @@ for y,label in [(153,'Student class metadata'),(191,'Constructor code'),(229,'ma
  body+=f'<text x="40" y="{y}" font-size="17" fill="#182228">{label}</text>'
 body+='<text x="40" y="348" font-size="16" fill="#59656a">Stores definitions and code,</text><text x="40" y="375" font-size="16" fill="#59656a">not each call’s local values.</text>'
 body+=box(310,30,255,385,'STACK',[],False)
-body+='<text x="330" y="98" font-size="17" fill="#59656a">One stack per thread</text><rect x="330" y="128" width="215" height="235" rx="9" fill="#fbf8f1" stroke="#b7977e"/><text x="350" y="162" font-size="20" font-weight="600" fill="#182228">main() frame</text><text x="350" y="201" font-size="17" fill="#59656a">Parameters / local values</text><rect x="348" y="222" width="177" height="44" rx="5" fill="#eee6d8"/><text x="362" y="251" font-size="19" fill="#182228">age = 20</text><rect x="348" y="283" width="177" height="44" rx="5" fill="#eee6d8"/><text x="362" y="312" font-size="19" fill="#182228">s = reference</text>'
+body+='<text x="330" y="98" font-size="17" fill="#59656a">One stack per thread</text><rect x="325" y="128" width="225" height="260" rx="9" fill="#fbf8f1" stroke="#b7977e"/><text x="340" y="162" font-size="20" font-weight="600" fill="#182228">main() frame</text><text x="340" y="193" font-size="15" fill="#59656a">Parameters / local values</text>'
+for y,label in [(213,'int age = 20;'),(265,'double price = 19.9;'),(317,'Student s = reference')]:
+ body+=f'<rect x="337" y="{y}" width="201" height="43" rx="5" fill="#eee6d8"/><text x="346" y="{y+27}" font-size="16" fill="#182228">{E(label)}</text>'
+
 body+=box(645,30,235,385,'HEAP',[],True)
 body+='<text x="665" y="98" font-size="17" fill="#bccbc7">Shared objects and arrays</text><rect x="665" y="227" width="195" height="118" rx="9" fill="#e4ebe3"/><text x="683" y="261" font-size="20" font-weight="600" fill="#182228">Student object</text><text x="683" y="298" font-size="18" fill="#182228">score = 0</text><text x="683" y="324" font-size="16" fill="#59656a">instance field</text>'
-body+=arrow(key,526,305,655,286)
+body+=arrow(key,538,339,655,286)
 body+='<text x="592" y="266" text-anchor="middle" fill="#9b4d2b" font-size="15">points to</text>'
 add(1,11,frame(key,'Code, local variables and objects','Conceptual JVM model. The reference s is local, so it is shown in the stack frame. References stored in object fields or array elements belong to those heap objects.',body,440))
-add(1,11,'<div class="memory-example"><code>int age = 20;<br>Student s = new Student();</code><p><strong>Method call:</strong> creates a stack frame. <strong>new:</strong> creates an object and returns its reference. <strong>Method return:</strong> removes the frame; an object may remain alive if still reachable.</p></div>')
 
 add(1,4,table('Scanner reads different input sources',['Input source','Constructor expression','Meaning'],[
  ['Keyboard / standard input','new Scanner(System.in)','Reads the process standard input; normally the keyboard'],['File','new Scanner(new File("data.txt"))','Reads a file; requires java.io.File and checked-exception handling'],['String','new Scanner("10 20 30")','Parses characters already stored in a String'],['Network input stream','new Scanner(socket.getInputStream())','Assumes an existing connected socket; obtaining the stream can throw IOException']]))
