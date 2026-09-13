@@ -31,22 +31,18 @@ def reorganize(first, demo):
             ['BigInteger / BigDecimal','nextBigInteger() / nextBigDecimal()','Additional numeric reference types; not needed for these introductory examples.']
         ]),note='Use one shared keyboard Scanner. Closing it also closes System.in. A file Scanner owns a separate resource and should be closed.'),
         dict(title='Scanner: validate before reading', paragraphs=[
-            'Calling nextInt() directly on hello throws InputMismatchException and leaves that token unread; checking first lets the program handle it deliberately.',
-            'Validation asks whether input meets a requirement. First check whether a token can be read as the desired type: hasNextInt() before nextInt(), hasNextDouble() before nextDouble(), or hasNextBoolean() before nextBoolean(). hasNext() checks for any token; hasNextLine() checks for another line. These checks do not read past the input.',
-            'After reading a correctly typed value, check the rule for your program. For example, -2 is a valid int but an invalid age under an age >= 0 rule. Type validation and value validation answer different questions.',
-            'In the loop below, hasNext() guards against the end of input. If a token is not an int, next() reads and skips it as text. This advances the input so the next iteration can inspect a different token. The next part explains this movement in detail.'
+            'Validation means checking before you read. hasNextInt() asks: “Can the next token be read as an int?” It returns true or false, but leaves the token where it is.',
+            'If the answer is true, use nextInt() to read the integer. If it is false, show a message instead. For example, 20 is an int; hello and 3.5 are not. Calling nextInt() on hello without checking would cause InputMismatchException.'
         ]),
-        dict(title='Scanner: consume input and understand the nextLine() trap', paragraphs=[
-            'Consume means read input and advance the Scanner’s position past it. It does not necessarily mean discard: int age = input.nextInt() consumes a token and keeps its converted value. input.next() without storing the result consumes a token and discards its text.',
-            'hasNextInt() only looks ahead. nextInt() consumes a token if it can convert it to int. next() consumes any available token as a String, which makes it useful for skipping invalid numeric input. nextDouble() also consumes, but cannot skip arbitrary text such as hello because it requires a floating-point token.',
-            'Token reads and line reads stop in different places. After nextInt() reads 20 from a line containing only 20, the following line separator remains. nextLine() then reads the remainder of that current line: an empty String, and moves past the separator. It has not read the name on the next line.',
-            'When your input format puts the name on the next line, call nextLine() once to finish the number’s line, then again to read the name. That first call discards the entire line remainder, not just a newline; if the name is on the same line as the number, it would be discarded too.'
-        ],html=table('Trace the read position: 20 followed by a name on the next line',[
-            ['Input','20\\nAda Lovelace\\n','Here \\n represents a line break.'],
-            ['Read the integer','nextInt() → 20','The position is just after 20, before its line break.'],
-            ['Finish the current line','nextLine() → ""','Reads the empty remainder and passes the line break.'],
-            ['Read the name','nextLine() → "Ada Lovelace"','Reads the next line and passes its line break.']
-        ]),note='Calling nextLine() twice is not a general rule. It is needed here because we switch from a token read to a separate next-line field. A program that only reads lines does not need this extra call.')
+        dict(title='Scanner: consume input and understand the nextLine() trap', emphasis=['Consume simply means read and move past input.'], paragraphs=[
+            'Consume simply means read and move past input. hasNextInt() only checks; nextInt() reads an integer; next() reads one token as text.',
+            'For hello 20, next() can read past hello so nextInt() can reach 20. The word hello is invalid as an int, but next() can still read it as a String. Repeating a check without reading would keep checking the same hello.'
+        ],html=table('Check or read?',[
+            ['hasNextInt()','Check the next token','Does not move past it.'],
+            ['nextInt()','Read one integer token','Moves past the integer.'],
+            ['next()','Read one token as text','Moves past that token, whether it is hello or 20.'],
+            ['nextLine()','Read the rest of the current line','Moves past the line break; the returned text excludes that break.']
+        ]))
     ]
     first['sections'][3:8] = topics
     scanner_names={'KeyboardSum','ReadName','StringScanner','InputDemo'}
@@ -109,53 +105,60 @@ public class ReadName {
         'nextLine() reads the name including its space. It is the first read, so there is no leftover number line to finish.',
         'The following token methods return int, double and boolean. This example assumes valid input; validation comes next.'
     ],5,stdin='Ada Lovelace\n20 1.65 true\n')
-    add('ValidationDemo','Validate the type, then the value','''
+    add('ValidationDemo','Check first, then read','''
 import java.util.Scanner;
 public class ValidationDemo {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter an age (0 or greater):");
-        while (input.hasNext()) {
-            if (!input.hasNextInt()) {
-                String skipped = input.next();
-                System.out.println("Not an int: " + skipped);
-                continue;
-            }
-            int age = input.nextInt();
-            if (age < 0) {
-                System.out.println("Age cannot be negative: " + age);
-                continue;
-            }
-            System.out.println("Accepted age: " + age);
-            return;
+        System.out.println("Enter an integer:");
+        if (input.hasNextInt()) {
+            int number = input.nextInt();
+            System.out.println("Number: " + number);
+        } else {
+            System.out.println("That is not an integer.");
         }
-        System.out.println("No valid age supplied");
     }
 }
-''','Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20',[
-        'hasNextInt() does not advance. next() skips hello and 3.5 as text so the loop can move forward.',
-        '-2 passes the type check and is consumed by nextInt(), but fails the non-negative age rule.',
-        'continue starts another loop iteration; return ends main after the first acceptable age. A keyboard check may wait for more input.'
-    ],6,stdin='hello 3.5 -2 20\n')
-    add('InputDemo','Consume a token, then finish its line','''
+''','Enter an integer:\nNumber: 20',[
+        'Enter 20: the check returns true, so nextInt() reads 20.',
+        'Try hello instead: the check returns false, so the message is printed. This program checks once and then ends; it does not ask again.'
+    ],6,stdin='20\n')
+    add('ConsumeDemo','Check stays still; read moves forward','''
+import java.util.Scanner;
+public class ConsumeDemo {
+    public static void main(String[] args) {
+        Scanner input = new Scanner("hello 20");
+        System.out.println(input.hasNextInt()); // false: sees hello
+        System.out.println(input.hasNextInt()); // false: still sees hello
+        System.out.println(input.next());       // hello: read past it
+        System.out.println(input.nextInt());    // 20: now read the integer
+        input.close();
+    }
+}
+''','false\nfalse\nhello\n20',[
+        'Both checks see hello. Checking does not consume anything.',
+        'next() reads hello as text and moves past it; nextInt() can then read 20.',
+        'Here we print the text returned by next(). Calling input.next(); alone would read and discard it.'
+    ],7)
+    add('InputDemo','Why nextLine() can return an empty String','''
 import java.util.Scanner;
 public class InputDemo {
     public static void main(String[] args) {
-        try (Scanner input = new Scanner("20\\nAda Lovelace\\n")) {
-            System.out.println("Check 1: " + input.hasNextInt());
-            System.out.println("Check 2: " + input.hasNextInt());
-            int age = input.nextInt();
-            String remainder = input.nextLine();
-            String name = input.nextLine();
-            System.out.println("Age: " + age);
-            System.out.println("Line remainder: [" + remainder + "]");
-            System.out.println("Name: " + name);
-        }
+        Scanner input = new Scanner("20\\nAda\\n");
+        int age = input.nextInt();
+        String rest = input.nextLine();
+        String name = input.nextLine();
+        System.out.println("Age: " + age); // Age: 20
+        System.out.println("Rest: [" + rest + "]"); // Rest: []
+        System.out.println("Name: " + name); // Name: Ada
+        input.close();
     }
 }
-''','Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace',[
-        'Both checks see the same 20 because look-ahead does not consume input.',
-        'nextInt() reads 20; the first nextLine() returns an empty String shown as []. The second reads Ada Lovelace.',
-        'Using a fixed String makes the position changes repeatable. With new Scanner(System.in), the same reading sequence works when the user enters the age and name on separate lines.'
+''','Age: 20\nRest: []\nName: Ada',[
+        'nextInt() reads 20 but leaves the line break after it.',
+        'The first nextLine() finishes that line. There is no text left on it, so rest is empty: [].',
+        'The second nextLine() reads Ada from the next line.'
     ],7)
+    first['demos'][-1]['output_in_comments'] = True
+    first['demos'][-1]['before_html'] = '<div class="lesson-copy"><h3>The nextLine() trap: finish the current line first</h3><p>Suppose the age and name are on separate lines. After reading the age with nextInt(), the nextLine() call still finishes the age line; it does not jump straight to the name.</p><pre>20\nAda</pre><p>In the code below, a line break is written as <code>\\n</code> inside the Java string to represent a line break.</p><p>If you do not need the remaining text, write <code>input.nextLine();</code> before reading the name. This skips the whole line remainder, so use it only when the name belongs on the next line.</p></div>'
     first['demos'].sort(key=lambda d:d['after'])

@@ -3,7 +3,7 @@
     "directory": "demos/lesson-01/ValueAndReferenceDemo",
     "classname": "ValueAndReferenceDemo",
     "stdin": "",
-    "expected": "count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true",
+    "expected": "copy = 9\ncount = 2\nvalues[0] = 99\nsame array = true",
     "name": "ValueAndReferenceDemo"
   },
   {
@@ -30,15 +30,22 @@
   {
     "directory": "demos/lesson-01/ValidationDemo",
     "classname": "ValidationDemo",
-    "stdin": "hello 3.5 -2 20\n",
-    "expected": "Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20",
+    "stdin": "20\n",
+    "expected": "Enter an integer:\nNumber: 20",
     "name": "ValidationDemo"
+  },
+  {
+    "directory": "demos/lesson-01/ConsumeDemo",
+    "classname": "ConsumeDemo",
+    "stdin": "",
+    "expected": "false\nfalse\nhello\n20",
+    "name": "ConsumeDemo"
   },
   {
     "directory": "demos/lesson-01/InputDemo",
     "classname": "InputDemo",
     "stdin": "",
-    "expected": "Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace",
+    "expected": "Age: 20\nRest: []\nName: Ada",
     "name": "InputDemo"
   },
   {

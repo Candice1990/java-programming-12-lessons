@@ -4,7 +4,7 @@ javac ValueAndReferenceDemo.java
 java ValueAndReferenceDemo
 
 Expected output:
-count = 2
 copy = 9
+count = 2
 values[0] = 99
 same array = true

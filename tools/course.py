@@ -1011,13 +1011,13 @@ public class ValueAndReferenceDemo {
         int[] values = {10, 20};
         int[] alias = values;
         alias[0] = 99;
-        System.out.println("count = " + count);
         System.out.println("copy = " + copy);
+        System.out.println("count = " + count);
         System.out.println("values[0] = " + values[0]);
         System.out.println("same array = " + (values == alias));
     }
 }
-''','count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true',['copy receives its own primitive value. Changing it leaves count unchanged.','alias receives a copy of the array reference. Both references reach the same array, so updating alias[0] is visible through values[0].','The memory diagram shows these locals in the main frame and the single array object on the heap.']);first['demos'][-1]['after']=11
+''','copy = 9\ncount = 2\nvalues[0] = 99\nsame array = true',['copy receives its own primitive value. Changing it leaves count unchanged.','alias receives a copy of the array reference. Both references reach the same array, so updating alias[0] is visible through values[0].','The memory diagram shows these locals in the main frame and the single array object on the heap.']);first['demos'][-1]['after']=11
 first['demos'].sort(key=lambda d:d['after'])
 
 # Combine the program structure and execution explanation into one concept.

@@ -3,7 +3,7 @@
     "name": "ValueAndReferenceDemo",
     "ok": true,
     "warnings": "",
-    "output": "count = 2\ncopy = 9\nvalues[0] = 99\nsame array = true\n",
+    "output": "copy = 9\ncount = 2\nvalues[0] = 99\nsame array = true\n",
     "error": ""
   },
   {
@@ -31,14 +31,21 @@
     "name": "ValidationDemo",
     "ok": true,
     "warnings": "",
-    "output": "Enter an age (0 or greater):\nNot an int: hello\nNot an int: 3.5\nAge cannot be negative: -2\nAccepted age: 20\n",
+    "output": "Enter an integer:\nNumber: 20\n",
+    "error": ""
+  },
+  {
+    "name": "ConsumeDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "false\nfalse\nhello\n20\n",
     "error": ""
   },
   {
     "name": "InputDemo",
     "ok": true,
     "warnings": "",
-    "output": "Check 1: true\nCheck 2: true\nAge: 20\nLine remainder: []\nName: Ada Lovelace\n",
+    "output": "Age: 20\nRest: []\nName: Ada\n",
     "error": ""
   },
   {

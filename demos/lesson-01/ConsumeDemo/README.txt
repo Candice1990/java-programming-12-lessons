@@ -1,9 +1,10 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac InputDemo.java
-java InputDemo
+javac ConsumeDemo.java
+java ConsumeDemo
 
 Expected output:
-Age: 20
-Rest: []
-Name: Ada
+false
+false
+hello
+20

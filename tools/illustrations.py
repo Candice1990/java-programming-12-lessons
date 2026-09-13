@@ -73,7 +73,7 @@ add(1,10,frame(key,'Two groups of Java data types','String and arrays are refere
 key='three-memory-areas'
 body=box(20,30,265,385,'METHOD AREA',[],False)
 body+='<text x="40" y="98" font-size="17" fill="#59656a">Shared class information</text><line x1="40" y1="116" x2="265" y2="116" stroke="#c5b298"/>'
-for y,label in [(153,'Student class metadata'),(191,'Constructor code'),(229,'main() method code'),(267,'Other method code')]:
+for y,label in [(153,'Class metadata'),(191,'Constructor code'),(229,'main() method code'),(267,'Other method code')]:
  body+=f'<text x="40" y="{y}" font-size="17" fill="#182228">{label}</text>'
 body+='<text x="40" y="348" font-size="16" fill="#59656a">Stores definitions and code,</text><text x="40" y="375" font-size="16" fill="#59656a">not each call’s local values.</text>'
 body+=box(310,30,255,385,'STACK',[],False)
@@ -104,26 +104,8 @@ from course import LESSON_ONE_SECTION_POSITIONS
 EXTRAS = {(lesson, LESSON_ONE_SECTION_POSITIONS[section] if lesson == 1 else section): panels
           for (lesson, section), panels in EXTRAS.items()}
 
-# Alternative branches, not consecutive steps; both consume exactly one token.
-key='scanner-validation'
-body=box(190,15,520,95,'While input.hasNext() is true',
-         ['A token is available. Otherwise, finish the loop.'],True)
-body+=arrow(key,450,110,450,150)
-body+='<path d="M450 150 L665 230 L450 310 L235 230 Z" fill="#eee6d8" stroke="#9b4d2b" stroke-width="2"/>'
-body+='<text x="450" y="222" text-anchor="middle" fill="#182228" font-size="23" font-weight="600">input.hasNextInt()?</text><text x="450" y="250" text-anchor="middle" fill="#59656a" font-size="18">Check only — do not consume</text>'
-body+='<path d="M235 230 H215 V350 M665 230 H685 V350" fill="none" stroke="#9b4d2b" stroke-width="2.5" marker-end="url(#scanner-validation-arrow)"/>'
-body+='<text x="195" y="324" text-anchor="middle" fill="#315e48" font-size="19" font-weight="600">YES · fits int</text><text x="705" y="324" text-anchor="middle" fill="#9b4d2b" font-size="19" font-weight="600">NO · does not fit int</text>'
-body+=box(20,350,390,150,'int number = input.nextInt();',
-          ['Read and convert one token to int.', 'Example: "20" → integer 20', 'Use the integer value.'])
-body+=box(490,350,390,150,'String skipped = input.next();',
-          ['Read one token as text, then skip it.', 'Examples: "hello" or "3.5"', 'No numeric conversion is required.'])
-body=body.replace('font-size="23" font-weight="600">int number', 'font-size="19" font-weight="600">int number').replace('font-size="23" font-weight="600">String skipped', 'font-size="19" font-weight="600">String skipped')
-body+='<path d="M215 500 V540 H450 M685 500 V540 H450 V575" fill="none" stroke="#9b4d2b" stroke-width="2.5" marker-end="url(#scanner-validation-arrow)"/>'
-body+=box(190,575,520,95,'Both paths advance past one token',
-          ['Repeat: check hasNext() before the next iteration.'],True)
-SCANNER_VALIDATION=frame(key,'Check, then choose ONE reading path',
-    'Invalid means “not readable as an int”, not unreadable text. next() reads any available token as a String; nextDouble() would still fail on text such as hello. Checking alone never advances the input.',body,690)
-SCANNER_VALIDATION+='<div class="trace-grid"><div class="expected"><b>Example input</b><pre>hello 3.5 20</pre></div><div class="walkthrough"><b>Three loop iterations</b><ol><li><code>hello</code> → NO → <code>next()</code> reads and skips it.</li><li><code>3.5</code> → NO → <code>next()</code> reads and skips it.</li><li><code>20</code> → YES → <code>nextInt()</code> returns the integer 20.</li></ol><p>Consume means read and move past a token. If you only display an error, the next check sees the same token again.</p></div></div>'
+# One check, two possible outcomes; no loop is needed in the first example.
+SCANNER_VALIDATION = '<figure class="visual-card"><header><h3>Can the next token be read as an int?</h3><p><code>input.hasNextInt()</code> checks without reading.</p></header><div class="visual-compare"><section class="compare-item"><span>YES · true</span><h4>Input: 20</h4><p>Use <code>nextInt()</code> to read the integer.</p></section><section class="compare-item"><span>NO · false</span><h4>Input: hello</h4><p>Show a message. Do not call <code>nextInt()</code>.</p></section></div></figure>'
 
 # Scanner source and method tables now belong to the four-part written unit.
 from scanner_unit import SECTION_POSITIONS

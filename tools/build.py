@@ -82,7 +82,7 @@ def render_demo(l,d,index):
  if d['stdin']:cmd+=' < input.txt'
  (directory/'README.txt').write_text('Open a terminal in this demo folder. Use JDK 21 or later.\n\n'+cmd+'\n\nExpected output:\n'+d['output']+'\n')
  checks.append(dict(directory=directory.relative_to(ROOT).as_posix(),classname=classname,stdin=d['stdin'],expected=d['output'],name=d['name']))
- s=f'<article class="demo-block" id="l{n}-demo-{index}"><span class="demo-tag">Code example · Complete Java program</span><h3>{E(d["title"])}</h3>'
+ s=d.get('before_html','')+f'<article class="demo-block" id="l{n}-demo-{index}"><span class="demo-tag">Code example · Complete Java program</span><h3>{E(d["title"])}</h3>'
  for fi,(name,code) in enumerate(files.items()):
   if name=='input.txt':continue
   cid=f'code-{n}-{index}-{fi}'
@@ -91,7 +91,10 @@ def render_demo(l,d,index):
   else:s+=f'<div class="demo-input"><strong>Supporting file · {E(name)}</strong><pre>{E(code)}</pre></div>'
  if d['stdin']:s+=f'<div class="demo-input"><strong>Sample input · type these lines when running interactively</strong><pre>{E(d["stdin"])}</pre></div>'
  s+='<p class="demo-run">Run from the demo folder with JDK 21: <code>'+E(cmd).replace('\n','</code><br><code>')+'</code></p>'
- s+='<div class="trace-grid"><div class="expected"><b>Expected output</b><pre>'+E(d['output'])+'</pre></div><div class="walkthrough"><b>Read the execution</b><ol>'+''.join(f'<li>{E(t)}</li>' for t in d['explain'])+'</ol></div></div></article>'
+ s+='<div class="trace-grid"'+(' style="grid-template-columns:1fr"' if d.get('output_in_comments') else '')+'>'
+ if not d.get('output_in_comments'):
+  s+='<div class="expected"><b>Expected output</b><pre>'+E(d['output'])+'</pre></div>'
+ s+='<div class="walkthrough"><b>Read the execution</b><ol>'+''.join(f'<li>{E(t)}</li>' for t in d['explain'])+'</ol></div></div></article>'
  return s
 
 search=[]
@@ -117,7 +120,7 @@ for l in LESSONS:
   search.append(dict(id=sid,lesson=n,title=s['title'],text=' '.join(s['paragraphs'])))
   for subindex,sub in enumerate(s.get('subsections',[]),1):
    subid=f'{sid}-topic-{subindex}'
-   parts.append(f'<article class="lesson-block" id="{subid}" style="display:block"><div class="lesson-copy"><h3>{E(sub["title"])}</h3>'+''.join(f'<p>{E(p)}</p>' for p in sub['paragraphs']))
+   parts.append(f'<article class="lesson-block" id="{subid}" style="display:block"><div class="lesson-copy"><h3>{E(sub["title"])}</h3>'+''.join(paragraph_html(p,sub) for p in sub['paragraphs']))
    if sub.get('html'):parts.append(sub['html'])
    if sub.get('note'):parts.append('<aside class="teaching-note"><strong>Remember</strong>'+E(sub['note'])+'</aside>')
    parts.append('</div></article>')

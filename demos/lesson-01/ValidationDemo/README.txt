@@ -4,8 +4,5 @@ javac ValidationDemo.java
 java ValidationDemo < input.txt
 
 Expected output:
-Enter an age (0 or greater):
-Not an int: hello
-Not an int: 3.5
-Age cannot be negative: -2
-Accepted age: 20
+Enter an integer:
+Number: 20
