@@ -1,24 +1,18 @@
-class Person {
-    private final String name;
-    Person(String name) {
-        this.name = name;
-        System.out.println("Person constructor");
+class Rectangle {
+    private double length, breadth;
+    public Rectangle() { this(1, 1); }
+    public Rectangle(double side) { this(side, side); }
+    public Rectangle(double length, double breadth) {
+        this.length = Math.max(0, length);
+        this.breadth = Math.max(0, breadth);
     }
-    String name() { return name; }
+    public double area() { return length * breadth; }
 }
-
-class Student extends Person {
-    private final int id;
-    Student(String name, int id) {
-        super(name);
-        this.id = id;
-        System.out.println("Student constructor");
-    }
-    String describe() { return name() + " #" + id; }
-}
-
 public class ConstructorDemo {
     public static void main(String[] args) {
-        System.out.println(new Student("Ada", 7).describe());
+        System.out.println(new Rectangle().area());     // 1.0
+        System.out.println(new Rectangle(4).area());    // 16.0
+        System.out.println(new Rectangle(4, 3).area());  // 12.0
+        System.out.println(new Rectangle(-4, 3).area()); // 0.0
     }
 }

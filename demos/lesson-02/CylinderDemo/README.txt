@@ -1,10 +1,9 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac ConstructorDemo.java
-java ConstructorDemo
+javac CylinderDemo.java
+java CylinderDemo
 
 Expected output:
-1.0
-16.0
-12.0
-0.0
+12.57
+62.83
+37.70

@@ -265,423 +265,580 @@
   },
   {
     "number": 2,
-    "title": "Objects, Methods, Encapsulation & Inheritance",
-    "subtitle": "Protect valid state, construct complete objects, and specialize a parent type.",
+    "title": "Method Overloading & Object-Oriented Programming",
+    "subtitle": "Choose a method by its parameters, then design objects with state and useful operations.",
     "goals": [
-      "Distinguish classes, objects and references",
-      "Choose an overloaded method by its parameters",
-      "Design private state and controlled properties",
-      "Trace this() and super() constructor calls",
-      "Understand arrays of object references",
-      "Use inheritance for an is-a relationship"
+      "Write overloaded methods with different parameter lists",
+      "Explain abstraction, encapsulation, inheritance and polymorphism",
+      "Turn properties and operations into fields and methods",
+      "Control access with getters and setters",
+      "Initialize objects with overloaded constructors",
+      "Create and use an array of object references"
     ],
     "sections": [
       {
-        "title": "Class, object and reference",
+        "title": "Method Overloading",
         "paragraphs": [
-          "A class declares a type with fields for state and methods for behavior. An object is an instance created at runtime with new. A reference is a value that identifies an object; it is not the object itself. Two reference variables can point to the same object, so a mutation through either reference is visible through the other.",
-          "An instance method uses a particular object. In circle.area(), circle supplies that object. Creating two Circle instances gives each its own radius field. Calling a method through null fails because null identifies no object. Public fields below make the first example easy to trace; the following sections protect state with encapsulation."
-        ]
-      },
-      {
-        "title": "Classes establish valid objects",
-        "paragraphs": [
-          "A class defines the structure and behavior shared by a category of objects; an object is one runtime instance created from that definition. Fields record state, methods provide behavior, and constructors establish the initial state. A constructor has the class name, has no return type, and runs when new creates the object.",
-          "Overloaded constructors provide several valid ways to create an object. They should delegate where practical so that validation and initialization are not duplicated."
-        ]
-      },
-      {
-        "title": "Data hiding, properties, and arrays of objects",
-        "paragraphs": [
-          "Data hiding places representation behind the class interface. A getter without a public setter creates read-only access for callers; a setter without a getter creates write-only access; providing both creates read-write access. These are API patterns rather than a separate Java property syntax. Validation belongs in constructors and mutating methods so that every public path preserves the object's rules.",
-          "An array of a class type stores references, not embedded objects. Creating new Student[3] produces three null elements. Each Student must still be constructed and assigned before a method can be called through that array element."
-        ]
-      },
-      {
-        "title": "A property is an access policy",
-        "paragraphs": [
-          "A property is a useful way to describe what clients may read or change. A read-only ID has a getter but no setter. A write-only input may be accepted without exposing its stored representation. A computed property such as area can be calculated from other fields instead of being stored.",
-          "Encapsulation protects invariants: statements that must remain true for every valid object. A setter that blindly assigns any value is not automatically a good design. For a non-negative balance or a bounded score, validate before committing the change. Constructor validation prevents an invalid object from being created in the first place."
-        ]
-      },
-      {
-        "title": "Method overloading: same name, different parameters",
-        "paragraphs": [
-          "Overloading means defining methods in the same class with the same name but different parameter lists. Start with one simple change: the number of parameters."
+          "Overloading lets several methods share one name when their parameter lists are different. Start with what a method receives and what it returns, then compare the calls."
         ],
-        "note": "A parameter list can differ in number, types, or the order of types. Changing only parameter names or only the return type is not overloading.",
-        "html": "<figure class=\"code-example\"><figcaption>Same name: add · Different parameters: two integers or three</figcaption><pre><code>static int add(<mark>int a, int b</mark>) {\n    return a + b;\n}\n\nstatic int add(<mark>int a, int b, int c</mark>) {\n    return a + b + c;\n}</code></pre></figure><div class=\"trace-grid\"><div class=\"expected\"><b>Two arguments → first method</b><pre>add(2, 3) → 5</pre></div><div class=\"expected\"><b>Three arguments → second method</b><pre>add(2, 3, 4) → 9</pre></div></div><p>Both methods are named <code>add</code>. The highlighted parameter lists tell them apart. In this example, <code>static int</code> stays the same so you can focus on that difference.</p>"
-      },
-      {
-        "title": "Constructors establish the first valid state",
-        "paragraphs": [
-          "A constructor has the class name and no return type. It runs during object creation and is not an ordinary method. If a class declares no constructor, the compiler supplies a default constructor; once you declare a constructor, an automatic no-argument constructor is no longer supplied.",
-          "Overloaded constructors offer several ways to establish an object. this(...) delegates to another constructor in the same class. Under the Java 21 syntax used in these examples, this(...) or super(...) must be the first constructor statement. Delegation avoids duplicating initialization rules."
+        "subsections": [
+          {
+            "title": "One name, different parameter lists",
+            "paragraphs": [
+              "In int max(int x, int y), int before max is the return type; x and y are parameters. In max(10, 15), 10 and 15 are arguments. return sends the result back to the caller.",
+              "Overloaded methods have the same name but different parameter types, numbers of parameters, or orders of types. Changing only a parameter name or the return type does not create a new overload.",
+              "For these ordinary calls, the compiler chooses an overload from the declared argument types. The helpers below are static so main can call them without first creating an object."
+            ],
+            "visuals": [
+              {
+                "kind": "table",
+                "title": "Which max method is selected?",
+                "columns": [
+                  "Call",
+                  "Parameter list",
+                  "Result"
+                ],
+                "rows": [
+                  [
+                    "max(10, 15)",
+                    "int, int",
+                    "15"
+                  ],
+                  [
+                    "max(5.5f, 7.5f)",
+                    "float, float",
+                    "7.5"
+                  ],
+                  [
+                    "max(8, 10, 3)",
+                    "int, int, int",
+                    "10"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Overloading with different parameter types and counts",
+            "paragraphs": [
+              "Use one method name for one idea. area can take a radius or a length and breadth. reverse can receive one integer or an int array. validate can receive a name or an age.",
+              "The parameter list must tell the methods apart. area(double length, double breadth) and area(double base, double height) would have the same signature; changing the words does not distinguish them."
+            ]
+          }
         ]
       },
       {
-        "title": "Object arrays contain references",
+        "title": "Object-Oriented Programming",
         "paragraphs": [
-          "new Student[3] creates an array with three null references, not three Student objects. Assign a separately created Student to each occupied element before using its methods. An enhanced for loop can read each reference, but assigning a different object to the loop variable does not replace the array element.",
-          "The array length is fixed. Track which elements are occupied or initialize all elements before traversal. Arrays are useful for understanding reference storage before collection classes introduce variable-size containers."
-        ]
-      },
-      {
-        "title": "Inheritance represents specialization",
-        "paragraphs": [
-          "Generalization identifies behavior shared by several types and places it in a common contract. Specialization defines a more specific subtype. In Java, extends expresses class specialization and implements connects a class to an interface contract. A subtype should be usable wherever its parent type is expected.",
-          "The super keyword selects superclass construction or behavior; this refers to the current object. Superclass construction happens before subclass construction. If the parent has no no-argument constructor, the child constructor must explicitly call an available super(...) constructor as its first statement."
+          "Object-oriented programming organizes a program around objects, combining state (fields) with behavior (methods). Start with the four principles—abstraction, encapsulation, inheritance and polymorphism—then explore classes, constructors and objects through code."
         ],
-        "note": "Use composition when one object merely uses or contains another. Use inheritance when the relationship expresses a stable is-a contract."
-      },
-      {
-        "title": "Superclass construction and this versus super",
-        "paragraphs": [
-          "An extends relationship places inherited behavior in a parent and specialized behavior in a child. A Student is a Person; a Student is not an arbitrary container that happens to reuse Person code. The child object contains its inherited state as well as its own fields.",
-          "this refers to the current object. super selects the parent implementation or constructor rather than creating another parent object. Constructors are not inherited. If the parent has no accessible no-argument constructor, the child must explicitly call a suitable parent constructor. A private parent field remains accessible through the parent’s methods, not by direct child field access."
+        "subsections": [
+          {
+            "title": "The four OOP principles",
+            "paragraphs": [
+              "Abstraction exposes the useful operations without making the caller manage the internal steps. A television offers turnOn(); its user does not need to operate the circuitry.",
+              "Encapsulation keeps related data and methods together and controls access to the data. A private volume field can be changed through a method that checks the allowed range.",
+              "Inheritance lets a more specific class build on a more general class. Television extends Device means a television is a kind of device.",
+              "Polymorphism lets the same operation use different implementations. A Device reference can call turnOn(), and a Television object can supply the television-specific behavior.",
+              "Overloading is often called compile-time polymorphism. Overriding uses the actual object at runtime. Keep these two selection rules separate; later lessons develop overriding and inheritance in detail."
+            ],
+            "visuals": [],
+            "html": "<figure class=\"visual-card\" style=\"margin:24px 0\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 960 870\" role=\"img\" aria-labelledby=\"oop-map-title oop-map-desc\" style=\"display:block;width:100%;height:auto\">\n<title id=\"oop-map-title\">OOP: four important concepts</title>\n<desc id=\"oop-map-desc\">OOP branches into abstraction, encapsulation, inheritance and polymorphism. Television illustrations show simple controls, protected internal state, specialized television types, and different responses to the same operation.</desc>\n<defs><g id=\"oop-tv\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\"><rect width=\"100\" height=\"65\" rx=\"7\"/><rect x=\"9\" y=\"9\" width=\"68\" height=\"45\" rx=\"3\"/><circle cx=\"88\" cy=\"25\" r=\"4\"/><path d=\"M84 40h8M30 65l-7 9M70 65l7 9\"/></g></defs>\n<rect width=\"960\" height=\"870\" fill=\"#faf7ef\"/>\n<g font-family=\"Arial, sans-serif\" fill=\"#18282c\">\n<rect x=\"280\" y=\"25\" width=\"400\" height=\"80\" rx=\"12\" fill=\"#182c31\"/>\n<text x=\"480\" y=\"59\" text-anchor=\"middle\" font-size=\"25\" font-weight=\"700\" fill=\"#fff\">Object-Oriented Programming</text>\n<text x=\"480\" y=\"87\" text-anchor=\"middle\" font-size=\"17\" fill=\"#c9ddd5\">Four important concepts</text>\n<g fill=\"none\" stroke=\"#a95736\" stroke-width=\"2\"><path d=\"M480 105v25H25v480h15M480 130h455v480h-15M25 225h15M935 225h-15\"/></g>\n<rect x=\"40\" y=\"155\" width=\"425\" height=\"320\" rx=\"12\" fill=\"#edf1e9\" stroke=\"#b7c5b7\"/>\n<rect x=\"495\" y=\"155\" width=\"425\" height=\"320\" rx=\"12\" fill=\"#f1e7d8\" stroke=\"#cbb99f\"/>\n<rect x=\"40\" y=\"510\" width=\"425\" height=\"325\" rx=\"12\" fill=\"#f1e7d8\" stroke=\"#cbb99f\"/>\n<rect x=\"495\" y=\"510\" width=\"425\" height=\"325\" rx=\"12\" fill=\"#edf1e9\" stroke=\"#b7c5b7\"/>\n<text x=\"65\" y=\"194\" font-size=\"24\" font-weight=\"700\">01  Abstraction</text>\n<text x=\"65\" y=\"224\" font-size=\"18\">Expose useful operations.</text>\n<use href=\"#oop-tv\" x=\"240\" y=\"260\" color=\"#355e52\"/>\n<rect x=\"96\" y=\"256\" width=\"46\" height=\"91\" rx=\"8\" fill=\"#faf7ef\" stroke=\"#355e52\" stroke-width=\"2\"/>\n<circle cx=\"119\" cy=\"279\" r=\"7\" fill=\"#a95736\"/><path d=\"M111 310h16M119 302v16\" fill=\"none\" stroke=\"#355e52\" stroke-width=\"2\"/>\n<path d=\"M158 294h62l-8-6m8 6-8 6\" fill=\"none\" stroke=\"#a95736\" stroke-width=\"2\"/>\n<text x=\"65\" y=\"384\" font-size=\"19\" font-weight=\"700\">Press Power → the TV turns on.</text>\n<text x=\"65\" y=\"416\" font-size=\"17\">You use the controls without knowing</text><text x=\"65\" y=\"441\" font-size=\"17\">how the circuits work.</text>\n<text x=\"520\" y=\"194\" font-size=\"24\" font-weight=\"700\">02  Encapsulation</text>\n<text x=\"520\" y=\"224\" font-size=\"18\">Keep state and behavior together.</text>\n<rect x=\"548\" y=\"249\" width=\"317\" height=\"108\" rx=\"10\" fill=\"#faf7ef\" stroke=\"#355e52\" stroke-width=\"2\"/>\n<text x=\"707\" y=\"278\" text-anchor=\"middle\" font-size=\"17\">TV object</text><text x=\"707\" y=\"307\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\">private volume</text><text x=\"707\" y=\"337\" text-anchor=\"middle\" font-size=\"17\">setVolume checks 0–100</text>\n<text x=\"520\" y=\"384\" font-size=\"19\" font-weight=\"700\">Change volume through a method.</text><text x=\"520\" y=\"416\" font-size=\"17\">The object controls access to its state</text><text x=\"520\" y=\"441\" font-size=\"17\">and rejects an invalid setting.</text>\n<text x=\"65\" y=\"550\" font-size=\"24\" font-weight=\"700\">03  Inheritance</text><text x=\"65\" y=\"580\" font-size=\"18\">Build a specialized kind of a class.</text>\n<rect x=\"180\" y=\"603\" width=\"140\" height=\"38\" rx=\"6\" fill=\"#faf7ef\" stroke=\"#355e52\"/><text x=\"250\" y=\"629\" text-anchor=\"middle\" font-size=\"19\">Television</text>\n<path d=\"M250 641v20H145v18M250 661h105v18\" stroke=\"#355e52\" stroke-width=\"2\" fill=\"none\"/>\n<text x=\"145\" y=\"705\" text-anchor=\"middle\" font-size=\"19\" font-weight=\"700\">SmartTV</text><text x=\"355\" y=\"705\" text-anchor=\"middle\" font-size=\"19\" font-weight=\"700\">BasicTV</text>\n<text x=\"65\" y=\"757\" font-size=\"19\" font-weight=\"700\">A SmartTV is a Television.</text><text x=\"65\" y=\"789\" font-size=\"17\">It inherits behavior and can add features.</text>\n<text x=\"520\" y=\"550\" font-size=\"24\" font-weight=\"700\">04  Polymorphism</text><text x=\"520\" y=\"580\" font-size=\"18\">Same operation, different behavior.</text>\n<text x=\"707\" y=\"621\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"700\">turnOn()</text><path d=\"M707 632v18H615v20M707 650h100v20\" stroke=\"#355e52\" stroke-width=\"2\" fill=\"none\"/>\n<text x=\"615\" y=\"693\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\">SmartTV</text><text x=\"807\" y=\"693\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\">BasicTV</text><text x=\"615\" y=\"720\" text-anchor=\"middle\" font-size=\"16\">Shows apps</text><text x=\"807\" y=\"720\" text-anchor=\"middle\" font-size=\"16\">Shows a channel</text>\n<text x=\"520\" y=\"757\" font-size=\"19\" font-weight=\"700\">Each type supplies its own behavior.</text><text x=\"520\" y=\"789\" font-size=\"17\">The actual object determines what runs.</text>\n</g></svg></figure>"
+          },
+          {
+            "title": "Class, object and reference",
+            "paragraphs": [
+              "A class defines a type. An object is an instance of that class. A reference variable identifies an object: in Circle first = new Circle(), Circle is the type, first is the variable, and new Circle() creates an object.",
+              "To design a class, ask: what does it store, and what can it do? A Circle stores radius and calculates area and perimeter. Fields describe state; methods describe behavior.",
+              "Each object has its own instance fields. An instance method such as first.area() uses the radius of first’s object. The first examples use public fields so you can see this relationship; data hiding follows.",
+              "Choose fields first, then methods that use those fields. A method calculating a result should normally return it; main can decide how to display it.",
+              "Use double for dimensions and int for whole-number marks. Use boolean for a yes/no question such as isSquare(). A Student grade can return a char such as A or B."
+            ],
+            "visuals": [
+              {
+                "kind": "table",
+                "title": "From properties to operations",
+                "columns": [
+                  "Class",
+                  "Fields",
+                  "Methods"
+                ],
+                "rows": [
+                  [
+                    "Rectangle",
+                    "length, breadth",
+                    "area(), perimeter(), isSquare()"
+                  ],
+                  [
+                    "Cylinder",
+                    "radius, height",
+                    "lidArea(), circumference(), surfaceArea(), volume()"
+                  ],
+                  [
+                    "Student",
+                    "rollNo, name, course, three marks",
+                    "total(), average(), grade()"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Constructors and constructor overloading",
+            "paragraphs": [
+              "A constructor runs when an object is created. It has the class name and no return type, not even void. new Rectangle(4, 3) creates an object and invokes the matching constructor.",
+              "A no-argument constructor receives no values; a parameterized constructor receives values. Constructors can be overloaded using different parameter lists, just like methods.",
+              "Java supplies a default no-argument constructor only when a class declares no constructor. If you write Rectangle(double length, double breadth), new Rectangle() needs an explicitly declared no-argument constructor.",
+              "In this.length = length, this.length is the current object’s field and length is the parameter. this(...) calls another constructor in the same class; in Java 21 it must be the first constructor statement."
+            ]
+          },
+          {
+            "title": "Data hiding and encapsulation",
+            "paragraphs": [
+              "With public fields, a caller could assign a negative length. Make the fields private, then provide methods that decide which values may be stored. This is data hiding as part of encapsulation.",
+              "A getter returns a value. A setter receives a value and updates the field. In this example, a negative dimension becomes zero, so callers cannot leave a negative value inside the rectangle."
+            ]
+          },
+          {
+            "title": "Properties: read-write, read-only and write-only",
+            "paragraphs": [
+              "A property describes the access a class offers to a value. A private field does not automatically need both a getter and a setter. Provide only the operations callers should have.",
+              "Read-write means getter plus setter. Read-only means a getter without a public setter. Write-only means a setter without a public getter; internal methods may still use the value."
+            ],
+            "visuals": [
+              {
+                "kind": "table",
+                "title": "Choose access deliberately",
+                "columns": [
+                  "Property kind",
+                  "Example",
+                  "Public methods"
+                ],
+                "rows": [
+                  [
+                    "Read-write",
+                    "Rectangle length",
+                    "getLength(), setLength(value)"
+                  ],
+                  [
+                    "Read-only",
+                    "Student roll number",
+                    "getRollNo()"
+                  ],
+                  [
+                    "Write-only",
+                    "Input supplied to a producer",
+                    "setData(value)"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Arrays of objects",
+            "paragraphs": [
+              "new Subject[2] creates one array with two null reference slots. It does not create two Subject objects. Create each Subject separately and assign its reference into a slot before calling its methods.",
+              "A Student can hold that Subject array as a field. This is a has-a relationship: a student has subjects; it does not extend Subject.",
+              "The example finishes the design with a constructor, getters and setters. setSubjects(Subject... subjects) uses varargs: the caller can supply several Subject references, which the method receives as an array."
+            ]
+          }
         ]
       }
     ],
-    "visuals": [
-      {
-        "kind": "table",
-        "title": "Property access is designed through methods",
-        "columns": [
-          "Public operations",
-          "Caller sees",
-          "Typical purpose"
-        ],
-        "rows": [
-          [
-            "Getter only",
-            "Read-only property",
-            "Identity or derived state that callers must not assign"
-          ],
-          [
-            "Setter only",
-            "Write-only property",
-            "Sensitive input or command-like assignment; use sparingly"
-          ],
-          [
-            "Getter and setter",
-            "Read-write property",
-            "Mutable state whose setter enforces validation"
-          ],
-          [
-            "Neither",
-            "Internal field",
-            "Representation used only by the class"
-          ]
-        ],
-        "note": "Java fields do not become properties automatically; the class defines the permitted operations explicitly.",
-        "after": 4
-      },
-      {
-        "kind": "flow",
-        "title": "Construction follows a chain",
-        "items": [
-          {
-            "label": "new Student(...)",
-            "detail": "Allocate one object"
-          },
-          {
-            "label": "super(name)",
-            "detail": "Initialize the Person part"
-          },
-          {
-            "label": "Student body",
-            "detail": "Initialize child fields"
-          },
-          {
-            "label": "Ready to use",
-            "detail": "All invariants established"
-          }
-        ],
-        "after": 8
-      },
-      {
-        "kind": "compare",
-        "title": "Class, object, and reference",
-        "items": [
-          {
-            "kicker": "Blueprint",
-            "title": "Class",
-            "body": "Declares the fields, constructors, and methods shared by its instances.",
-            "points": [
-              "Defines a type",
-              "Written once",
-              "Does not represent one student's data"
-            ]
-          },
-          {
-            "kicker": "Runtime value",
-            "title": "Object",
-            "body": "A concrete instance with its own field values and identity.",
-            "points": [
-              "Created with new",
-              "May change state",
-              "Many objects can share one class"
-            ]
-          },
-          {
-            "kicker": "Access path",
-            "title": "Reference",
-            "body": "A typed variable that may point to an object; it is not the object itself.",
-            "points": [
-              "Controls accessible members",
-              "May be null",
-              "Can point to a subtype object"
-            ]
-          }
-        ],
-        "after": 1
-      }
-    ],
+    "visuals": [],
     "demos": [
       {
-        "name": "ObjectDemo",
-        "title": "Two references, one object",
-        "code": "class Circle {\n    double radius;\n    double area() { return Math.PI * radius * radius; }\n}\n\npublic class ObjectDemo {\n    public static void main(String[] args) {\n        Circle first = new Circle();\n        first.radius = 2;\n        Circle alias = first;\n        alias.radius = 3;\n        System.out.println(first.radius);\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", first.area());\n    }\n}\n",
-        "output": "3.0\n28.27",
-        "explain": [
-          "new creates one Circle; assigning first to alias does not create a copy.",
-          "Updating alias.radius changes the same object later read through first."
-        ],
-        "stdin": "",
-        "files": {},
-        "variable": false,
-        "after": 1
-      },
-      {
         "name": "OverloadDemo",
-        "title": "Run it: add two numbers or three",
-        "code": "public class OverloadDemo {\n    static int add(int a, int b) { return a + b; }\n    static int add(int a, int b, int c) { return a + b + c; }\n    public static void main(String[] args) {\n        System.out.println(add(2, 3));\n        System.out.println(add(2, 3, 4));\n    }\n}\n",
-        "output": "5\n9",
+        "title": "Same operation, three parameter lists",
+        "code": "public class OverloadDemo {\n    static int max(int x, int y) {\n        if (x > y) return x;\n        return y;\n    }\n    static float max(float x, float y) {\n        if (x > y) return x;\n        return y;\n    }\n    static int max(int x, int y, int z) {\n        return max(max(x, y), z);\n    }\n    public static void main(String[] args) {\n        System.out.println(max(10, 15));      // 15\n        System.out.println(max(5.5f, 7.5f));  // 7.5\n        System.out.println(max(8, 10, 3));    // 10\n    }\n}\n",
+        "output": "15\n7.5\n10",
         "explain": [
-          "add(2, 3) calls the method with two parameters and returns 5.",
-          "add(2, 3, 4) calls the method with three parameters and returns 9.",
-          "Same method name; different parameter lists."
+          "The f suffix makes 5.5f and 7.5f float literals. Without f they are double, and these overloads do not accept double arguments.",
+          "Java can widen some argument types when needed, such as byte to int. It does not automatically narrow an int argument to byte.",
+          "Try adding float max(int x, int y): it fails because max(int, int) already exists. Return type alone cannot distinguish the calls."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 5
+        "after": 1,
+        "subpart": 1,
+        "output_in_comments": true,
+        "concept_example": true
       },
       {
-        "name": "EncapsulationDemo",
-        "title": "Validate state at the boundary",
-        "code": "class Student {\n    private final int id;\n    private int score;\n    Student(int id) { this(id, 0); }\n    Student(int id, int score) {\n        this.id = id;\n        setScore(score);\n    }\n    int getId() { return id; }\n    int getScore() { return score; }\n    void setScore(int score) {\n        if (score < 0 || score > 100) {\n            throw new IllegalArgumentException(\"score must be 0..100\");\n        }\n        this.score = score;\n    }\n}\n\npublic class EncapsulationDemo {\n    public static void main(String[] args) {\n        Student student = new Student(7, 80);\n        student.setScore(92);\n        System.out.println(student.getId() + \": \" + student.getScore());\n    }\n}\n",
-        "output": "7: 92",
+        "name": "AreaOverloadDemo",
+        "title": "Change the number of parameters",
+        "code": "public class AreaOverloadDemo {\n    static double area(double radius) {\n        return Math.PI * radius * radius;\n    }\n    static double area(double length, double breadth) {\n        return length * breadth;\n    }\n    static double area(double a, double b, double height) {\n        return (a + b) * height / 2;\n    }\n    public static void main(String[] args) {\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", area(2)); // 12.57\n        System.out.println(area(4, 3));       // 12.0: rectangle\n        System.out.println(area(4, 6, 3));    // 15.0: trapezium\n    }\n}\n",
+        "output": "12.57\n12.0\n15.0",
         "explain": [
-          "The ID is assigned once and exposed without a setter.",
-          "this(id, 0) delegates to the full constructor. The guard rejects an invalid score; exception handling is studied later."
+          "One, two and three arguments select different area methods. These int literals can widen to the double parameters."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 6
+        "after": 1,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
       },
       {
-        "name": "ObjectArrayDemo",
-        "title": "Initialize each array position",
-        "code": "class Student {\n    private final String name;\n    Student(String name) { this.name = name; }\n    String name() { return name; }\n}\n\npublic class ObjectArrayDemo {\n    public static void main(String[] args) {\n        Student[] students = new Student[2];\n        System.out.println(students[0] == null);\n        students[0] = new Student(\"Ada\");\n        students[1] = new Student(\"Grace\");\n        for (Student student : students) System.out.println(student.name());\n    }\n}\n",
-        "output": "true\nAda\nGrace",
+        "name": "ReverseOverloadDemo",
+        "title": "An integer and an array are different parameter types",
+        "code": "import java.util.Arrays;\npublic class ReverseOverloadDemo {\n    static int reverse(int number) {\n        int result = 0;\n        while (number > 0) {\n            result = result * 10 + number % 10;\n            number = number / 10;\n        }\n        return result;\n    }\n    static int[] reverse(int[] values) {\n        int[] result = new int[values.length];\n        for (int i = 0; i < values.length; i++) {\n            result[i] = values[values.length - 1 - i];\n        }\n        return result;\n    }\n    public static void main(String[] args) {\n        System.out.println(reverse(237)); // 732\n        int[] values = {2, 3, 7};\n        System.out.println(Arrays.toString(reverse(values))); // [7, 3, 2]\n        System.out.println(Arrays.toString(values));          // [2, 3, 7]\n    }\n}\n",
+        "output": "732\n[7, 3, 2]\n[2, 3, 7]",
         "explain": [
-          "The first print proves that allocating the array did not construct its elements.",
-          "The loop is safe after both positions have been assigned objects."
+          "reverse(int) builds a reversed number; this small exercise assumes a non-negative integer whose reverse fits in int.",
+          "reverse(int[]) creates a new array, so the original array stays unchanged. Arrays.toString displays its elements."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 7
+        "after": 1,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "ValidateOverloadDemo",
+        "title": "The argument type chooses the validation rule",
+        "code": "public class ValidateOverloadDemo {\n    static boolean validate(String name) {\n        return name != null && !name.isEmpty();\n    }\n    static boolean validate(int age) {\n        return age >= 3 && age <= 15;\n    }\n    public static void main(String[] args) {\n        System.out.println(validate(\"Ada\"));          // true\n        System.out.println(validate(\"\"));             // false\n        System.out.println(validate(10));             // true\n        System.out.println(validate(20));             // false\n    }\n}\n",
+        "output": "true\nfalse\ntrue\nfalse",
+        "explain": [
+          "The name rule only checks that name is not null and is not the empty string \"\". isEmpty() checks for an empty string; ! means not. If name is null, && skips the second check.",
+          "The age rule is the exercise’s chosen range, 3–15 inclusive. Both methods return boolean; String versus int makes the overloads different."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 1,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "OopPrinciplesDemo",
+        "title": "One small example of the four principles",
+        "code": "class Device {\n    public void turnOn() { System.out.println(\"Device on\"); }\n}\nclass Television extends Device {\n    private int volume;\n    public void setVolume(int value) {\n        if (value >= 0 && value <= 100) volume = value;\n    }\n    public int getVolume() { return volume; }\n    @Override\n    public void turnOn() { System.out.println(\"TV on\"); }\n}\npublic class OopPrinciplesDemo {\n    public static void main(String[] args) {\n        Television tv = new Television();\n        tv.setVolume(20);\n        tv.setVolume(150); // rejected; volume stays 20\n        System.out.println(tv.getVolume()); // 20\n        Device device = tv;\n        device.turnOn(); // TV on\n    }\n}\n",
+        "output": "20\nTV on",
+        "explain": [
+          "private prevents the separate application class from directly changing volume. Public methods form the object’s interface to callers.",
+          "extends declares the parent class; @Override marks a replacement for an inherited method. device and tv refer to the same Television object.",
+          "Abstraction is a design idea, not merely the abstract keyword. This example uses no abstract class."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 1,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "CircleDemo",
+        "title": "One class, two objects, and an alias",
+        "code": "class Circle {\n    public double radius;\n    public double area() { return Math.PI * radius * radius; }\n    public double perimeter() { return 2 * Math.PI * radius; }\n    public double circumference() { return perimeter(); }\n}\npublic class CircleDemo {\n    public static void main(String[] args) {\n        Circle first = new Circle();\n        Circle second = new Circle();\n        first.radius = 2;\n        second.radius = 5;\n        Circle alias = first;\n        alias.radius = 3;\n        System.out.println(first.radius);  // 3.0: same object as alias\n        System.out.println(second.radius); // 5.0: separate object\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", first.area()); // 28.27\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", first.circumference()); // 18.85\n    }\n}\n",
+        "output": "3.0\n5.0\n28.27\n18.85",
+        "explain": [
+          "There are two new expressions and two Circle objects. Assigning first to alias does not create a third object.",
+          "Save this complete example as CircleDemo.java. Circle is a separate non-public helper class in the same file."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "RectangleDemo",
+        "title": "Fields supply the rectangle’s measurements",
+        "code": "class Rectangle {\n    public double length, breadth;\n    public double area() { return length * breadth; }\n    public double perimeter() { return 2 * (length + breadth); }\n    public boolean isSquare() { return length == breadth; }\n}\npublic class RectangleDemo {\n    public static void main(String[] args) {\n        Rectangle r = new Rectangle();\n        r.length = 4;\n        r.breadth = 3;\n        System.out.println(r.area());      // 12.0\n        System.out.println(r.perimeter()); // 14.0\n        System.out.println(r.isSquare());  // false\n    }\n}\n",
+        "output": "12.0\n14.0\nfalse",
+        "explain": [
+          "No dimensions are passed to area(): it reads the fields of the object used in r.area()."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "CylinderDemo",
+        "title": "Reuse calculations inside a class",
+        "code": "class Cylinder {\n    public double radius, height;\n    public double lidArea() { return Math.PI * radius * radius; }\n    public double circumference() { return 2 * Math.PI * radius; }\n    public double surfaceArea() { return 2 * lidArea() + circumference() * height; }\n    public double volume() { return lidArea() * height; }\n}\npublic class CylinderDemo {\n    public static void main(String[] args) {\n        Cylinder c = new Cylinder();\n        c.radius = 2;\n        c.height = 3;\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", c.lidArea());     // 12.57\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", c.surfaceArea()); // 62.83\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", c.volume());      // 37.70\n    }\n}\n",
+        "output": "12.57\n62.83\n37.70",
+        "explain": [
+          "Total surface area includes two circular ends plus the curved side. This Cylinder is an independent class; no inheritance is needed for this exercise."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "StudentDemo",
+        "title": "A data object can calculate results",
+        "code": "class Student {\n    public String rollNo, name, course;\n    public int m1, m2, m3;\n    public int total() { return m1 + m2 + m3; }\n    public double average() { return total() / 3.0; }\n    public char grade() {\n        if (average() >= 60) return 'A';\n        return 'B';\n    }\n}\npublic class StudentDemo {\n    public static void main(String[] args) {\n        Student student = new Student();\n        student.rollNo = \"S01\";\n        student.name = \"Ada\";\n        student.course = \"Java\";\n        student.m1 = 70; student.m2 = 80; student.m3 = 90;\n        System.out.println(student.total());   // 240\n        System.out.println(student.average()); // 80.0\n        System.out.println(student.grade());   // A\n    }\n}\n",
+        "output": "240\n80.0\nA",
+        "explain": [
+          "Dividing by 3.0 preserves a fractional average. The A/B rule is just this exercise’s grading policy."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 2,
+        "output_in_comments": true,
+        "concept_example": true
       },
       {
         "name": "ConstructorDemo",
-        "title": "Observe parent-before-child initialization",
-        "code": "class Person {\n    private final String name;\n    Person(String name) {\n        this.name = name;\n        System.out.println(\"Person constructor\");\n    }\n    String name() { return name; }\n}\n\nclass Student extends Person {\n    private final int id;\n    Student(String name, int id) {\n        super(name);\n        this.id = id;\n        System.out.println(\"Student constructor\");\n    }\n    String describe() { return name() + \" #\" + id; }\n}\n\npublic class ConstructorDemo {\n    public static void main(String[] args) {\n        System.out.println(new Student(\"Ada\", 7).describe());\n    }\n}\n",
-        "output": "Person constructor\nStudent constructor\nAda #7",
+        "title": "Create a default rectangle, a square or a rectangle",
+        "code": "class Rectangle {\n    private double length, breadth;\n    public Rectangle() { this(1, 1); }\n    public Rectangle(double side) { this(side, side); }\n    public Rectangle(double length, double breadth) {\n        this.length = Math.max(0, length);\n        this.breadth = Math.max(0, breadth);\n    }\n    public double area() { return length * breadth; }\n}\npublic class ConstructorDemo {\n    public static void main(String[] args) {\n        System.out.println(new Rectangle().area());     // 1.0\n        System.out.println(new Rectangle(4).area());    // 16.0\n        System.out.println(new Rectangle(4, 3).area());  // 12.0\n        System.out.println(new Rectangle(-4, 3).area()); // 0.0\n    }\n}\n",
+        "output": "1.0\n16.0\n12.0\n0.0",
         "explain": [
-          "super(name) supplies the parent constructor’s required argument.",
-          "The inherited name() method reads private parent state without exposing its field."
+          "Math.max(0, value) changes a negative dimension to zero. All three constructors reach that initialization rule."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 9
+        "after": 2,
+        "subpart": 3,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "DataHidingDemo",
+        "title": "Change a dimension through a setter",
+        "code": "class Rectangle {\n    private double length, breadth;\n    public double getLength() { return length; }\n    public double getBreadth() { return breadth; }\n    public void setLength(double value) {\n        if (value >= 0) length = value;\n        else length = 0;\n    }\n    public void setBreadth(double value) {\n        if (value >= 0) breadth = value;\n        else breadth = 0;\n    }\n    public double area() { return length * breadth; }\n}\npublic class DataHidingDemo {\n    public static void main(String[] args) {\n        Rectangle r = new Rectangle();\n        r.setLength(4); r.setBreadth(3);\n        System.out.println(r.area());      // 12.0\n        r.setLength(-5);\n        System.out.println(r.getLength()); // 0.0\n        // r.length = -5; // not allowed: length is private\n    }\n}\n",
+        "output": "12.0\n0.0",
+        "explain": [
+          "The setter implements the chosen rule. Another class design could reject invalid input instead; private alone does not perform validation."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 4,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "PropertyDemo",
+        "title": "A getter or setter is a design choice",
+        "code": "class Student {\n    private String rollNo = \"S01\";\n    private int mark;\n    public String getRollNo() { return rollNo; } // no public setter\n    public int getMark() { return mark; }\n    public void setMark(int value) {\n        if (value >= 0 && value <= 100) mark = value;\n    }\n}\nclass Producer {\n    private int data;\n    public void setData(int value) { data = value; } // no public getter\n}\npublic class PropertyDemo {\n    public static void main(String[] args) {\n        Student s = new Student();\n        s.setMark(85);\n        System.out.println(s.getRollNo()); // S01\n        System.out.println(s.getMark());   // 85\n        Producer p = new Producer();\n        p.setData(7); // supplies a value; the public API cannot read it back\n    }\n}\n",
+        "output": "S01\n85",
+        "explain": [
+          "The fixed roll number keeps this example short. A constructor can accept a different roll number for each object, as the next examples demonstrate."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 5,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "CylinderConstructorDemo",
+        "title": "Three ways to initialize a Cylinder",
+        "code": "class Cylinder {\n    private double radius, height;\n    public Cylinder() { this(0, 0); }\n    public Cylinder(double radius) { this(radius, 1); }\n    public Cylinder(double radius, double height) {\n        setRadius(radius); setHeight(height);\n    }\n    public double getRadius() { return radius; }\n    public double getHeight() { return height; }\n    public void setRadius(double value) { radius = Math.max(0, value); }\n    public void setHeight(double value) { height = Math.max(0, value); }\n    public double volume() { return Math.PI * radius * radius * height; }\n}\npublic class CylinderConstructorDemo {\n    public static void main(String[] args) {\n        Cylinder c = new Cylinder(2, 3);\n        System.out.println(new Cylinder().getHeight());  // 0.0\n        System.out.println(new Cylinder(2).getHeight()); // 1.0\n        System.out.println(c.getRadius());               // 2.0\n        System.out.printf(java.util.Locale.ROOT, \"%.2f%n\", c.volume()); // 37.70\n    }\n}\n",
+        "output": "0.0\n1.0\n2.0\n37.70",
+        "explain": [
+          "No arguments chooses radius 0 and height 0. One radius chooses height 1. Two arguments supply both dimensions."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 5,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "ProductCustomerDemo",
+        "title": "Required identity, editable details",
+        "code": "class Product {\n    private final String itemNo, name;\n    private double price;\n    private int quantity;\n    public Product(String itemNo, String name) { this(itemNo, name, 0, 0); }\n    public Product(String itemNo, String name, double price, int quantity) {\n        this.itemNo = itemNo; this.name = name;\n        setPrice(price); setQuantity(quantity);\n    }\n    public String getItemNo() { return itemNo; }\n    public String getName() { return name; }\n    public double getPrice() { return price; }\n    public int getQuantity() { return quantity; }\n    public void setPrice(double value) { price = Math.max(0, value); }\n    public void setQuantity(int value) { quantity = Math.max(0, value); }\n}\nclass Customer {\n    private final String customerId, name;\n    private String address, phone;\n    public Customer(String customerId, String name) {\n        this(customerId, name, \"\", \"\");\n    }\n    public Customer(String customerId, String name, String address, String phone) {\n        this.customerId = customerId; this.name = name;\n        this.address = address; this.phone = phone;\n    }\n    public String getCustomerId() { return customerId; }\n    public String getName() { return name; }\n    public String getAddress() { return address; }\n    public String getPhone() { return phone; }\n    public void setAddress(String value) { address = value; }\n    public void setPhone(String value) { phone = value; }\n}\npublic class ProductCustomerDemo {\n    public static void main(String[] args) {\n        Product p = new Product(\"P01\", \"Notebook\", 5, 10);\n        p.setPrice(6);\n        System.out.println(p.getItemNo() + \": \" + p.getPrice()); // P01: 6.0\n        Customer c = new Customer(\"C01\", \"Ada\");\n        c.setPhone(\"+1 0123\");\n        System.out.println(c.getName() + \": \" + c.getPhone()); // Ada: +1 0123\n    }\n}\n",
+        "output": "P01: 6.0\nAda: +1 0123",
+        "explain": [
+          "final means the identity fields are assigned once. No public setters are supplied for those fields.",
+          "Neither class has a no-argument constructor: the caller must supply identity arguments. The short constructors delegate to the full ones."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 5,
+        "output_in_comments": true,
+        "concept_example": true
+      },
+      {
+        "name": "ObjectArrayDemo",
+        "title": "Give a student two separately created subjects",
+        "code": "class Subject {\n    private final String id, name;\n    private int maxMarks, marks;\n    public Subject(String id, String name, int maxMarks) {\n        this.id = id; this.name = name;\n        setMaxMarks(maxMarks);\n    }\n    public String getId() { return id; }\n    public String getName() { return name; }\n    public int getMaxMarks() { return maxMarks; }\n    public int getMarks() { return marks; }\n    public void setMaxMarks(int value) {\n        maxMarks = Math.max(1, value);\n        marks = Math.min(marks, maxMarks);\n    }\n    public void setMarks(int value) { marks = Math.max(0, Math.min(value, maxMarks)); }\n    public boolean isQualified() { return marks >= maxMarks * 0.4; }\n    @Override\n    public String toString() { return id + \" \" + name + \": \" + marks; }\n}\nclass Student {\n    private final String rollNo, name;\n    private String department;\n    private Subject[] subjects = new Subject[0];\n    public Student(String rollNo, String name, String department) {\n        this.rollNo = rollNo; this.name = name; this.department = department;\n    }\n    public String getRollNo() { return rollNo; }\n    public String getName() { return name; }\n    public String getDepartment() { return department; }\n    public void setDepartment(String value) { department = value; }\n    public Subject[] getSubjects() { return subjects; }\n    public void setSubjects(Subject... subjects) { this.subjects = subjects; }\n}\npublic class ObjectArrayDemo {\n    public static void main(String[] args) {\n        Subject[] subjects = new Subject[2];\n        System.out.println(subjects[0] == null); // true\n        subjects[0] = new Subject(\"S01\", \"Java\", 100);\n        subjects[1] = new Subject(\"S02\", \"Databases\", 100);\n        subjects[0].setMarks(80);\n        subjects[1].setMarks(35);\n        Student student = new Student(\"ST01\", \"Ada\", \"Computing\");\n        student.setSubjects(subjects[0], subjects[1]);\n        for (Subject subject : student.getSubjects()) {\n            System.out.println(subject); // S01 Java: 80, then S02 Databases: 35\n        }\n        System.out.println(subjects[0].isQualified()); // true\n        System.out.println(subjects[1].isQualified()); // false\n    }\n}\n",
+        "output": "true\nS01 Java: 80\nS02 Databases: 35\ntrue\nfalse",
+        "explain": [
+          "The first print proves the difference between allocating an array and constructing its elements.",
+          "println calls the subject’s toString() method. The qualification rule here is at least 40% of maxMarks.",
+          "The getter exposes the array in this introductory example. Its elements still refer to the original Subject objects."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 2,
+        "subpart": 6,
+        "output_in_comments": true,
+        "concept_example": true
       }
-    ]
+    ],
+    "expanded_toc": true
   },
   {
     "number": 3,
-    "title": "Overriding, Polymorphism & Abstract Classes",
-    "subtitle": "Separate the reference contract from the implementation chosen at runtime.",
+    "title": "Inheritance, Overriding, Polymorphism & Abstract Classes",
+    "subtitle": "Build a subclass, change its behavior, and use different objects through one common type.",
     "goals": [
-      "Distinguish overload selection from method dispatch",
-      "Write valid overrides",
-      "Use parent references to call child behavior",
-      "Design an abstract class with shared state"
+      "Use extends to create a subclass",
+      "Override an inherited instance method",
+      "Explain why a parent reference can run child behavior",
+      "Define an abstract class and implement its abstract methods"
     ],
     "sections": [
       {
-        "title": "Overriding preserves a method contract",
+        "title": "Inheritance",
         "paragraphs": [
-          "A subclass overrides an inherited instance method by supplying the same name and parameter types with a compatible return type. The override must not reduce accessibility or broaden checked exceptions. A covariant reference return type may be more specific. Use @Override so that the compiler checks your intention.",
-          "Overloading is resolved at compile time from method signatures and argument types. Overriding selects the implementation at runtime from the actual object. Calling both mechanisms “polymorphism” must not hide this timing difference."
+          "Inheritance lets a class build on another class. Animal is the parent class (superclass); Dog is the child class (subclass). class Dog extends Animal expresses an is-a relationship: a Dog is an Animal.",
+          "A child can use inherited methods and add its own methods. Here, Dog inherits eat() and adds bark(). We have not changed the parent’s behavior yet."
         ]
       },
       {
-        "title": "Dynamic method dispatch",
+        "title": "Method overriding",
         "paragraphs": [
-          "In Animal pet = new Dog(), Animal is the declared reference type and Dog is the runtime object type. The compiler permits operations available through Animal. When an overridden instance method is invoked, the Dog implementation runs. A method that exists only on Dog cannot be called through pet without a suitable cast.",
-          "The object does not change when assigned to a parent reference. Upcasting merely changes the view available to the compiler. Downcasting is a runtime assertion about the object’s type; an incorrect cast fails. Prefer polymorphic operations to long chains of casts."
+          "Overriding gives an inherited instance method a new implementation in the child class. In this example, both classes define public void speak(), but Dog supplies its own body.",
+          "Use @Override above the child method so the compiler checks that it really overrides a parent method. Keep the same name and parameter types; the examples also keep the same return type and public access.",
+          "Overloading was covered in Lesson 2. The table below is the one comparison to remember before moving on."
         ]
       },
       {
-        "title": "What is not ordinary overriding",
+        "title": "Polymorphism",
         "paragraphs": [
-          "A static method belongs to its class and can be hidden rather than dynamically overridden. Fields are also selected according to the reference expression’s type. A private parent method is not inherited as an overridable method, and a final method cannot be overridden. Constructors participate in construction, not overriding.",
-          "super.method() deliberately invokes inherited parent behavior. It is useful when the child extends an operation rather than replacing it completely. Use it to preserve a meaningful parent contract, not merely to silence an error."
+          "A parent-type variable can refer to a child object. In Animal pet = new Dog(), Animal is the variable’s declared type, while Dog is the actual object’s type. No extra Animal object is created.",
+          "The declared type determines which methods you may call through the variable. The actual object determines which overridden instance-method body runs. Therefore pet.speak() runs Dog.speak(). This runtime choice is called dynamic method dispatch.",
+          "The useful result: one loop can call speak() on different Animal objects. Each object supplies its own behavior, so the loop needs no separate test for Dog or Cat."
         ]
       },
       {
-        "title": "Abstract classes combine contracts and implementation",
+        "title": "Abstract classes and abstract methods",
         "paragraphs": [
-          "An abstract class cannot be instantiated directly. It may contain fields, constructors, concrete methods and abstract methods. An abstract method states a required operation without providing its body. A concrete subclass must implement every remaining abstract method.",
-          "Shared state belongs in the abstract base when it is genuinely common to all specializations. For shapes, the base might store a label and require area(). A method in the base can call area(); that call still dispatches to the child implementation."
-        ]
-      },
-      {
-        "title": "Design around substitutability",
-        "paragraphs": [
-          "Code that accepts Shape should remain meaningful for every valid Shape implementation. An overridden method should preserve the meaning promised by the parent: if area() returns a non-negative measurement, a subclass should not reinterpret it as a formatted message or an unrelated identifier.",
-          "Keep the public contract small. The benefit of polymorphism is that a caller can work with the abstraction while new implementations are added independently. The loop in the demonstration does not need to know whether the next object is a rectangle or a circle."
-        ]
+          "An abstract class is a base class that cannot be instantiated directly. An abstract method declares an operation without a body. A concrete child class must implement the abstract methods it inherits.",
+          "Every shape should have an area, but there is no single formula for all shapes. Shape declares area(); Rectangle and Circle provide their own formulas.",
+          "An abstract class can also contain fields, constructors and ordinary methods with bodies. Here describe() is shared, while its call to area() uses the actual shape’s implementation. You can write Shape s = new Circle(2), but not new Shape()."
+        ],
+        "html": "<details class=\"teaching-note\"><summary>Optional reference: additional inheritance rules</summary><ul>\n<li>super.method() calls the inherited parent implementation. super(...) calls a parent constructor; constructors are not inherited or overridden.</li>\n<li>A final method cannot be overridden. A private parent method is not inherited as an overridable method.</li>\n<li>Static methods are hidden, not dynamically overridden. Field access also depends on the declared reference type.</li>\n<li>An override cannot reduce accessibility. A reference return type may be more specific, and checked exceptions cannot be broadened beyond the parent declaration.</li>\n<li>Assigning a child object to a parent reference is upcasting. Downcasting requires a compatible actual object or it fails at runtime; use polymorphic methods when possible.</li>\n</ul></details>"
       }
     ],
     "visuals": [
       {
-        "kind": "compare",
-        "title": "Overloading and overriding solve different problems",
-        "items": [
-          {
-            "kicker": "Compile time",
-            "title": "Overloading",
-            "body": "The same method name has different parameter lists. The compiler chooses a signature from the declared argument types.",
-            "points": [
-              "Usually in one class",
-              "Parameters must differ",
-              "Return type alone is insufficient"
-            ]
-          },
-          {
-            "kicker": "Run time",
-            "title": "Overriding",
-            "body": "A subtype replaces an inherited instance-method implementation while preserving its contract.",
-            "points": [
-              "Same signature",
-              "Requires inheritance",
-              "Runtime object chooses the body"
-            ]
-          }
-        ]
-      },
-      {
+        "after": 2,
         "kind": "table",
-        "title": "Read Animal pet = new Dog() from both sides",
+        "title": "Overloading vs overriding",
         "columns": [
-          "Part",
-          "Meaning",
-          "What it controls"
+          "",
+          "Overloading",
+          "Overriding"
         ],
         "rows": [
           [
-            "Animal",
-            "Declared reference type",
-            "Which members the compiler allows through pet"
+            "Purpose",
+            "Offer different parameter lists under one name",
+            "Provide child behavior for an inherited method"
           ],
           [
-            "pet",
-            "Reference variable",
-            "The access path to an object; it may later point elsewhere"
+            "Parameters",
+            "Must differ in number or types",
+            "Same parameter types"
           ],
           [
-            "new Dog()",
-            "Runtime object type",
-            "Which overridden instance-method body executes"
+            "Example",
+            "max(int, int) and max(double, double)",
+            "Animal.speak() and Dog.speak()"
           ],
           [
-            "pet.speak()",
-            "Polymorphic call",
-            "Must exist on Animal; Dog's override runs at runtime"
+            "Selection",
+            "Compiler uses declared types and arguments",
+            "Actual object determines the overridden implementation"
           ]
-        ],
-        "note": "The reference type answers “what may I call?”; the runtime object answers “which override runs?”"
-      },
-      {
-        "kind": "flow",
-        "title": "An overridden call has two checks",
-        "items": [
-          {
-            "label": "Compile time",
-            "detail": "Is speak() available on Animal?"
-          },
-          {
-            "label": "Runtime object",
-            "detail": "pet refers to a Dog"
-          },
-          {
-            "label": "Dispatch",
-            "detail": "Choose Dog.speak()"
-          },
-          {
-            "label": "Result",
-            "detail": "Execute the child body"
-          }
         ]
       }
     ],
     "demos": [
       {
-        "name": "DispatchDemo",
-        "title": "Reference type permits; object type dispatches",
-        "code": "class Animal { String speak() { return \"sound\"; } }\n\nclass Dog extends Animal {\n    @Override String speak() { return \"woof\"; }\n}\n\npublic class DispatchDemo {\n    static void show(Animal animal) { System.out.println(animal.speak()); }\n    public static void main(String[] args) {\n        Animal pet = new Dog();\n        show(pet);\n        show(new Animal());\n    }\n}\n",
-        "output": "woof\nsound",
+        "name": "InheritanceDemo",
+        "title": "A Dog inherits eat() and adds bark().",
+        "code": "class Animal {\n    public void eat() { System.out.println(\"Eating\"); }\n}\nclass Dog extends Animal {\n    public void bark() { System.out.println(\"Woof\"); }\n}\npublic class InheritanceDemo {\n    public static void main(String[] args) {\n        Dog dog = new Dog();\n        dog.eat();  // Eating: inherited from Animal\n        dog.bark(); // Woof: defined in Dog\n    }\n}\n",
+        "output": "Eating\nWoof",
         "explain": [
-          "show receives an Animal reference in both calls.",
-          "Only the runtime object changes, so dispatch selects a different speak() body."
+          "extends connects the classes. The Dog object can use both methods."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 2
+        "after": 1,
+        "concept_example": true,
+        "output_in_comments": true
       },
       {
-        "name": "BindingDemo",
-        "title": "Overload selection happens before dispatch",
-        "code": "class Animal { }\n\nclass Dog extends Animal { }\n\npublic class BindingDemo {\n    static String identify(Animal a) { return \"Animal overload\"; }\n    static String identify(Dog d) { return \"Dog overload\"; }\n    public static void main(String[] args) {\n        Animal pet = new Dog();\n        System.out.println(identify(pet));\n        System.out.println(identify(new Dog()));\n    }\n}\n",
-        "output": "Animal overload\nDog overload",
+        "name": "OverrideDemo",
+        "title": "The same method has a different body in Dog.",
+        "code": "class Animal {\n    public void speak() { System.out.println(\"Animal sound\"); }\n}\nclass Dog extends Animal {\n    @Override\n    public void speak() { System.out.println(\"Woof\"); }\n}\npublic class OverrideDemo {\n    public static void main(String[] args) {\n        Animal animal = new Animal();\n        Dog dog = new Dog();\n        animal.speak(); // Animal sound\n        dog.speak();    // Woof\n    }\n}\n",
+        "output": "Animal sound\nWoof",
         "explain": [
-          "The declared type of pet is Animal, so the Animal overload is selected.",
-          "These static overloads do not dynamically switch based on the object stored in pet."
+          "Dog replaces the inherited speak() behavior for Dog objects. Animal objects still use Animal.speak()."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 3
+        "after": 2,
+        "concept_example": true,
+        "output_in_comments": true
+      },
+      {
+        "name": "DispatchDemo",
+        "title": "One loop, two different responses.",
+        "code": "class Animal {\n    public void speak() { System.out.println(\"Animal sound\"); }\n}\nclass Dog extends Animal {\n    @Override\n    public void speak() { System.out.println(\"Woof\"); }\n}\nclass Cat extends Animal {\n    @Override\n    public void speak() { System.out.println(\"Meow\"); }\n}\npublic class DispatchDemo {\n    public static void main(String[] args) {\n        Animal pet = new Dog();\n        pet.speak(); // Woof\n\n        Animal[] animals = {new Dog(), new Cat()};\n        for (Animal animal : animals) {\n            animal.speak(); // Woof, then Meow\n        }\n    }\n}\n",
+        "output": "Woof\nWoof\nMeow",
+        "explain": [
+          "Every array element is an Animal reference. The objects are a Dog and a Cat; their overrides determine the output."
+        ],
+        "stdin": "",
+        "files": {},
+        "variable": false,
+        "after": 3,
+        "concept_example": true,
+        "output_in_comments": true
       },
       {
         "name": "ShapeDemo",
-        "title": "One abstract contract, two implementations",
-        "code": "abstract class Shape {\n    private final String label;\n    Shape(String label) { this.label = label; }\n    abstract double area();\n    void describe() {\n        System.out.printf(java.util.Locale.ROOT, \"%s: %.2f%n\", label, area());\n    }\n}\n\nclass Rectangle extends Shape {\n    private final double width, height;\n    Rectangle(double width, double height) {\n        super(\"Rectangle\"); this.width = width; this.height = height;\n    }\n    @Override double area() { return width * height; }\n}\n\nclass Circle extends Shape {\n    private final double radius;\n    Circle(double radius) { super(\"Circle\"); this.radius = radius; }\n    @Override double area() { return Math.PI * radius * radius; }\n}\n\npublic class ShapeDemo {\n    public static void main(String[] args) {\n        Shape[] shapes = {new Rectangle(3, 4), new Circle(2)};\n        for (Shape shape : shapes) shape.describe();\n    }\n}\n",
-        "output": "Rectangle: 12.00\nCircle: 12.57",
+        "title": "A shared method uses each shape’s area formula.",
+        "code": "abstract class Shape {\n    public abstract double area();\n    public void describe() {\n        System.out.printf(java.util.Locale.ROOT, \"Area: %.2f%n\", area());\n    }\n}\nclass Rectangle extends Shape {\n    private double width, height;\n    public Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n    @Override\n    public double area() { return width * height; }\n}\nclass Circle extends Shape {\n    private double radius;\n    public Circle(double radius) { this.radius = radius; }\n    @Override\n    public double area() { return Math.PI * radius * radius; }\n}\npublic class ShapeDemo {\n    public static void main(String[] args) {\n        Shape[] shapes = {new Rectangle(3, 4), new Circle(2)};\n        for (Shape shape : shapes) {\n            shape.describe(); // Area: 12.00, then Area: 12.57\n        }\n    }\n}\n",
+        "output": "Area: 12.00\nArea: 12.57",
         "explain": [
-          "The base constructor initializes common state, even though Shape itself cannot be instantiated.",
-          "describe() is inherited, but its area() call dispatches to the concrete shape. Dimensions are positive constants in this focused demo."
+          "Shape supplies describe(); each concrete subclass supplies area(). The example uses positive dimensions.",
+          "The main idea is reuse: callers work with Shape, and each subclass supplies the required formula."
         ],
         "stdin": "",
         "files": {},
         "variable": false,
-        "after": 5
+        "after": 4,
+        "concept_example": true,
+        "output_in_comments": true
       }
     ]
   },

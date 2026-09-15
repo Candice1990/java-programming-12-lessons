@@ -119,3 +119,9 @@ EXTRAS = {(lesson, SECOND_SECTION_POSITIONS[section] if lesson == 2 else section
           for (lesson, section), panels in EXTRAS.items()}
 EXTRAS[(1,4)]=EXTRAS.pop((1,9))
 EXTRAS[(2,1)]=EXTRAS.pop((1,10))
+
+# Lesson 2 now supplies its own concept tables next to the rewritten topics.
+EXTRAS = {key: panels for key, panels in EXTRAS.items() if key[0] != 2}
+
+# Lesson 3 uses one focused comparison rather than repeated dispatch panels.
+EXTRAS = {key: panels for key, panels in EXTRAS.items() if key[0] != 3}

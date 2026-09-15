@@ -1,10 +1,8 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac ConstructorDemo.java
-java ConstructorDemo
+javac DataHidingDemo.java
+java DataHidingDemo
 
 Expected output:
-1.0
-16.0
 12.0
 0.0

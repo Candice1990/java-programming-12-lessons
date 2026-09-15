@@ -1,8 +1,9 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac BindingDemo.java
-java BindingDemo
+javac AreaOverloadDemo.java
+java AreaOverloadDemo
 
 Expected output:
-Animal overload
-Dog overload
+12.57
+12.0
+15.0

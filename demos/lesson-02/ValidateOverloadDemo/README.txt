@@ -1,11 +1,10 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac ObjectArrayDemo.java
-java ObjectArrayDemo
+javac ValidateOverloadDemo.java
+java ValidateOverloadDemo
 
 Expected output:
 true
-S01 Java: 80
-S02 Databases: 35
+false
 true
 false

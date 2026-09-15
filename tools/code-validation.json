@@ -49,59 +49,136 @@
     "error": ""
   },
   {
-    "name": "ObjectDemo",
-    "ok": true,
-    "warnings": "",
-    "output": "3.0\n28.27\n",
-    "error": ""
-  },
-  {
     "name": "OverloadDemo",
     "ok": true,
     "warnings": "",
-    "output": "5\n9\n",
+    "output": "15\n7.5\n10\n",
     "error": ""
   },
   {
-    "name": "EncapsulationDemo",
+    "name": "AreaOverloadDemo",
     "ok": true,
     "warnings": "",
-    "output": "7: 92\n",
+    "output": "12.57\n12.0\n15.0\n",
     "error": ""
   },
   {
-    "name": "ObjectArrayDemo",
+    "name": "ReverseOverloadDemo",
     "ok": true,
     "warnings": "",
-    "output": "true\nAda\nGrace\n",
+    "output": "732\n[7, 3, 2]\n[2, 3, 7]\n",
+    "error": ""
+  },
+  {
+    "name": "ValidateOverloadDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "true\nfalse\ntrue\nfalse\n",
+    "error": ""
+  },
+  {
+    "name": "OopPrinciplesDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "20\nTV on\n",
+    "error": ""
+  },
+  {
+    "name": "CircleDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "3.0\n5.0\n28.27\n18.85\n",
+    "error": ""
+  },
+  {
+    "name": "RectangleDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "12.0\n14.0\nfalse\n",
+    "error": ""
+  },
+  {
+    "name": "CylinderDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "12.57\n62.83\n37.70\n",
+    "error": ""
+  },
+  {
+    "name": "StudentDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "240\n80.0\nA\n",
     "error": ""
   },
   {
     "name": "ConstructorDemo",
     "ok": true,
     "warnings": "",
-    "output": "Person constructor\nStudent constructor\nAda #7\n",
+    "output": "1.0\n16.0\n12.0\n0.0\n",
+    "error": ""
+  },
+  {
+    "name": "DataHidingDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "12.0\n0.0\n",
+    "error": ""
+  },
+  {
+    "name": "PropertyDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "S01\n85\n",
+    "error": ""
+  },
+  {
+    "name": "CylinderConstructorDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "0.0\n1.0\n2.0\n37.70\n",
+    "error": ""
+  },
+  {
+    "name": "ProductCustomerDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "P01: 6.0\nAda: +1 0123\n",
+    "error": ""
+  },
+  {
+    "name": "ObjectArrayDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "true\nS01 Java: 80\nS02 Databases: 35\ntrue\nfalse\n",
+    "error": ""
+  },
+  {
+    "name": "InheritanceDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Eating\nWoof\n",
+    "error": ""
+  },
+  {
+    "name": "OverrideDemo",
+    "ok": true,
+    "warnings": "",
+    "output": "Animal sound\nWoof\n",
     "error": ""
   },
   {
     "name": "DispatchDemo",
     "ok": true,
     "warnings": "",
-    "output": "woof\nsound\n",
-    "error": ""
-  },
-  {
-    "name": "BindingDemo",
-    "ok": true,
-    "warnings": "",
-    "output": "Animal overload\nDog overload\n",
+    "output": "Woof\nWoof\nMeow\n",
     "error": ""
   },
   {
     "name": "ShapeDemo",
     "ok": true,
     "warnings": "",
-    "output": "Rectangle: 12.00\nCircle: 12.57\n",
+    "output": "Area: 12.00\nArea: 12.57\n",
     "error": ""
   },
   {

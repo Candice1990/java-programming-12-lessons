@@ -49,59 +49,136 @@
     "name": "InputDemo"
   },
   {
-    "directory": "demos/lesson-02/ObjectDemo",
-    "classname": "ObjectDemo",
-    "stdin": "",
-    "expected": "3.0\n28.27",
-    "name": "ObjectDemo"
-  },
-  {
     "directory": "demos/lesson-02/OverloadDemo",
     "classname": "OverloadDemo",
     "stdin": "",
-    "expected": "5\n9",
+    "expected": "15\n7.5\n10",
     "name": "OverloadDemo"
   },
   {
-    "directory": "demos/lesson-02/EncapsulationDemo",
-    "classname": "EncapsulationDemo",
+    "directory": "demos/lesson-02/AreaOverloadDemo",
+    "classname": "AreaOverloadDemo",
     "stdin": "",
-    "expected": "7: 92",
-    "name": "EncapsulationDemo"
+    "expected": "12.57\n12.0\n15.0",
+    "name": "AreaOverloadDemo"
   },
   {
-    "directory": "demos/lesson-02/ObjectArrayDemo",
-    "classname": "ObjectArrayDemo",
+    "directory": "demos/lesson-02/ReverseOverloadDemo",
+    "classname": "ReverseOverloadDemo",
     "stdin": "",
-    "expected": "true\nAda\nGrace",
-    "name": "ObjectArrayDemo"
+    "expected": "732\n[7, 3, 2]\n[2, 3, 7]",
+    "name": "ReverseOverloadDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ValidateOverloadDemo",
+    "classname": "ValidateOverloadDemo",
+    "stdin": "",
+    "expected": "true\nfalse\ntrue\nfalse",
+    "name": "ValidateOverloadDemo"
+  },
+  {
+    "directory": "demos/lesson-02/OopPrinciplesDemo",
+    "classname": "OopPrinciplesDemo",
+    "stdin": "",
+    "expected": "20\nTV on",
+    "name": "OopPrinciplesDemo"
+  },
+  {
+    "directory": "demos/lesson-02/CircleDemo",
+    "classname": "CircleDemo",
+    "stdin": "",
+    "expected": "3.0\n5.0\n28.27\n18.85",
+    "name": "CircleDemo"
+  },
+  {
+    "directory": "demos/lesson-02/RectangleDemo",
+    "classname": "RectangleDemo",
+    "stdin": "",
+    "expected": "12.0\n14.0\nfalse",
+    "name": "RectangleDemo"
+  },
+  {
+    "directory": "demos/lesson-02/CylinderDemo",
+    "classname": "CylinderDemo",
+    "stdin": "",
+    "expected": "12.57\n62.83\n37.70",
+    "name": "CylinderDemo"
+  },
+  {
+    "directory": "demos/lesson-02/StudentDemo",
+    "classname": "StudentDemo",
+    "stdin": "",
+    "expected": "240\n80.0\nA",
+    "name": "StudentDemo"
   },
   {
     "directory": "demos/lesson-02/ConstructorDemo",
     "classname": "ConstructorDemo",
     "stdin": "",
-    "expected": "Person constructor\nStudent constructor\nAda #7",
+    "expected": "1.0\n16.0\n12.0\n0.0",
     "name": "ConstructorDemo"
+  },
+  {
+    "directory": "demos/lesson-02/DataHidingDemo",
+    "classname": "DataHidingDemo",
+    "stdin": "",
+    "expected": "12.0\n0.0",
+    "name": "DataHidingDemo"
+  },
+  {
+    "directory": "demos/lesson-02/PropertyDemo",
+    "classname": "PropertyDemo",
+    "stdin": "",
+    "expected": "S01\n85",
+    "name": "PropertyDemo"
+  },
+  {
+    "directory": "demos/lesson-02/CylinderConstructorDemo",
+    "classname": "CylinderConstructorDemo",
+    "stdin": "",
+    "expected": "0.0\n1.0\n2.0\n37.70",
+    "name": "CylinderConstructorDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ProductCustomerDemo",
+    "classname": "ProductCustomerDemo",
+    "stdin": "",
+    "expected": "P01: 6.0\nAda: +1 0123",
+    "name": "ProductCustomerDemo"
+  },
+  {
+    "directory": "demos/lesson-02/ObjectArrayDemo",
+    "classname": "ObjectArrayDemo",
+    "stdin": "",
+    "expected": "true\nS01 Java: 80\nS02 Databases: 35\ntrue\nfalse",
+    "name": "ObjectArrayDemo"
+  },
+  {
+    "directory": "demos/lesson-03/InheritanceDemo",
+    "classname": "InheritanceDemo",
+    "stdin": "",
+    "expected": "Eating\nWoof",
+    "name": "InheritanceDemo"
+  },
+  {
+    "directory": "demos/lesson-03/OverrideDemo",
+    "classname": "OverrideDemo",
+    "stdin": "",
+    "expected": "Animal sound\nWoof",
+    "name": "OverrideDemo"
   },
   {
     "directory": "demos/lesson-03/DispatchDemo",
     "classname": "DispatchDemo",
     "stdin": "",
-    "expected": "woof\nsound",
+    "expected": "Woof\nWoof\nMeow",
     "name": "DispatchDemo"
-  },
-  {
-    "directory": "demos/lesson-03/BindingDemo",
-    "classname": "BindingDemo",
-    "stdin": "",
-    "expected": "Animal overload\nDog overload",
-    "name": "BindingDemo"
   },
   {
     "directory": "demos/lesson-03/ShapeDemo",
     "classname": "ShapeDemo",
     "stdin": "",
-    "expected": "Rectangle: 12.00\nCircle: 12.57",
+    "expected": "Area: 12.00\nArea: 12.57",
     "name": "ShapeDemo"
   },
   {

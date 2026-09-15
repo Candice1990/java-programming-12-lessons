@@ -4,5 +4,6 @@ javac DispatchDemo.java
 java DispatchDemo
 
 Expected output:
-woof
-sound
+Woof
+Woof
+Meow

@@ -4,5 +4,5 @@ javac ShapeDemo.java
 java ShapeDemo
 
 Expected output:
-Rectangle: 12.00
-Circle: 12.57
+Area: 12.00
+Area: 12.57

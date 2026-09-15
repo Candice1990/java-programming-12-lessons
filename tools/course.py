@@ -1117,3 +1117,9 @@ first['sections'][2]['paragraphs']=[
 first["sections"][2]["emphasis"] = ["A primitive variable holds the value itself", "A reference variable holds a reference to an object"]
 
 first["sections"][2]["emphasis"].append("String objects are immutable, so use the array example in the next part to see shared changes.")
+
+from lesson_two import rewrite as rewrite_lesson_two
+rewrite_lesson_two(LESSONS[1], demo)
+
+from lesson_three import rewrite as rewrite_lesson_three
+rewrite_lesson_three(LESSONS[2], demo)

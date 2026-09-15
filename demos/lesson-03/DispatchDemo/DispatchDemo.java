@@ -1,14 +1,22 @@
-class Animal { String speak() { return "sound"; } }
-
-class Dog extends Animal {
-    @Override String speak() { return "woof"; }
+class Animal {
+    public void speak() { System.out.println("Animal sound"); }
 }
-
+class Dog extends Animal {
+    @Override
+    public void speak() { System.out.println("Woof"); }
+}
+class Cat extends Animal {
+    @Override
+    public void speak() { System.out.println("Meow"); }
+}
 public class DispatchDemo {
-    static void show(Animal animal) { System.out.println(animal.speak()); }
     public static void main(String[] args) {
         Animal pet = new Dog();
-        show(pet);
-        show(new Animal());
+        pet.speak(); // Woof
+
+        Animal[] animals = {new Dog(), new Cat()};
+        for (Animal animal : animals) {
+            animal.speak(); // Woof, then Meow
+        }
     }
 }

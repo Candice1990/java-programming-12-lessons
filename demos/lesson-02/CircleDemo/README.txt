@@ -1,10 +1,10 @@
 Open a terminal in this demo folder. Use JDK 21 or later.
 
-javac ConstructorDemo.java
-java ConstructorDemo
+javac CircleDemo.java
+java CircleDemo
 
 Expected output:
-1.0
-16.0
-12.0
-0.0
+3.0
+5.0
+28.27
+18.85

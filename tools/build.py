@@ -82,13 +82,13 @@ def render_demo(l,d,index):
  if d['stdin']:cmd+=' < input.txt'
  (directory/'README.txt').write_text('Open a terminal in this demo folder. Use JDK 21 or later.\n\n'+cmd+'\n\nExpected output:\n'+d['output']+'\n')
  checks.append(dict(directory=directory.relative_to(ROOT).as_posix(),classname=classname,stdin=d['stdin'],expected=d['output'],name=d['name']))
- s=d.get('before_html','')+f'<article class="demo-block" id="l{n}-demo-{index}"><span class="demo-tag">Code example · Complete Java program</span><h3>{E(d["title"])}</h3>'
+ s=d.get('before_html','')+f'<article class="demo-block" id="l{n}-demo-{index}"><span class="demo-tag">Code example · Complete Java program</span><{ "p" if d.get("concept_example") else "h3" }>{E(d["title"])}</{ "p" if d.get("concept_example") else "h3" }>'
  for fi,(name,code) in enumerate(files.items()):
   if name=='input.txt':continue
   cid=f'code-{n}-{index}-{fi}'
   if name.endswith('.java'):
    s+=f'<figure class="code-example"><figcaption><span>{E(name)}</span><span class="code-actions"><a href="demos/{E(stem)}/{E(name)}" download>Download</a><button type="button" data-copy="{cid}">Copy code</button></span></figcaption><pre><code id="{cid}">{hi(code)}</code></pre></figure>'
-  else:s+=f'<div class="demo-input"><strong>Supporting file · {E(name)}</strong><pre>{E(code)}</pre></div>'
+  else:s+=f'<div class="demo-input"><strong>Supporting file · {E(name)}</strong> · <a href="demos/{E(stem)}/{E(name)}" download>Download {E(name)}</a><pre>{E(code)}</pre></div>'
  if d['stdin']:s+=f'<div class="demo-input"><strong>Sample input · type these lines when running interactively</strong><pre>{E(d["stdin"])}</pre></div>'
  s+='<p class="demo-run">Run from the demo folder with JDK 21: <code>'+E(cmd).replace('\n','</code><br><code>')+'</code></p>'
  s+='<div class="trace-grid"'+(' style="grid-template-columns:1fr"' if d.get('output_in_comments') else '')+'>'
@@ -108,7 +108,13 @@ parts.append('<div class="mobile-select" id="mobile-nav" hidden><label for="less
 for l in LESSONS:
  n=l['number'];lid=f'lesson-{n:02d}'
  parts.append(f'<section class="lecture" id="{lid}"><div class="hero"><div class="eyebrow">Lesson {n:02d} / 12</div><h1>{E(l["title"])}</h1><p>{E(l["subtitle"])}</p><div class="hero-meta"><span class="chip">Concepts &amp; definitions</span><span class="chip">Relationship diagrams</span><span class="chip">{len(l["demos"])} runnable demos</span></div></div><div class="chapter-shell"><nav class="course-nav" aria-label="Course lessons"><div class="nav-label">Course contents</div><a href="#home">← Course overview</a>{nav}</nav><div class="lecture-content"><section class="section"><span class="section-label">What you will understand</span><div class="goal-grid">'+''.join(f'<div class="goal">{E(g)}</div>' for g in l['goals'])+'</div></section>')
- parts.append('<details class="local-toc"><summary>In this lesson</summary><ol>'+''.join(f'<li><a href="#{lid}-s{i+1}">{E(s["title"])}</a></li>' for i,s in enumerate(l['sections']))+'</ol></details>')
+ toc=[]
+ for i,s in enumerate(l['sections'],1):
+  children=''
+  if l.get('expanded_toc'):
+   children='<ul style="columns:1;padding-left:20px">'+''.join(f'<li><a href="#{lid}-s{i}-topic-{j}">{E(sub["title"])}</a></li>' for j,sub in enumerate(s.get('subsections',[]),1))+'</ul>'
+  toc.append(f'<li><a href="#{lid}-s{i}">{E(s["title"])}</a>{children}</li>')
+ parts.append('<details class="local-toc"'+(' open' if l.get('expanded_toc') else '')+'><summary>In this lesson</summary><ol>'+''.join(toc)+'</ol></details>')
  vi=di=0
  for i,s in enumerate(l['sections']):
   sid=f'{lid}-s{i+1}'
